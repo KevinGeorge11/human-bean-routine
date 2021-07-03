@@ -1,0 +1,2 @@
+rootProject.name = "human-bean-routine"
+include ':app'
