@@ -6,6 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".add_edit_task">
 
+    <TextView
+        android:id="@+id/textTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="414dp" />
+
+    <EditText
+        android:id="@+id/editEndDate"
+        android:layout_width="151dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:hint="Date"
+        android:inputType="date"
+        tools:layout_editor_absoluteX="130dp"
+        tools:layout_editor_absoluteY="402dp" />
+
+    <EditText
+        android:id="@+id/editStartTime"
+        android:layout_width="106dp"
+        android:layout_height="42dp"
+        android:ems="10"
+        android:hint="Time"
+        android:inputType="time"
+        tools:layout_editor_absoluteX="289dp"
+        tools:layout_editor_absoluteY="318dp" />
+
     <Button
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
@@ -21,4 +49,76 @@
         android:text="Cancel"
         tools:layout_editor_absoluteX="75dp"
         tools:layout_editor_absoluteY="724dp" />
+
+    <EditText
+        android:id="@+id/editStartDate"
+        android:layout_width="151dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:hint="Date"
+        android:inputType="date"
+        tools:layout_editor_absoluteX="118dp"
+        tools:layout_editor_absoluteY="315dp" />
+
+    <EditText
+        android:id="@+id/editEndTime"
+        android:layout_width="102dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:hint="Time"
+        android:inputType="time"
+        tools:layout_editor_absoluteX="293dp"
+        tools:layout_editor_absoluteY="399dp" />
+
+    <EditText
+        android:id="@+id/editDescription"
+        android:layout_width="219dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="158dp"
+        tools:layout_editor_absoluteY="174dp" />
+
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="158dp"
+        tools:layout_editor_absoluteY="100dp" />
+
+    <TextView
+        android:id="@+id/textFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="From"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="329dp" />
+
+    <TextView
+        android:id="@+id/textName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="126dp" />
+
+    <TextView
+        android:id="@+id/textDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="200dp" />
+
+    <TextView
+        android:id="@+id/textCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        tools:layout_editor_absoluteX="36dp"
+        tools:layout_editor_absoluteY="262dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
