@@ -12,7 +12,15 @@
         android:layout_height="wrap_content"
         android:text="To"
         tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="414dp" />
+        tools:layout_editor_absoluteY="532dp" />
+
+    <TextView
+        android:id="@+id/textReminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reminder"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="669dp" />
 
     <EditText
         android:id="@+id/editEndDate"
@@ -21,8 +29,18 @@
         android:ems="10"
         android:hint="Date"
         android:inputType="date"
-        tools:layout_editor_absoluteX="130dp"
-        tools:layout_editor_absoluteY="402dp" />
+        tools:layout_editor_absoluteX="118dp"
+        tools:layout_editor_absoluteY="518dp" />
+
+    <EditText
+        android:id="@+id/editReminderDate"
+        android:layout_width="151dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:hint="Date"
+        android:inputType="date"
+        tools:layout_editor_absoluteX="118dp"
+        tools:layout_editor_absoluteY="643dp" />
 
     <EditText
         android:id="@+id/editStartTime"
@@ -32,7 +50,17 @@
         android:hint="Time"
         android:inputType="time"
         tools:layout_editor_absoluteX="289dp"
-        tools:layout_editor_absoluteY="318dp" />
+        tools:layout_editor_absoluteY="452dp" />
+
+    <EditText
+        android:id="@+id/editReminderTime"
+        android:layout_width="106dp"
+        android:layout_height="42dp"
+        android:ems="10"
+        android:hint="Time"
+        android:inputType="time"
+        tools:layout_editor_absoluteX="285dp"
+        tools:layout_editor_absoluteY="646dp" />
 
     <Button
         android:id="@+id/btnSave"
@@ -58,7 +86,7 @@
         android:hint="Date"
         android:inputType="date"
         tools:layout_editor_absoluteX="118dp"
-        tools:layout_editor_absoluteY="315dp" />
+        tools:layout_editor_absoluteY="449dp" />
 
     <EditText
         android:id="@+id/editEndTime"
@@ -67,8 +95,8 @@
         android:ems="10"
         android:hint="Time"
         android:inputType="time"
-        tools:layout_editor_absoluteX="293dp"
-        tools:layout_editor_absoluteY="399dp" />
+        tools:layout_editor_absoluteX="289dp"
+        tools:layout_editor_absoluteY="515dp" />
 
     <EditText
         android:id="@+id/editDescription"
@@ -77,8 +105,9 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        tools:layout_editor_absoluteX="158dp"
-        tools:layout_editor_absoluteY="174dp" />
+        android:singleLine="false"
+        tools:layout_editor_absoluteX="143dp"
+        tools:layout_editor_absoluteY="290dp" />
 
     <EditText
         android:id="@+id/editName"
@@ -86,39 +115,73 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="158dp"
-        tools:layout_editor_absoluteY="100dp" />
+        tools:layout_editor_absoluteX="143dp"
+        tools:layout_editor_absoluteY="204dp" />
 
     <TextView
         android:id="@+id/textFrom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="From"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="329dp" />
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="460dp" />
 
     <TextView
         android:id="@+id/textName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="126dp" />
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="222dp" />
 
     <TextView
         android:id="@+id/textDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Description"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="200dp" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="316dp" />
 
     <TextView
         android:id="@+id/textCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Category"
-        tools:layout_editor_absoluteX="36dp"
-        tools:layout_editor_absoluteY="262dp" />
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="384dp" />
+
+    <RatingBar
+        android:id="@+id/ratingImp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="1"
+        tools:layout_editor_absoluteX="327dp"
+        tools:layout_editor_absoluteY="123dp" />
+
+    <TextView
+        android:id="@+id/textRepeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Repeat"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="590dp" />
+
+    <Spinner
+        android:id="@+id/spinnerRepeat"
+        android:layout_width="226dp"
+        android:layout_height="36dp"
+        android:entries="Daily"
+        android:spinnerMode="dropdown"
+        tools:layout_editor_absoluteX="126dp"
+        tools:layout_editor_absoluteY="582dp" />
+
+    <Spinner
+        android:id="@+id/spinnerCategory"
+        android:layout_width="226dp"
+        android:layout_height="36dp"
+        android:entries="Daily"
+        android:spinnerMode="dropdown"
+        tools:layout_editor_absoluteX="136dp"
+        tools:layout_editor_absoluteY="367dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
