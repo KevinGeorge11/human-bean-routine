@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class add_edit_task extends AppCompatActivity {
+public class AddEditTask extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,7 +14,7 @@ public class add_edit_task extends AppCompatActivity {
     }
 
     public void returnToDashboard () {
-        Intent intent = new Intent(add_edit_task.this, task_dashboard.class);
+        Intent intent = new Intent(AddEditTask.this, TaskDashboard.class);
         startActivity(intent);
     }
 }
