@@ -23,8 +23,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Reminder"
-        tools:layout_editor_absoluteX="37dp"
-        tools:layout_editor_absoluteY="599dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.113"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.726" />
 
     <EditText
         android:id="@+id/editEndDate"
@@ -225,7 +229,6 @@
         android:id="@+id/spinnerRepeat"
         android:layout_width="226dp"
         android:layout_height="36dp"
-        android:entries="Daily"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -236,7 +239,6 @@
         android:layout_width="226dp"
         android:layout_height="36dp"
         android:layout_marginBottom="456dp"
-        android:entries="Daily"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
