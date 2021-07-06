@@ -34,7 +34,7 @@
         app:layout_constraintVertical_bias="0.443" />
 
     <EditText
-        android:id="@+id/editEndTime"
+        android:id="@+id/editReminderTime"
         android:layout_width="65dp"
         android:layout_height="50dp"
         android:layout_marginEnd="68dp"
@@ -44,12 +44,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/editStartDate3"
+        app:layout_constraintStart_toEndOf="@+id/editReminderDate"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.648" />
 
     <EditText
-        android:id="@+id/editStartTime2"
+        android:id="@+id/editEndTime"
         android:layout_width="60dp"
         android:layout_height="50dp"
         android:layout_marginEnd="4dp"
@@ -59,7 +59,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.23"
-        app:layout_constraintStart_toEndOf="@+id/editStartDate2"
+        app:layout_constraintStart_toEndOf="@+id/editEndDate"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.443" />
 
@@ -104,7 +104,7 @@
         app:layout_constraintVertical_bias="0.444" />
 
     <EditText
-        android:id="@+id/editStartDate3"
+        android:id="@+id/editReminderDate"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:ems="10"
@@ -118,7 +118,7 @@
         app:layout_constraintVertical_bias="0.648" />
 
     <EditText
-        android:id="@+id/editStartDate2"
+        android:id="@+id/editEndDate"
         android:layout_width="70dp"
         android:layout_height="50dp"
         android:ems="10"
