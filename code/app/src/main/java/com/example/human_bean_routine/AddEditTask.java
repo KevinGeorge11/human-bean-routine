@@ -20,6 +20,7 @@ public class AddEditTask extends AppCompatActivity {
         ArrayAdapter<CharSequence> category_adapter =
                 ArrayAdapter.createFromResource(this, R.array.categories_array,
                         android.R.layout.simple_spinner_item);
+        category_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category_spinner.setAdapter(category_adapter);
     }
 
