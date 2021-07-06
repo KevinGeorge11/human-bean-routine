@@ -7,80 +7,61 @@
     tools:context=".AddEditTask">
 
     <TextView
-        android:id="@+id/textTo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="88dp"
-        android:layout_marginBottom="108dp"
-        android:text="To"
-        app:layout_constraintBottom_toTopOf="@+id/textRepeat"
-        app:layout_constraintEnd_toStartOf="@+id/editEndDate"
-        app:layout_constraintHorizontal_bias="0.925"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
         android:id="@+id/textReminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Reminder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.113"
+        app:layout_constraintHorizontal_bias="0.048"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.726" />
-
-    <EditText
-        android:id="@+id/editEndDate"
-        android:layout_width="151dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="284dp"
-        android:ems="10"
-        android:hint="Date"
-        android:inputType="date"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/editEndTime" />
-
-    <EditText
-        android:id="@+id/editReminderDate"
-        android:layout_width="151dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:hint="Date"
-        android:inputType="date"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/editReminderTime"
-        app:layout_constraintHorizontal_bias="0.632"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.801" />
+        app:layout_constraintVertical_bias="0.646" />
 
     <EditText
         android:id="@+id/editStartTime"
-        android:layout_width="106dp"
-        android:layout_height="42dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:hint="Time"
-        android:inputType="time"
-        app:layout_constraintBottom_toTopOf="@+id/editEndTime"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.94" />
-
-    <EditText
-        android:id="@+id/editReminderTime"
-        android:layout_width="106dp"
-        android:layout_height="42dp"
-        android:layout_marginEnd="48dp"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="68dp"
         android:ems="10"
         android:hint="Time"
         android:inputType="time"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toEndOf="@+id/editStartDate"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.799" />
+        app:layout_constraintVertical_bias="0.443" />
+
+    <EditText
+        android:id="@+id/editStartTime3"
+        android:layout_width="65dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="68dp"
+        android:ems="10"
+        android:hint="Time"
+        android:inputType="time"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/editStartDate3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.648" />
+
+    <EditText
+        android:id="@+id/editStartTime2"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="4dp"
+        android:ems="10"
+        android:hint="Time"
+        android:inputType="time"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintStart_toEndOf="@+id/editStartDate2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.443" />
 
     <Button
         android:id="@+id/btnSave"
@@ -89,8 +70,7 @@
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.789"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnCancel"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.907" />
 
@@ -109,140 +89,148 @@
 
     <EditText
         android:id="@+id/editStartDate"
-        android:layout_width="151dp"
-        android:layout_height="45dp"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
         android:ems="10"
         android:hint="Date"
         android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/editEndDate"
-        app:layout_constraintEnd_toStartOf="@+id/editStartTime"
-        app:layout_constraintHorizontal_bias="0.726"
-        app:layout_constraintStart_toEndOf="@+id/textFrom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.043"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.934" />
+        app:layout_constraintVertical_bias="0.444" />
 
     <EditText
-        android:id="@+id/editEndTime"
-        android:layout_width="102dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="280dp"
+        android:id="@+id/editStartDate3"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:ems="10"
-        android:hint="Time"
-        android:inputType="time"
+        android:hint="Date"
+        android:inputType="date"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toEndOf="@+id/textReminder"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.648" />
+
+    <EditText
+        android:id="@+id/editStartDate2"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:hint="Date"
+        android:inputType="date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.313"
+        app:layout_constraintStart_toEndOf="@+id/textTo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.443" />
 
     <EditText
         android:id="@+id/editDescription"
-        android:layout_width="219dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="64dp"
+        android:layout_width="380dp"
+        android:layout_height="60dp"
         android:ems="10"
         android:gravity="start|top"
+        android:hint="Description"
         android:inputType="textMultiLine"
         android:singleLine="false"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerCategory"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editName"
-        app:layout_constraintVertical_bias="0.192" />
+        app:layout_constraintVertical_bias="0.037" />
 
     <EditText
         android:id="@+id/editName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
+        android:layout_width="380dp"
+        android:layout_height="50dp"
         android:ems="10"
+        android:hint="Task Name"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toEndOf="@+id/textName"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textFrom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginBottom="36dp"
-        android:text="From"
-        app:layout_constraintBottom_toTopOf="@+id/textTo"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.209" />
-
-    <TextView
-        android:id="@+id/textDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description"
-        app:layout_constraintBottom_toTopOf="@+id/textCategory"
-        app:layout_constraintEnd_toStartOf="@+id/editDescription"
-        app:layout_constraintHorizontal_bias="0.404"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textName"
-        app:layout_constraintVertical_bias="0.67" />
-
-    <TextView
-        android:id="@+id/textCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="20dp"
-        android:text="Category"
-        app:layout_constraintBottom_toTopOf="@+id/textFrom"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintVertical_bias="0.125" />
 
     <RatingBar
         android:id="@+id/ratingImp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="64dp"
         android:numStars="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.944"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.106" />
+        app:layout_constraintVertical_bias="0.02" />
 
     <TextView
         android:id="@+id/textRepeat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
-        android:text="Repeat"
-        app:layout_constraintBottom_toTopOf="@+id/textReminder"
-        app:layout_constraintEnd_toStartOf="@+id/spinnerRepeat"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_width="53dp"
+        android:layout_height="32dp"
+        android:text="Repeat?"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.039"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.551" />
 
     <Spinner
         android:id="@+id/spinnerRepeat"
-        android:layout_width="226dp"
-        android:layout_height="36dp"
+        android:layout_width="224dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:background="#6AF3DEDE"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/checkBox"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.541" />
 
     <Spinner
         android:id="@+id/spinnerCategory"
-        android:layout_width="226dp"
-        android:layout_height="36dp"
-        android:layout_marginBottom="456dp"
+        android:layout_width="380dp"
+        android:layout_height="50dp"
+        android:background="#6AF3DEDE"
         android:spinnerMode="dropdown"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.623"
-        app:layout_constraintStart_toEndOf="@+id/textCategory" />
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editDescription"
+        app:layout_constraintVertical_bias="0.043" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="31dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.099"
+        app:layout_constraintStart_toEndOf="@+id/textRepeat"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.542" />
+
+    <TextView
+        android:id="@+id/textTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:text="To"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editStartTime"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCategory"
+        app:layout_constraintVertical_bias="0.115" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
