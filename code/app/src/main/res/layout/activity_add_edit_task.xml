@@ -10,27 +10,33 @@
         android:id="@+id/textTo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="88dp"
+        android:layout_marginBottom="108dp"
         android:text="To"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="532dp" />
+        app:layout_constraintBottom_toTopOf="@+id/textRepeat"
+        app:layout_constraintEnd_toStartOf="@+id/editEndDate"
+        app:layout_constraintHorizontal_bias="0.925"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textReminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Reminder"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="669dp" />
+        tools:layout_editor_absoluteX="37dp"
+        tools:layout_editor_absoluteY="599dp" />
 
     <EditText
         android:id="@+id/editEndDate"
         android:layout_width="151dp"
         android:layout_height="45dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="284dp"
         android:ems="10"
         android:hint="Date"
         android:inputType="date"
-        tools:layout_editor_absoluteX="118dp"
-        tools:layout_editor_absoluteY="518dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editEndTime" />
 
     <EditText
         android:id="@+id/editReminderDate"
@@ -39,45 +45,63 @@
         android:ems="10"
         android:hint="Date"
         android:inputType="date"
-        tools:layout_editor_absoluteX="118dp"
-        tools:layout_editor_absoluteY="643dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editReminderTime"
+        app:layout_constraintHorizontal_bias="0.632"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.801" />
 
     <EditText
         android:id="@+id/editStartTime"
         android:layout_width="106dp"
         android:layout_height="42dp"
+        android:layout_marginEnd="20dp"
         android:ems="10"
         android:hint="Time"
         android:inputType="time"
-        tools:layout_editor_absoluteX="289dp"
-        tools:layout_editor_absoluteY="452dp" />
+        app:layout_constraintBottom_toTopOf="@+id/editEndTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.94" />
 
     <EditText
         android:id="@+id/editReminderTime"
         android:layout_width="106dp"
         android:layout_height="42dp"
+        android:layout_marginEnd="48dp"
         android:ems="10"
         android:hint="Time"
         android:inputType="time"
-        tools:layout_editor_absoluteX="285dp"
-        tools:layout_editor_absoluteY="646dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.799" />
 
     <Button
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
-        tools:layout_editor_absoluteX="250dp"
-        tools:layout_editor_absoluteY="724dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.789"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.907" />
 
     <Button
         android:id="@+id/btnCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel"
         android:onClick="returnToDashboard"
-        tools:layout_editor_absoluteX="75dp"
-        tools:layout_editor_absoluteY="724dp" />
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.204"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.906" />
 
     <EditText
         android:id="@+id/editStartDate"
@@ -86,86 +110,116 @@
         android:ems="10"
         android:hint="Date"
         android:inputType="date"
-        tools:layout_editor_absoluteX="118dp"
-        tools:layout_editor_absoluteY="449dp" />
+        app:layout_constraintBottom_toTopOf="@+id/editEndDate"
+        app:layout_constraintEnd_toStartOf="@+id/editStartTime"
+        app:layout_constraintHorizontal_bias="0.726"
+        app:layout_constraintStart_toEndOf="@+id/textFrom"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.934" />
 
     <EditText
         android:id="@+id/editEndTime"
         android:layout_width="102dp"
         android:layout_height="48dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="280dp"
         android:ems="10"
         android:hint="Time"
         android:inputType="time"
-        tools:layout_editor_absoluteX="289dp"
-        tools:layout_editor_absoluteY="515dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/editDescription"
         android:layout_width="219dp"
         android:layout_height="45dp"
+        android:layout_marginEnd="64dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:singleLine="false"
-        tools:layout_editor_absoluteX="143dp"
-        tools:layout_editor_absoluteY="290dp" />
+        app:layout_constraintBottom_toTopOf="@+id/spinnerCategory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editName"
+        app:layout_constraintVertical_bias="0.192" />
 
     <EditText
         android:id="@+id/editName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
         android:ems="10"
         android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="143dp"
-        tools:layout_editor_absoluteY="204dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toEndOf="@+id/textName"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textFrom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="36dp"
         android:text="From"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="460dp" />
+        app:layout_constraintBottom_toTopOf="@+id/textTo"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="212dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.209" />
 
     <TextView
         android:id="@+id/textDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Description"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="316dp" />
+        app:layout_constraintBottom_toTopOf="@+id/textCategory"
+        app:layout_constraintEnd_toStartOf="@+id/editDescription"
+        app:layout_constraintHorizontal_bias="0.404"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textName"
+        app:layout_constraintVertical_bias="0.67" />
 
     <TextView
         android:id="@+id/textCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="20dp"
         android:text="Category"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="384dp" />
+        app:layout_constraintBottom_toTopOf="@+id/textFrom"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <RatingBar
         android:id="@+id/ratingImp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:numStars="1"
-        tools:layout_editor_absoluteX="327dp"
-        tools:layout_editor_absoluteY="123dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.944"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.106" />
 
     <TextView
         android:id="@+id/textRepeat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
         android:text="Repeat"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="590dp" />
+        app:layout_constraintBottom_toTopOf="@+id/textReminder"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerRepeat"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
         android:id="@+id/spinnerRepeat"
@@ -173,16 +227,20 @@
         android:layout_height="36dp"
         android:entries="Daily"
         android:spinnerMode="dropdown"
-        tools:layout_editor_absoluteX="126dp"
-        tools:layout_editor_absoluteY="582dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/spinnerCategory"
         android:layout_width="226dp"
         android:layout_height="36dp"
+        android:layout_marginBottom="456dp"
         android:entries="Daily"
         android:spinnerMode="dropdown"
-        tools:layout_editor_absoluteX="136dp"
-        tools:layout_editor_absoluteY="367dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.623"
+        app:layout_constraintStart_toEndOf="@+id/textCategory" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
