@@ -6,17 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <TextView
         android:id="@+id/tasksText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tasks"
+        android:layout_centerHorizontal="true"
+        android:layout_width="400dp"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:text="today"
         android:textStyle="bold"
         android:textSize="32sp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/back"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/taskList"
