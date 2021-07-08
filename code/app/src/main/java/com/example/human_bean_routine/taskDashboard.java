@@ -58,7 +58,7 @@ public class taskDashboard extends AppCompatActivity implements MyRecyclerViewAd
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),MainActivity.class);
+                Intent i = new Intent(getApplicationContext(),add_edit_task.class);
                 startActivity(i);
             }
         });
