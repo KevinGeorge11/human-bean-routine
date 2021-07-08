@@ -40,6 +40,7 @@
             android:layout_toRightOf="@+id/cancelButton"
             android:backgroundTint="#84A98C"
             android:layout_margin="10dp"
+            android:onClick="deleteButton"
             />
 
     </RelativeLayout>

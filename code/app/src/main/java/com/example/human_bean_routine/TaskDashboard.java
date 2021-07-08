@@ -30,6 +30,7 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
     MyRecyclerViewAdapter adapter;
     ArrayList<String> taskNames = new ArrayList<>();
     RecyclerView recyclerView;
+    PopupWindow popupWindow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +106,7 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+        popupWindow = new PopupWindow(popupView, width, height, focusable);
 
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
@@ -119,11 +120,14 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
                 return true;
             }
         });
+    }
 
+    public void deleteButton(View v) {
         taskNames.remove(0);
         adapter = new MyRecyclerViewAdapter(this, taskNames);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
+        popupWindow.dismiss();
     }
 
     @Override
