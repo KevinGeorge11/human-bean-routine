@@ -9,18 +9,6 @@
     android:foregroundTint="#CAD2C5"
     tools:context=".AddEditTask">
 
-    <TextView
-        android:id="@+id/textReminder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Reminder"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.048"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.646" />
-
     <EditText
         android:id="@+id/editStartTime"
         android:layout_width="91dp"
@@ -40,21 +28,6 @@
         app:layout_constraintVertical_bias="0.383" />
 
     <EditText
-        android:id="@+id/editReminderTime"
-        android:layout_width="65dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="68dp"
-        android:ems="10"
-        android:hint="Time"
-        android:inputType="time"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/editReminderDate"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.648" />
-
-    <EditText
         android:id="@+id/etEndTime"
         android:layout_width="91dp"
         android:layout_height="46dp"
@@ -72,6 +45,24 @@
         app:layout_constraintTop_toBottomOf="@+id/editStartTime"
         app:layout_constraintVertical_bias="0.037" />
 
+    <EditText
+        android:id="@+id/etEndTime2"
+        android:layout_width="91dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="4dp"
+        android:background="@android:drawable/bottom_bar"
+        android:backgroundTint="#FFFFFF"
+        android:ems="10"
+        android:hint="Time"
+        android:inputType="time"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toEndOf="@+id/editEndDate"
+        app:layout_constraintTop_toBottomOf="@+id/editStartTime"
+        app:layout_constraintVertical_bias="0.491" />
+
     <Button
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
@@ -88,27 +79,15 @@
         android:id="@+id/btnCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#C4C4C4"
         android:text="Cancel"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.182"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.868" />
-
-    <EditText
-        android:id="@+id/editReminderDate"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:ems="10"
-        android:hint="Date"
-        android:inputType="date"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintStart_toEndOf="@+id/textReminder"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.648" />
 
     <EditText
         android:id="@+id/editEndDate"
@@ -128,6 +107,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etStartDate"
         app:layout_constraintVertical_bias="0.04" />
+
+    <EditText
+        android:id="@+id/editEndDate2"
+        android:layout_width="125dp"
+        android:layout_height="46dp"
+        android:background="@android:drawable/bottom_bar"
+        android:backgroundTint="#FFFFFF"
+        android:cursorVisible="false"
+        android:ems="10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:hint="Date"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.597"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etStartDate"
+        app:layout_constraintVertical_bias="0.492" />
 
     <EditText
         android:id="@+id/etDescription"
@@ -160,18 +158,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.111" />
 
-    <TextView
-        android:id="@+id/textRepeat"
-        android:layout_width="53dp"
-        android:layout_height="32dp"
-        android:text="Repeat?"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.039"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.551" />
-
     <Spinner
         android:id="@+id/spinnerRepeat"
         android:layout_width="224dp"
@@ -182,8 +168,6 @@
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/checkBox"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.541" />
 
@@ -201,17 +185,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDescription"
         app:layout_constraintVertical_bias="0.043" />
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="31dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.099"
-        app:layout_constraintStart_toEndOf="@+id/textRepeat"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.542" />
 
     <EditText
         android:id="@+id/etStartDate"
@@ -357,4 +330,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.463" />
+
+    <TextView
+        android:id="@+id/tvRepeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Repeat:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.024"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.54" />
+
+    <TextView
+        android:id="@+id/tvReminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reminder:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.024"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.636" />
+
+    <Switch
+        android:id="@+id/switchReminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.469"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.636" />
 </androidx.constraintlayout.widget.ConstraintLayout>
