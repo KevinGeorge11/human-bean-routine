@@ -42,6 +42,8 @@ public class AddEditTask extends AppCompatActivity {
         repetition_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         repetition_spinner.setAdapter(repetition_adapter);
 
+
+
         // Start Date on click listener
         EditText etEndDate = findViewById(R.id.editEndDate);
         final Calendar endDateCal = Calendar.getInstance();
@@ -49,24 +51,17 @@ public class AddEditTask extends AppCompatActivity {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
-                        endDateCal.set(Calendar.YEAR, year);
-                        endDateCal.set(Calendar.MONTH, month);
-                        endDateCal.set(Calendar.DAY_OF_MONTH, day);
-                        etEndDate.setText( String.valueOf(day) + "/" +  String.valueOf(month)
-                                + "/" +  String.valueOf(year));
+                        myOnDateSet(etEndDate, view, year, month, day);
                     }
                 };
         etEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                DatePickerDialog picker = new DatePickerDialog( AddEditTask.this, etEndDateListener,
-                        endDateCal.get(Calendar.YEAR), endDateCal.get(Calendar.MONTH),
-                        endDateCal.get(Calendar.DAY_OF_MONTH));
+                DatePickerDialog picker = openDatePicker(v, etEndDateListener,endDateCal);
                 picker.show();
             }
             });
-
 
         // End Date on click listener
         EditText etStartDate = findViewById(R.id.etStartDate);
