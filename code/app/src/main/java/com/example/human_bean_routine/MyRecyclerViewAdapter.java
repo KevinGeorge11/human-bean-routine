@@ -1,7 +1,9 @@
 package com.example.human_bean_routine;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -46,7 +48,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return mData.size();
     }
 
-
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView myTextView;
@@ -55,17 +56,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         ViewHolder(View itemView) {
             super(itemView);
             myTextView = itemView.findViewById(R.id.singleCheckList);
-            myEllipses = itemView.findViewById(R.id.ellipses);
-
-            myEllipses.setOnClickListener(new View.OnClickListener() {
-
-                                              @Override
-                                              public void onClick(View v) {
-                                                  PopupMenu popup = new PopupMenu(myEllipses.getContext(), myEllipses);
-                                                  popup.getMenuInflater().inflate(R.menu.menu, popup.getMenu());
-                                                  popup.show();
-                                              }
-                                          });
 
             itemView.setOnClickListener(this);
         }
@@ -75,6 +65,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
     }
+
 
     // convenience method for getting data at click position
     String getItem(int id) {
