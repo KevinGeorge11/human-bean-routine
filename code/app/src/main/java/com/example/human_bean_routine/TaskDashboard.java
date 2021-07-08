@@ -8,17 +8,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,6 +25,7 @@ import java.util.ArrayList;
 public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener, PopupMenu.OnMenuItemClickListener {
 
     MyRecyclerViewAdapter adapter;
+    // hardcoded -- will be removed later
     ArrayList<String> taskNames = new ArrayList<>();
     RecyclerView recyclerView;
     PopupWindow popupWindow;
@@ -38,17 +36,14 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
         ActionBar actionBar;
         actionBar = getSupportActionBar();
 
-        // Define ColorDrawable object and parse color
-        // using parseColor method
-        // with color hash code as its parameter
         ColorDrawable colorDrawable
                 = new ColorDrawable(Color.parseColor("#355D52"));
 
-        // Set BackgroundDrawable
         actionBar.setBackgroundDrawable(colorDrawable);
         actionBar.setTitle("Human Bean Routine");
 
-
+        // HARD CODED TASKS
+        // TODO: ROXANNA clean this part of the code up to prevent hardcoding
         taskNames.add("Eat 3-5 fruits/vegetables.");
         taskNames.add("Limit junk food.");
 
@@ -58,10 +53,12 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
+        // HARD CODED TASKS
         ArrayList<String> taskNames2 = new ArrayList<>();
         taskNames2.add("Sleep by 10pm.");
         taskNames2.add("Sleep at least 7 hours.");
 
+        // HARD CODED TASKS
         RecyclerView recyclerView2 = findViewById(R.id.taskList2);
         recyclerView2.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MyRecyclerViewAdapter(this, taskNames2);
@@ -92,27 +89,17 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
         startActivity(i);
     }
 
-    public void onButtonShowPopupWindowClick(View view) {
-
-    }
-
     public void delete(MenuItem item) {
-        // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_window, null);
 
-        // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
         popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(findViewById(R.id.taskList), Gravity.CENTER, 0, 0);
 
-        // dismiss the popup window when touched
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
