@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:foregroundTint="#FFFFFF"
     tools:context=".AddEditTask">
 
     <TextView
@@ -24,8 +25,8 @@
         android:layout_height="50dp"
         android:layout_marginEnd="68dp"
         android:ems="10"
-        android:hint="Time"
         android:focusable="false"
+        android:hint="Time"
         android:inputType="time"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,11 +107,11 @@
         android:id="@+id/editEndDate"
         android:layout_width="70dp"
         android:layout_height="50dp"
-        android:ems="10"
-        android:hint="Date"
         android:cursorVisible="false"
+        android:ems="10"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:hint="Date"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.313"
@@ -226,44 +227,60 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.441" />
-<FrameLayout
-    android:layout_width="0dp"
-    android:layout_height="52dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.0">
 
-    <TextView
-        android:id="@+id/tvHeading"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#52856F"
-        android:lineSpacingExtra="8sp"
-        android:text="Add/Edit Task"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0">
 
-    <RatingBar
-        android:id="@+id/ratingImp"
-        android:layout_width="46dp"
-        android:layout_height="42dp"
-        android:layout_gravity="right"
-        android:numStars="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.02" />
-</FrameLayout>
+        <TextView
+            android:id="@+id/tvHeading"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#52856F"
+            android:lineSpacingExtra="8sp"
+            android:text="Add/Edit Task"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/imgPencil"
+            android:layout_width="46dp"
+            android:layout_height="42dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="left"
+            android:foreground="@android:drawable/ic_menu_edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.02" />
+
+        <RatingBar
+            android:id="@+id/ratingImp"
+            android:layout_width="46dp"
+            android:layout_height="42dp"
+            android:layout_gravity="right"
+            android:numStars="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.02" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
