@@ -23,19 +23,21 @@
 
     <EditText
         android:id="@+id/editStartTime"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="68dp"
+        android:layout_width="91dp"
+        android:layout_height="46dp"
+        android:background="@android:drawable/bottom_bar"
+        android:backgroundTint="#FFFFFF"
         android:ems="10"
         android:focusable="false"
         android:hint="Time"
         android:inputType="time"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.119"
-        app:layout_constraintStart_toEndOf="@+id/etStartDate"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.439" />
+        app:layout_constraintVertical_bias="0.383" />
 
     <EditText
         android:id="@+id/editReminderTime"
@@ -53,19 +55,22 @@
         app:layout_constraintVertical_bias="0.648" />
 
     <EditText
-        android:id="@+id/editEndTime"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
+        android:id="@+id/etEndTime"
+        android:layout_width="91dp"
+        android:layout_height="46dp"
         android:layout_marginEnd="4dp"
+        android:background="@android:drawable/bottom_bar"
+        android:backgroundTint="#FFFFFF"
         android:ems="10"
         android:hint="Time"
         android:inputType="time"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toEndOf="@+id/editEndDate"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.443" />
+        app:layout_constraintTop_toBottomOf="@+id/editStartTime"
+        app:layout_constraintVertical_bias="0.037" />
 
     <Button
         android:id="@+id/btnSave"
@@ -107,19 +112,22 @@
 
     <EditText
         android:id="@+id/editEndDate"
-        android:layout_width="70dp"
-        android:layout_height="50dp"
+        android:layout_width="125dp"
+        android:layout_height="46dp"
+        android:background="@android:drawable/bottom_bar"
+        android:backgroundTint="#FFFFFF"
         android:cursorVisible="false"
         android:ems="10"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:hint="Date"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.313"
-        app:layout_constraintStart_toEndOf="@+id/textTo"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.443" />
+        app:layout_constraintHorizontal_bias="0.59"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etStartDate"
+        app:layout_constraintVertical_bias="0.04" />
 
     <EditText
         android:id="@+id/etDescription"
@@ -205,31 +213,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.542" />
 
-    <TextView
-        android:id="@+id/textTo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:text="To"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editStartTime"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCategory"
-        app:layout_constraintVertical_bias="0.115" />
-
     <EditText
         android:id="@+id/etStartDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="125dp"
+        android:layout_height="46dp"
+        android:background="@android:drawable/bottom_bar"
+        android:backgroundTint="#FFFFFF"
         android:cursorVisible="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:hint="Date"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.087"
+        app:layout_constraintHorizontal_bias="0.59"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.441" />
+        app:layout_constraintVertical_bias="0.382" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -329,4 +329,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.299" />
+
+    <TextView
+        android:id="@+id/tvStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.024"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.387" />
+
+    <TextView
+        android:id="@+id/tvStart2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.024"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.463" />
 </androidx.constraintlayout.widget.ConstraintLayout>
