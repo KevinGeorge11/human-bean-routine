@@ -103,7 +103,7 @@ public class AddEditTask extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),TaskDashboard.class);
+                Intent i = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(i);
             }
         });
