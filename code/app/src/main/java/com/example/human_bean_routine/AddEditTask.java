@@ -42,10 +42,8 @@ public class AddEditTask extends AppCompatActivity {
         repetition_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         repetition_spinner.setAdapter(repetition_adapter);
 
-
-
-        // Setting tvStartDate on click listener
-        EditText editEndDate = (EditText) findViewById(R.id.editEndDate);
+        // Start Date on click listener
+        EditText etEndDate = findViewById(R.id.editEndDate);
         final Calendar endDateCal = Calendar.getInstance();
         DatePickerDialog.OnDateSetListener etEndDateListener =
                 new DatePickerDialog.OnDateSetListener() {
@@ -54,11 +52,11 @@ public class AddEditTask extends AppCompatActivity {
                         endDateCal.set(Calendar.YEAR, year);
                         endDateCal.set(Calendar.MONTH, month);
                         endDateCal.set(Calendar.DAY_OF_MONTH, day);
-                        editEndDate.setText( String.valueOf(day) + "/" +  String.valueOf(month)
+                        etEndDate.setText( String.valueOf(day) + "/" +  String.valueOf(month)
                                 + "/" +  String.valueOf(year));
                     }
                 };
-        editEndDate.setOnClickListener(new View.OnClickListener() {
+        etEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -70,8 +68,8 @@ public class AddEditTask extends AppCompatActivity {
             });
 
 
-        // Setting etStartDate on click listener
-        EditText etStartDate = (EditText) findViewById(R.id.etStartDate);
+        // End Date on click listener
+        EditText etStartDate = findViewById(R.id.etStartDate);
         final Calendar startDateCal = Calendar.getInstance();
         DatePickerDialog.OnDateSetListener etStartDateListener =
                 new DatePickerDialog.OnDateSetListener() {
