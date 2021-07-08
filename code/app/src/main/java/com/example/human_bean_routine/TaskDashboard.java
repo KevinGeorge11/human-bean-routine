@@ -86,6 +86,8 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
 
     public void edit(MenuItem item) {
         Intent i = new Intent(getApplicationContext(),AddEditTask.class);
+        i.putExtra("editName", "Limit Junk Food.");
+        i.putExtra("category", "Food");
         startActivity(i);
     }
 

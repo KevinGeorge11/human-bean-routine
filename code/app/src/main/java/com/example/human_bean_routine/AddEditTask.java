@@ -34,6 +34,16 @@ public class AddEditTask extends AppCompatActivity {
         category_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category_spinner.setAdapter(category_adapter);
 
+        EditText taskName = findViewById(R.id.editName);
+        Intent in = getIntent();
+        if (in.getExtras() != null) {
+            String newName = in.getExtras().getString("editName");
+            taskName.setText(newName);
+            String newCategory = in.getExtras().getString("category");
+            int spinnerPosition = category_adapter.getPosition(newCategory);
+            category_spinner.setSelection(spinnerPosition);
+        }
+
         // Filling out repetition spinner. TODO: Change to dynamic array
         Spinner repetition_spinner = (Spinner) findViewById(R.id.spinnerRepeat);
         ArrayAdapter<CharSequence> repetition_adapter =
