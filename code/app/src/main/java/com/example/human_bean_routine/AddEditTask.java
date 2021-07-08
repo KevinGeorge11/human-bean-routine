@@ -97,6 +97,17 @@ public class AddEditTask extends AppCompatActivity {
             }
         });
 
+        // On clicking cancel button
+        Button cancelButton = findViewById(R.id.btnCancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),TaskDashboard.class);
+                startActivity(i);
+            }
+        });
+
     }
 
 
