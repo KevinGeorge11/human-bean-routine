@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,10 +50,23 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView myTextView;
+        ImageButton myEllipses;
 
         ViewHolder(View itemView) {
             super(itemView);
             myTextView = itemView.findViewById(R.id.singleCheckList);
+            myEllipses = itemView.findViewById(R.id.ellipses);
+
+            myEllipses.setOnClickListener(new View.OnClickListener() {
+
+                                              @Override
+                                              public void onClick(View v) {
+                                                  PopupMenu popup = new PopupMenu(myEllipses.getContext(), myEllipses);
+                                                  popup.getMenuInflater().inflate(R.menu.menu, popup.getMenu());
+                                                  popup.show();
+                                              }
+                                          });
+
             itemView.setOnClickListener(this);
         }
 
