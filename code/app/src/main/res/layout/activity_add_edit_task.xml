@@ -2,9 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clAddEdit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:foregroundTint="#FFFFFF"
+    android:background="#CAD2C5"
+    android:foregroundTint="#CAD2C5"
     tools:context=".AddEditTask">
 
     <TextView
@@ -120,34 +122,35 @@
         app:layout_constraintVertical_bias="0.443" />
 
     <EditText
-        android:id="@+id/editDescription"
-        android:layout_width="380dp"
-        android:layout_height="60dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Description"
-        android:inputType="textMultiLine"
-        android:singleLine="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editName"
-        app:layout_constraintVertical_bias="0.037" />
-
-    <EditText
-        android:id="@+id/editName"
+        android:id="@+id/etDescription"
         android:layout_width="232dp"
         android:layout_height="46dp"
         android:ems="10"
-        android:hint="Task Name"
+        android:inputType="textMultiLine"
+        android:singleLine="false"
+        android:background="@android:drawable/bottom_bar"
+        android:backgroundTint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.91"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etName"
+        app:layout_constraintVertical_bias="0.043" />
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="232dp"
+        android:layout_height="46dp"
+        android:background="@android:drawable/bottom_bar"
+        android:backgroundTint="#FFFFFF"
+        android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.843"
+        app:layout_constraintHorizontal_bias="0.899"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13" />
+        app:layout_constraintVertical_bias="0.111" />
 
     <TextView
         android:id="@+id/textRepeat"
@@ -178,17 +181,17 @@
 
     <Spinner
         android:id="@+id/spinnerCategory"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
+        android:layout_width="232dp"
+        android:layout_height="46dp"
         android:background="@android:drawable/btn_dropdown"
         android:entries="@array/categories_array"
         android:spinnerMode="dropdown"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintHorizontal_bias="0.91"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDescription"
+        app:layout_constraintTop_toBottomOf="@+id/etDescription"
         app:layout_constraintVertical_bias="0.043" />
 
     <CheckBox
@@ -229,6 +232,7 @@
         app:layout_constraintVertical_bias="0.441" />
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="0dp"
         android:layout_height="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -283,4 +287,32 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.02" />
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.025"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.122" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.025"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.212" />
 </androidx.constraintlayout.widget.ConstraintLayout>

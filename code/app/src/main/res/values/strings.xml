@@ -2,7 +2,7 @@
     <string name="app_name">human-bean-routine</string>
 
     <string-array name="categories_array">
-        <item>Category</item>
+        <item>None</item>
         <item>Food</item>
         <item>Sleep</item>
         <item>Chores</item>
