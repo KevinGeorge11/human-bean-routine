@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Humanbeanroutine">
-        <activity android:name=".task_dashboard"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".add_edit_task" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".taskDashboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
