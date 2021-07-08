@@ -34,7 +34,8 @@ public class AddEditTask extends AppCompatActivity {
         category_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category_spinner.setAdapter(category_adapter);
 
-        EditText taskName = findViewById(R.id.editName);
+        // stuff for demo TODO: Clean this up
+        EditText taskName = findViewById(R.id.etName);
         Intent in = getIntent();
         if (in.getExtras() != null) {
             String newName = in.getExtras().getString("editName");
@@ -51,7 +52,6 @@ public class AddEditTask extends AppCompatActivity {
                         android.R.layout.simple_spinner_item);
         repetition_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         repetition_spinner.setAdapter(repetition_adapter);
-
 
 
         // Start Date on click listener
@@ -72,6 +72,8 @@ public class AddEditTask extends AppCompatActivity {
                 picker.show();
             }
             });
+
+
 
         // End Date on click listener
         EditText etStartDate = findViewById(R.id.etStartDate);
