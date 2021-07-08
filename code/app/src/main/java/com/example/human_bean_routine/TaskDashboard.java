@@ -9,9 +9,16 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -84,7 +91,35 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
         startActivity(i);
     }
 
+    public void onButtonShowPopupWindowClick(View view) {
+
+    }
+
     public void delete(MenuItem item) {
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_window, null);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(findViewById(R.id.taskList), Gravity.CENTER, 0, 0);
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+
         taskNames.remove(0);
         adapter = new MyRecyclerViewAdapter(this, taskNames);
         adapter.setClickListener(this);
@@ -98,7 +133,6 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        Log.i("onMenuItemClick", String.valueOf(item.getItemId()));
         switch (item.getItemId()) {
             case R.id.edit_dropdown:
                 edit(item);
