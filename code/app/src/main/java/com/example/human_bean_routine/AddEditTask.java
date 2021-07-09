@@ -111,6 +111,66 @@ public class AddEditTask extends AppCompatActivity {
             }
         });
 
+        // etStartTime on click listener
+        EditText etStartTime = findViewById(R.id.etStartTime);
+        etStartTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar startTimeCal = Calendar.getInstance();
+                int hour = startTimeCal.get(Calendar.HOUR_OF_DAY);
+                int minute = startTimeCal.get(Calendar.MINUTE);
+                TimePickerDialog startTimePicker = new TimePickerDialog(AddEditTask.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        etStartTime.setText( selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                startTimePicker.setTitle("Select Time");
+                startTimePicker.show();
+            }
+        });
+
+        // etEndTime on click listener
+        EditText etEndTime = findViewById(R.id.etEndTime);
+        etEndTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar TimeCal = Calendar.getInstance();
+                int hour = TimeCal.get(Calendar.HOUR_OF_DAY);
+                int minute = TimeCal.get(Calendar.MINUTE);
+                TimePickerDialog TimePicker = new TimePickerDialog(AddEditTask.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        etEndTime.setText( selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                TimePicker.setTitle("Select Time");
+                TimePicker.show();
+            }
+        });
+
+        // etReminderTime on click listener
+        EditText etReminderTime = findViewById(R.id.etEndTime2);
+        etReminderTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar TimeCal = Calendar.getInstance();
+                int hour = TimeCal.get(Calendar.HOUR_OF_DAY);
+                int minute = TimeCal.get(Calendar.MINUTE);
+                TimePickerDialog TimePicker = new TimePickerDialog(AddEditTask.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        etReminderTime.setText( selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                TimePicker.setTitle("Select Time");
+                TimePicker.show();
+            }
+        });
+
         // On clicking save button
         Button saveButton = findViewById(R.id.btnSave);
         saveButton.setOnClickListener(new View.OnClickListener() {
