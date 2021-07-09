@@ -93,6 +93,24 @@ public class AddEditTask extends AppCompatActivity {
             }
         });
 
+        // Reminder Date on click listener
+        EditText etReminderDate = findViewById(R.id.etReminderDate);
+        final Calendar reminderDateCal = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener etReminderDateListener =
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        myOnDateSet(etReminderDate, view, year, month, day);
+                    }
+                };
+        etReminderDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog picker = openDatePicker(v, etReminderDateListener, reminderDateCal);
+                picker.show();
+            }
+        });
+
         // On clicking save button
         Button saveButton = findViewById(R.id.btnSave);
         saveButton.setOnClickListener(new View.OnClickListener() {

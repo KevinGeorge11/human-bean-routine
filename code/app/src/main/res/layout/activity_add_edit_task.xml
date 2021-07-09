@@ -10,7 +10,7 @@
     tools:context=".AddEditTask">
 
     <EditText
-        android:id="@+id/editStartTime"
+        android:id="@+id/etStartTime"
         android:layout_width="91dp"
         android:layout_height="46dp"
         android:background="@android:drawable/bottom_bar"
@@ -22,10 +22,10 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.943"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.383" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCategory"
+        app:layout_constraintVertical_bias="0.048" />
 
     <EditText
         android:id="@+id/etEndTime"
@@ -42,7 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toEndOf="@+id/editEndDate"
-        app:layout_constraintTop_toBottomOf="@+id/editStartTime"
+        app:layout_constraintTop_toBottomOf="@+id/etStartTime"
         app:layout_constraintVertical_bias="0.037" />
 
     <EditText
@@ -58,10 +58,10 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
-        app:layout_constraintStart_toEndOf="@+id/editEndDate"
-        app:layout_constraintTop_toBottomOf="@+id/editStartTime"
-        app:layout_constraintVertical_bias="0.491" />
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintStart_toEndOf="@+id/etReminderDate"
+        app:layout_constraintTop_toBottomOf="@+id/switchReminder"
+        app:layout_constraintVertical_bias="0.102" />
 
     <Button
         android:id="@+id/btnSave"
@@ -71,10 +71,9 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.563"
+        app:layout_constraintHorizontal_bias="0.568"
         app:layout_constraintStart_toEndOf="@+id/btnCancel"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.869" />
+        app:layout_constraintTop_toBottomOf="@+id/etReminderDate" />
 
     <Button
         android:id="@+id/btnCancel"
@@ -84,10 +83,9 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.182"
+        app:layout_constraintHorizontal_bias="0.22"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.868" />
+        app:layout_constraintTop_toBottomOf="@+id/etReminderDate" />
 
     <EditText
         android:id="@+id/editEndDate"
@@ -103,13 +101,13 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.59"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.474"
+        app:layout_constraintStart_toEndOf="@+id/tvStart2"
         app:layout_constraintTop_toBottomOf="@+id/etStartDate"
-        app:layout_constraintVertical_bias="0.04" />
+        app:layout_constraintVertical_bias="0.035" />
 
     <EditText
-        android:id="@+id/editEndDate2"
+        android:id="@+id/etReminderDate"
         android:layout_width="125dp"
         android:layout_height="46dp"
         android:background="@android:drawable/bottom_bar"
@@ -122,20 +120,21 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.597"
+        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etStartDate"
-        app:layout_constraintVertical_bias="0.492" />
+        app:layout_constraintTop_toBottomOf="@+id/switchReminder"
+        app:layout_constraintVertical_bias="0.101" />
 
     <EditText
         android:id="@+id/etDescription"
         android:layout_width="232dp"
         android:layout_height="46dp"
+        android:background="@android:drawable/bottom_bar"
+        android:backgroundTint="#FFFFFF"
         android:ems="10"
         android:inputType="textMultiLine"
         android:singleLine="false"
-        android:background="@android:drawable/bottom_bar"
-        android:backgroundTint="#FFFFFF"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.91"
@@ -151,6 +150,7 @@
         android:backgroundTint="#FFFFFF"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.899"
@@ -160,16 +160,18 @@
 
     <Spinner
         android:id="@+id/spinnerRepeat"
-        android:layout_width="224dp"
-        android:layout_height="50dp"
+        android:layout_width="232dp"
+        android:layout_height="46dp"
         android:layout_marginEnd="16dp"
         android:background="@android:drawable/btn_dropdown"
         android:entries="@array/task_repetition_array"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.541" />
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toEndOf="@+id/tvRepeat"
+        app:layout_constraintTop_toBottomOf="@+id/editEndDate"
+        app:layout_constraintVertical_bias="0.062" />
 
     <Spinner
         android:id="@+id/spinnerCategory"
@@ -199,10 +201,10 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.59"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.382" />
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toEndOf="@+id/tvStart"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCategory"
+        app:layout_constraintVertical_bias="0.048" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -284,10 +286,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.025"
+        app:layout_constraintHorizontal_bias="0.026"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.212" />
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        app:layout_constraintVertical_bias="0.065" />
 
     <TextView
         android:id="@+id/tvCategory"
@@ -298,10 +300,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.026"
+        app:layout_constraintHorizontal_bias="0.027"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.299" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+        app:layout_constraintVertical_bias="0.075" />
 
     <TextView
         android:id="@+id/tvStart"
@@ -314,8 +316,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.024"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.387" />
+        app:layout_constraintTop_toBottomOf="@+id/tvCategory"
+        app:layout_constraintVertical_bias="0.124" />
 
     <TextView
         android:id="@+id/tvStart2"
@@ -328,8 +330,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.024"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.463" />
+        app:layout_constraintTop_toBottomOf="@+id/tvStart"
+        app:layout_constraintVertical_bias="0.097" />
 
     <TextView
         android:id="@+id/tvRepeat"
@@ -340,10 +342,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.024"
+        app:layout_constraintHorizontal_bias="0.026"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.54" />
+        app:layout_constraintTop_toBottomOf="@+id/tvStart2"
+        app:layout_constraintVertical_bias="0.104" />
 
     <TextView
         android:id="@+id/tvReminder"
@@ -356,8 +358,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.024"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.636" />
+        app:layout_constraintTop_toBottomOf="@+id/tvRepeat"
+        app:layout_constraintVertical_bias="0.132" />
 
     <Switch
         android:id="@+id/switchReminder"
@@ -365,8 +367,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.469"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.636" />
+        app:layout_constraintHorizontal_bias="0.229"
+        app:layout_constraintStart_toEndOf="@+id/tvReminder"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerRepeat"
+        app:layout_constraintVertical_bias="0.104" />
 </androidx.constraintlayout.widget.ConstraintLayout>
