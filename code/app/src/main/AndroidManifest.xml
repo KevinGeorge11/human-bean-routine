@@ -12,6 +12,7 @@
 
         <activity android:name=".task_dashboard"></activity>
         <activity android:name=".add_edit_task" />
+        <activity android:name=".PuzzleActivity"></activity>
         <activity android:name=".PreviousPuzzlesActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
