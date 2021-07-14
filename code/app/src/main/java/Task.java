@@ -1,5 +1,5 @@
 public class Task {
-    private Integer TaskId;
+    private Integer taskId;
     private String name;
     private String description;
     private String category;
@@ -15,7 +15,7 @@ public class Task {
     public Task(String name, String description, String category,
                 String startDate, String startTime, String endDate, String endTime,
                 String repeat, String reminderDate, String reminderTime, Boolean complete) {
-        this.TaskId = -1;
+        this.taskId = -1;
         this.name = name;
         this.description = description;
         this.category = category;
@@ -119,6 +119,6 @@ public class Task {
     }
 
     public Integer getTaskId() {
-        return TaskId;
+        return taskId;
     }
 }
