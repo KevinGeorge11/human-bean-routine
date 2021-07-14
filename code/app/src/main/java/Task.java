@@ -121,4 +121,8 @@ public class Task {
     public Integer getTaskId() {
         return taskId;
     }
+
+    public Integer setTaskId(Integer taskId) {
+        this.taskId = taskId;
+    }
 }
