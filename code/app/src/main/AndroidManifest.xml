@@ -12,12 +12,24 @@
 
         <activity android:name=".task_dashboard"></activity>
         <activity android:name=".add_edit_task" />
-        <activity android:name=".PuzzleActivity"></activity>
-        <activity android:name=".PreviousPuzzlesActivity"></activity>
+
+        <activity android:name=".PuzzleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".PreviousPuzzlesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
