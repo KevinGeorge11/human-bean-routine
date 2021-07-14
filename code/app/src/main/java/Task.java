@@ -122,7 +122,7 @@ public class Task {
         return taskId;
     }
 
-    public Integer setTaskId(Integer taskId) {
+    public void setTaskId(Integer taskId) {
         this.taskId = taskId;
     }
 }
