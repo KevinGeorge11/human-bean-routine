@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -100,5 +101,10 @@ public class PuzzleActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public void saveMessage() {
+        EditText text = findViewById(R.id.etNote);
+        text.getText();
     }
 }
