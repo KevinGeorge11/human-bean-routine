@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">human-bean-routine</string>
+
+    <string name="previous_puzzles">Previous Puzzles</string>
+    <string name="current_puzzle">Current Puzzle</string>
+
 </resources>
