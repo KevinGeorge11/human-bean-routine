@@ -29,6 +29,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // Common column names
     public static final String KEY_ID = "id";
     public static final String KEY_NAME = "name";
+    public static final String KEY_COMPLETE = "complete";
+    public static final String KEY_ACTIVE = "active";
+    public static final String KEY_IMAGE_PATH = "image_path";
 
     // Column names of TASKS table
     public static final String TASK_DESCRIPTION = "description";
@@ -42,18 +45,45 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String TASK_REMINDER_TIME = "reminder_time";
     public static final String TASK_COMPLETE = "complete";
 
-    // Column names of CATEGORIES table
-    public static final String CATEGORY_ICON_PATH = "icon_path";
-    public static final String CATEGORY_ACTIVE = "active";
-
-    // Column names of PUZZLE table
-    public static final String PUZZLE_IMAGE = "image";
-    public static final String PUZZLE_ACTIVE = "active";
-
     // Column names of PIECES table
     public static final String PIECE_STATUS = "status";
-    public static final String PIECE_INFO = "info";
-    public static final String PIECE_MESSAGE = "message";
+    public static final String PIECE_PUZZLE_ID = "puzzle_id";
+
+    // TASKS table create statement
+    public static final String createTaskTableStatement = "CREATE TABLE " + TASKS_TABLE + " ( "
+            + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + KEY_NAME + " TEXT, "
+            + TASK_DESCRIPTION + " TEXT, "
+            + TASK_CATEGORY + " TEXT, "
+            + TASK_START_DATE + " TEXT, "
+            + TASK_START_TIME + " TEXT, "
+            + TASK_END_DATE + " TEXT, "
+            + TASK_END_TIME + " TEXT, "
+            + TASK_REPEAT + " TEXT, "
+            + TASK_REMINDER_DATE + " TEXT, "
+            + TASK_REMINDER_TIME + " TEXT, "
+            + TASK_COMPLETE + " BOOL )";
+
+    // Category table create statement
+    public static final String createCategoryTableStatement = "CREATE TABLE " + CATEGORIES_TABLE + " ( "
+            + KEY_NAME + " TEXT PRIMARY KEY, "
+            + KEY_IMAGE_PATH + " TEXT, "
+            + KEY_ACTIVE + " BOOL )";
+
+    // Puzzle table create statement
+    public static final String createPuzzleTableStatement = "CREATE TABLE " + PUZZLES_TABLE + " ( "
+            + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + KEY_NAME + " TEXT, "
+            + KEY_IMAGE_PATH + " TEXT, "
+            + KEY_ACTIVE + " BOOL, "
+            + KEY_COMPLETE + " BOOL )";
+
+    // Pieces table create statement
+    public static final String createPiecesTableStatement = "CREATE TABLE " + PIECES_TABLE + " ( "
+            + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + KEY_NAME + " TEXT, "
+            + PIECE_STATUS + " TEXT, "
+            + PIECE_PUZZLE_ID + " INTEGER )";
 
 
     public DataBaseHelper(@Nullable Context context) {
@@ -62,37 +92,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-        String createTaskTableStatement = "CREATE TABLE " + TASKS_TABLE + " ( "
-                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + KEY_NAME + " TEXT, "
-                + TASK_COMPLETE + " BOOL, "
-                + TASK_DESCRIPTION + " TEXT, "
-                + TASK_CATEGORY + " TEXT, "
-                + TASK_START_DATE + " TEXT, "
-                + TASK_START_TIME + " TEXT, "
-                + TASK_END_DATE + " TEXT, "
-                + TASK_END_TIME + " TEXT )";
         db.execSQL(createTaskTableStatement);
-
-        String createCategoryTableStatement = "CREATE TABLE " + CATEGORIES_TABLE + " ( "
-                + KEY_NAME + " TEXT PRIMARY KEY, "
-                + CATEGORY_ICON_PATH + " TEXT, "
-                + CATEGORY_ACTIVE + " BOOL )";
         db.execSQL(createCategoryTableStatement);
-
-        String createPuzzleTableStatement = "CREATE TABLE " + PUZZLES_TABLE + " ( "
-                + KEY_NAME + " TEXT PRIMARY KEY, "
-                + PUZZLE_IMAGE + " TEXT, "
-                + PUZZLE_ACTIVE + " BOOL )";
         db.execSQL(createPuzzleTableStatement);
-
-        String createPiecesTableStatement = "CREATE TABLE " + PIECES_TABLE + " ( "
-                + KEY_ID + " INTEGER PRIMARY KEY, "
-                + KEY_NAME + " TEXT , "
-                + PIECE_STATUS + " TEXT , "
-                + PIECE_INFO + " TEXT , "
-                + PIECE_MESSAGE + " TEXT )";
         db.execSQL(createPiecesTableStatement);
     }
 
@@ -103,10 +105,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean addTask(Task task) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-
-        // TODO
-        // How are we generating ID?
-        // cv.put(KEY_ID, task.getTaskId());
 
         cv.put(KEY_NAME, task.getName());
         cv.put(TASK_DESCRIPTION, task.getDescription());
@@ -129,7 +127,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public int updateTask(Task task) {
-        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(KEY_NAME, task.getName());
@@ -144,8 +141,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(TASK_REMINDER_TIME, task.getReminderTime());
         cv.put(TASK_COMPLETE, task.getComplete());
 
-        String whereClause = KEY_ID + " = ?";
-        int update = db.update(TASKS_TABLE, cv, whereClause, new String[] { String.valueOf(task.getTaskId()) });
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int update = db.update(TASKS_TABLE, cv, KEY_ID + " = ?", new String[] { String.valueOf(task.getTaskId()) });
         // update() returns the number of rows affected
 
         return update;
@@ -173,8 +171,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String reminderTime = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_TIME));
                 Boolean complete = (cursor.getInt(cursor.getColumnIndex(TASK_COMPLETE)) == 1)? true : false;
 
-                Task t = new Task(name, description, category, startDate, startTime, endDate, endTime, repeat, reminderDate, reminderTime, complete);
-                t.setTaskId(taskID);
+                Task t = new Task(taskID, name, description, category, startDate, startTime, endDate, endTime, repeat, reminderDate, reminderTime, complete);
                 tasks.add(t);
             } while (cursor.moveToNext());
         }
@@ -192,12 +189,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public boolean addCategory(Category category) {
-        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(KEY_NAME, category.getName());
-        cv.put(CATEGORY_ICON_PATH, category.getIconPath());
-        cv.put(CATEGORY_ACTIVE, category.getActive());
+        cv.put(KEY_IMAGE_PATH, category.getIconPath());
+        cv.put(KEY_ACTIVE, category.getActive());
+
+        SQLiteDatabase db = this.getWritableDatabase();
 
         long insert = db.insert(CATEGORIES_TABLE, null, cv);
 
@@ -205,6 +203,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return false;
         }
         return true;
+    }
+
+    public int updateCategory(Category category) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(KEY_NAME, category.getName());
+        cv.put(KEY_IMAGE_PATH, category.getIconPath());
+        cv.put(KEY_ACTIVE, category.getActive());
+
+        int update = db.update(TASKS_TABLE, cv, KEY_NAME + " = ?", new String[] { String.valueOf(category.getName()) });
+        // update() returns the number of rows affected
+
+        return update;
     }
 
     public List<Category> getAllCategories() {
@@ -217,8 +229,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
-                String iconPath = cursor.getString(cursor.getColumnIndex(CATEGORY_ICON_PATH));
-                Boolean active = (cursor.getInt(cursor.getColumnIndex(CATEGORY_ACTIVE)) == 1)? true : false;
+                String iconPath = cursor.getString(cursor.getColumnIndex(KEY_IMAGE_PATH));
+                Boolean active = (cursor.getInt(cursor.getColumnIndex(KEY_ACTIVE)) == 1)? true : false;
 
                 Category c = new Category(name, iconPath, active);
                 categories.add(c);
@@ -233,23 +245,73 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         int delete = db.delete(CATEGORIES_TABLE, KEY_NAME + " = ?", new String[]{String.valueOf(categoryName)});
 
-
         return delete;
     }
 
-    public int updateCategory(Category category) {
+
+    public boolean addPuzzle(Puzzle puzzle) {
+        ContentValues cv = new ContentValues();
+
+        cv.put(KEY_ID, puzzle.getPuzzleID());
+        cv.put(KEY_NAME, puzzle.getName());
+        cv.put(KEY_IMAGE_PATH, puzzle.getImagePath());
+        cv.put(KEY_ACTIVE, puzzle.getActive());
+        cv.put(KEY_COMPLETE, puzzle.getComplete());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        long insert = db.insert(PUZZLES_TABLE, null, cv);
+
+        if (insert == -1) { // unsuccessful insertion
+            return false;
+        }
+        return true;
+    }
+
+    public int updatePuzzle(Puzzle puzzle) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(KEY_NAME, category.getName());
-        cv.put(CATEGORY_ICON_PATH, category.getIconPath());
-        cv.put(CATEGORY_ACTIVE, category.getActive());
+        cv.put(KEY_ID, puzzle.getPuzzleID());
+        cv.put(KEY_NAME, puzzle.getName());
+        cv.put(KEY_IMAGE_PATH, puzzle.getImagePath());
+        cv.put(KEY_ACTIVE, puzzle.getActive());
+        cv.put(KEY_COMPLETE, puzzle.getComplete());
 
-        String whereClause = KEY_NAME + " = ?";
-        int update = db.update(TASKS_TABLE, cv, whereClause, new String[] { String.valueOf(category.getName()) });
+        int update = db.update(TASKS_TABLE, cv, KEY_NAME + " = ?", new String[] { String.valueOf(puzzle.getName()) });
         // update() returns the number of rows affected
 
         return update;
     }
 
+    public List<Puzzle> getAllPuzzles() {
+        List<Puzzle> puzzles = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + CATEGORIES_TABLE;
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int puzzleID = cursor.getInt(cursor.getColumnIndex(KEY_ID));
+                String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
+                String imagePath = cursor.getString(cursor.getColumnIndex(KEY_IMAGE_PATH));
+                Boolean active = (cursor.getInt(cursor.getColumnIndex(KEY_ACTIVE)) == 1)? true : false;
+                Boolean complete = (cursor.getInt(cursor.getColumnIndex(KEY_COMPLETE)) == 1)? true : false;
+
+                Puzzle p = new Puzzle(puzzleID, name, active, imagePath, complete);
+                puzzles.add(p);
+            } while (cursor.moveToNext());
+        }
+
+        return puzzles;
+    }
+
+    public int deletePuzzle(int puzzleId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int delete = db.delete(PUZZLES_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(puzzleId)});
+
+        return delete;
+    }
 }
