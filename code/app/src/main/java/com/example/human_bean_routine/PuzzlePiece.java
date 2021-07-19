@@ -43,6 +43,10 @@ public class PuzzlePiece {
         this.userMessage = userMessage;
     }
 
+    public String generateUnlockMessage() {
+        return "Well done! You unlocked this piece on " + dateUnlocked + " after completing "
+                + tasksCompleted + " tasks.";
+    }
 
     public Integer getPieceID() {
         return pieceID;
