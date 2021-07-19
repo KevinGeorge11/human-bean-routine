@@ -31,6 +31,23 @@ public class Task {
         this.complete = complete;
     }
 
+    public Task(Integer taskID, String name, String description, String category,
+                String startDate, String startTime, String endDate, String endTime,
+                String repeat, String reminderDate, String reminderTime, Boolean complete) {
+        this.taskId = taskID;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.startDate = startDate;
+        this.startTime = startTime;
+        this.endDate = endDate;
+        this.endTime = endTime;
+        this.repeat = repeat;
+        this.reminderDate = reminderDate;
+        this.reminderTime = reminderTime;
+        this.complete = complete;
+    }
+
 
     public Boolean getComplete() {
         return complete;
