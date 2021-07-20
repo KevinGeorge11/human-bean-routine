@@ -4,7 +4,7 @@ public class Task {
     private Integer taskId;
     private String name;
     private String description;
-    private String category;
+    private Integer categoryID;
     private String startDate;
     private String startTime;
     private String endDate;
@@ -14,13 +14,13 @@ public class Task {
     private String reminderTime;
     private Boolean complete;
 
-    public Task(String name, String description, String category,
+    public Task(String name, String description, Integer categoryID,
                 String startDate, String startTime, String endDate, String endTime,
                 String repeat, String reminderDate, String reminderTime, Boolean complete) {
         this.taskId = -1;
         this.name = name;
         this.description = description;
-        this.category = category;
+        this.categoryID = categoryID;
         this.startDate = startDate;
         this.startTime = startTime;
         this.endDate = endDate;
@@ -31,13 +31,13 @@ public class Task {
         this.complete = complete;
     }
 
-    public Task(Integer taskID, String name, String description, String category,
+    public Task(Integer taskID, String name, String description, Integer categoryID,
                 String startDate, String startTime, String endDate, String endTime,
                 String repeat, String reminderDate, String reminderTime, Boolean complete) {
         this.taskId = taskID;
         this.name = name;
         this.description = description;
-        this.category = category;
+        this.categoryID = categoryID;
         this.startDate = startDate;
         this.startTime = startTime;
         this.endDate = endDate;
@@ -121,12 +121,12 @@ public class Task {
         this.description = description;
     }
 
-    public String getCategory() {
-        return category;
+    public Integer getCategoryID() {
+        return categoryID;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryID(Integer categoryID) {
+        this.categoryID = categoryID;
     }
 
     public String getStartDate() {
