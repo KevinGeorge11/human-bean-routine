@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".TaskDashboard"
     android:background="#CAD2C5">
     <RelativeLayout
@@ -36,50 +36,11 @@
             />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/CategoryList"
-        android:layout_width="380dp"
-        android:layout_height="45dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5dp"
-        android:paddingLeft="10dp"
-        android:text="🍏 Food"
-        android:layout_below="@+id/DateLayout"
-        android:textSize="32sp"
-        android:textColor="@color/white"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/light_green_shape"/>
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/taskList"
+        android:id="@+id/parent_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/CategoryList"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:nestedScrollingEnabled="true" />
-
-    <TextView
-        android:id="@+id/CategoryList2"
-        android:layout_width="380dp"
-        android:layout_height="45dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:paddingLeft="10dp"
-        android:text="🛏 Sleep"
-        android:layout_below="@+id/taskList"
-        android:textSize="32sp"
-        android:textColor="@color/white"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/light_green_shape"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/taskList2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/CategoryList2"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:nestedScrollingEnabled="true" />
+        android:layout_below="@+id/DateLayout"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingAddButton"

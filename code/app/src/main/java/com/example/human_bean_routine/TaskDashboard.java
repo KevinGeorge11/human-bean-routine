@@ -21,12 +21,16 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener, PopupMenu.OnMenuItemClickListener {
 
     MyRecyclerViewAdapter adapter;
     // hardcoded -- will be removed later
-    ArrayList<String> taskNames = new ArrayList<>();
+  //  ArrayList<Task> taskNames = new ArrayList<>();
+    ArrayList<Task> foodCategories = new ArrayList<>();
+    ArrayList<Task> sleepCategories = new ArrayList<>();
+    RecyclerView parentRecyclerView;
     RecyclerView recyclerView;
     PopupWindow popupWindow;
     @Override
@@ -42,28 +46,24 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
         actionBar.setBackgroundDrawable(colorDrawable);
         actionBar.setTitle("Human Bean Routine");
 
-        // HARD CODED TASKS
-        // TODO: ROXANNA clean this part of the code up to prevent hardcoding
-        taskNames.add("Eat 3-5 fruits/vegetables.");
-        taskNames.add("Limit junk food.");
+        RecyclerView
+                categoryRecyclerView
+                = findViewById(
+                R.id.parent_recyclerview);
 
-        this.recyclerView = findViewById(R.id.taskList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MyRecyclerViewAdapter(this, taskNames);
-        adapter.setClickListener(this);
-        recyclerView.setAdapter(adapter);
+        // Initialise the Linear layout manager
+        LinearLayoutManager
+                layoutManager
+                = new LinearLayoutManager(this);
 
-        // HARD CODED TASKS
-        ArrayList<String> taskNames2 = new ArrayList<>();
-        taskNames2.add("Sleep by 10pm.");
-        taskNames2.add("Sleep at least 7 hours.");
+        CategoryListAdapter
+                parentItemAdapter
+                = new CategoryListAdapter(parentItemList());
 
-        // HARD CODED TASKS
-        RecyclerView recyclerView2 = findViewById(R.id.taskList2);
-        recyclerView2.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MyRecyclerViewAdapter(this, taskNames2);
-        adapter.setClickListener(this);
-        recyclerView2.setAdapter(adapter);
+        categoryRecyclerView
+                .setAdapter(parentItemAdapter);
+        categoryRecyclerView
+                .setLayoutManager(layoutManager);
 
         final FloatingActionButton addButton = findViewById(R.id.floatingAddButton);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +75,25 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
             }
         });
 
+    }
+    // hardcoded until Database is running
+    private List<CategoryTaskList> parentItemList() {
+        CategoryTaskList foodTaskList = new CategoryTaskList("Food");
+        Task task1 = new Task("Eat 3-5 fruits/vegetables");
+        Task task2 = new Task("Limit junk food");
+        foodTaskList.addTask(task1);
+        foodTaskList.addTask(task2);
+
+        CategoryTaskList sleepTaskList = new CategoryTaskList("Sleep");
+        Task task3 = new Task("Sleep by 10pm");
+        Task task4 = new Task("Sleep at least 7 hours");
+        sleepTaskList.addTask(task3);
+        sleepTaskList.addTask(task4);
+
+        List<CategoryTaskList> categories = new ArrayList<>();
+        categories.add(foodTaskList);
+        categories.add(sleepTaskList);
+        return categories;
     }
 
     public void ellipses(View v) {
@@ -112,8 +131,8 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
     }
 
     public void deleteButton(View v) {
-        taskNames.remove(0);
-        adapter = new MyRecyclerViewAdapter(this, taskNames);
+   //     taskNames.remove(0);
+   //     adapter = new MyRecyclerViewAdapter(this, taskNames);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         popupWindow.dismiss();
