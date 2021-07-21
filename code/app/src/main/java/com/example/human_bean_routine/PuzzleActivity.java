@@ -35,15 +35,12 @@ public class PuzzleActivity extends AppCompatActivity {
         final ConstraintLayout layout = findViewById(R.id.clPuzzleLayout);
         ImageView imageView = findViewById(R.id.ivPuzzle);
 
-        imageView.post(new Runnable() {
-            @Override
-            public void run() {
-                pieces = splitImage();
-                for(Bitmap piece : pieces) {
-                    ImageView iv = new ImageView(getApplicationContext());
-                    iv.setImageBitmap(piece);
-                    layout.addView(iv);
-                }
+        imageView.post(() -> {
+            pieces = splitImage();
+            for(Bitmap piece : pieces) {
+                ImageView iv = new ImageView(getApplicationContext());
+                iv.setImageBitmap(piece);
+                layout.addView(iv);
             }
         });
 

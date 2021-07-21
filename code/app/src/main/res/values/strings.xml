@@ -18,4 +18,5 @@
 
     <string name="previous_puzzles">Previous Puzzles</string>
     <string name="current_puzzle">Current Puzzle</string>
+    <string name="puzzle">Puzzles</string>
 </resources>
