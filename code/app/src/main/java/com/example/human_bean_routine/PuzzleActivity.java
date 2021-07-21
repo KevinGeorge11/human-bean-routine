@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PuzzleActivity extends AppCompatActivity {
 
@@ -120,8 +121,26 @@ public class PuzzleActivity extends AppCompatActivity {
         });
     }
 
+    // saveMessage takes the text from the etNote textbox and updates the database
+    // so that puzzle pieces will have an associated message
     public void saveMessage() {
-        EditText text = findViewById(R.id.etNote);
-        text.getText();
+        int xCoord = 1;
+        int yCoord = 1;
+        int edgeLength = 1;
+        int puzzleID = 1;
+
+        EditText editText = findViewById(R.id.etNote);
+        String message = editText.getText().toString();
+
+        if(message.matches("")) { // if user doesn't input a message, choose a random one
+            int min = 1;
+            int max = 6;
+            int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+            String[] array = getResources().getStringArray(R.array.encouraging_messages);
+            message = array[randomNum];
+        }
+        
+        PuzzlePiece newPiece = new PuzzlePiece(xCoord, yCoord, edgeLength,  puzzleID, PuzzlePiece.PieceStatus.REVEALED)
+
     }
 }
