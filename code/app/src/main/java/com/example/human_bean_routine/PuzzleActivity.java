@@ -89,7 +89,27 @@ public class PuzzleActivity extends AppCompatActivity {
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
         modal = new PopupWindow(popupView, width, height, focusable);
-        modal.showAtLocation(findViewById(R.id.taskList), Gravity.CENTER, 0, 0);
+        modal.showAtLocation(findViewById(R.id.ivPuzzle), Gravity.CENTER, 0, 0);
+
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                modal.dismiss();
+                return true;
+            }
+        });
+    }
+
+    public void showCompletedPuzzlePieceModal() {
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.completed_puzzle_piece_modal, null);
+
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        modal = new PopupWindow(popupView, width, height, focusable);
+        modal.showAtLocation(findViewById(R.id.ivPuzzle), Gravity.CENTER, 0, 0);
 
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
