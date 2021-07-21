@@ -6,6 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".PreviousPuzzlesActivity">
 
+    <TextView
+        android:id="@+id/tvPuzzleHeader4"
+        android:layout_width="0dp"
+        android:layout_height="67dp"
+        android:background="#52856F"
+        android:gravity="center"
+        android:lineSpacingExtra="20sp"
+        android:text="@string/puzzle"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imgPuzzle2"
+        android:layout_width="46dp"
+        android:layout_height="42dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="start"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:foreground="@drawable/plugin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
     <Button
         android:id="@+id/bCurrentPuzzle"
         android:layout_width="wrap_content"
