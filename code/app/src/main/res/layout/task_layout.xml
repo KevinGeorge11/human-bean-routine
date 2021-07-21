@@ -21,7 +21,6 @@
             android:buttonTint="#52856F"/>
         <ImageButton
             android:id="@+id/ellipses"
-            android:onClick="ellipses"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"

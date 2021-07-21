@@ -100,6 +100,7 @@ public class CategoryListAdapter
         TaskListAdapter childItemAdapter
                 = new TaskListAdapter(this.context,
                 this.recyclerViewClickListener, parentItem.getTasks());
+        childItemAdapter.SetOnItemClickListener(recyclerViewClickListener);
         parentViewHolder
                 .ChildRecyclerView
                 .setLayoutManager(layoutManager);
@@ -121,6 +122,10 @@ public class CategoryListAdapter
     {
 
         return itemList.size();
+    }
+
+    public void SetOnItemClickListener(RecyclerViewClickListener recyclerViewClickListener) {
+        this.recyclerViewClickListener = recyclerViewClickListener;
     }
 
     // This class is to initialize

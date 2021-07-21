@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,7 +35,15 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
                         R.layout.task_layout,
                         viewGroup, false);
 
-        return new TaskViewHolder(view);
+        TaskViewHolder viewHolder = new TaskViewHolder(view);
+        viewHolder.ellipses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recyclerViewClickListener.recyclerViewListClicked(viewHolder.ellipses, viewHolder.getAdapterPosition());
+            }
+        });
+        
+        return viewHolder;
     }
 
     @Override
@@ -55,9 +64,15 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
     {
         return tasks.size();
     }
+
+    public void SetOnItemClickListener(RecyclerViewClickListener recyclerViewClickListener) {
+        this.recyclerViewClickListener = recyclerViewClickListener;
+    }
+
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView ChildItemTitle;
+        ImageButton ellipses;
 
         TaskViewHolder(View itemView)
         {
@@ -65,7 +80,9 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
             ChildItemTitle
                     = itemView.findViewById(
                     R.id.singleCheckList);
-            itemView.setOnClickListener(this);
+            ellipses = itemView.findViewById(R.id.ellipses);
+
+            ellipses.setOnClickListener(this);
         }
 
         @Override

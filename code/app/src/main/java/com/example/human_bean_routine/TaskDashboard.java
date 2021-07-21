@@ -33,7 +33,15 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
     RecyclerView parentRecyclerView;
     RecyclerView recyclerView;
     PopupWindow popupWindow;
-    RecyclerViewClickListener recyclerViewClickListener;
+    RecyclerViewClickListener recyclerViewClickListener = new RecyclerViewClickListener() {
+        @Override
+        public void recyclerViewListClicked(View v, int position) {
+            PopupMenu popup = new PopupMenu(getApplicationContext(), v);
+            popup.setOnMenuItemClickListener(TaskDashboard.this);
+            popup.getMenuInflater().inflate(R.menu.menu, popup.getMenu());
+            popup.show();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +69,7 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         CategoryListAdapter
                 parentItemAdapter
                 = new CategoryListAdapter(parentItemList(), getApplicationContext(), recyclerViewClickListener);
-
+        parentItemAdapter.SetOnItemClickListener(recyclerViewClickListener);
         categoryRecyclerView
                 .setAdapter(parentItemAdapter);
         categoryRecyclerView
@@ -100,13 +108,6 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
 
     @Override
     public void recyclerViewListClicked(View v, int position){
-        PopupMenu popup = new PopupMenu(this, v);
-        popup.setOnMenuItemClickListener(TaskDashboard.this);
-        popup.getMenuInflater().inflate(R.menu.menu, popup.getMenu());
-        popup.show();
-    }
-
-    public void ellipses(View v) {
         PopupMenu popup = new PopupMenu(this, v);
         popup.setOnMenuItemClickListener(TaskDashboard.this);
         popup.getMenuInflater().inflate(R.menu.menu, popup.getMenu());
