@@ -1,5 +1,6 @@
 package com.example.human_bean_routine;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,13 @@ import java.util.List;
 public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskViewHolder> {
 
     private List<Task> tasks;
+    private Context context;
+    private static RecyclerViewClickListener recyclerViewClickListener;
 
-    TaskListAdapter(List<Task> tasks) {
+    TaskListAdapter(Context context, RecyclerViewClickListener recyclerViewClickListener, List<Task> tasks) {
         this.tasks = tasks;
+        this.recyclerViewClickListener = recyclerViewClickListener;
+        this.context = context;
     }
 
     @NonNull
@@ -50,7 +55,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
     {
         return tasks.size();
     }
-    class TaskViewHolder extends RecyclerView.ViewHolder {
+    class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView ChildItemTitle;
 
@@ -60,6 +65,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
             ChildItemTitle
                     = itemView.findViewById(
                     R.id.singleCheckList);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            recyclerViewClickListener.recyclerViewListClicked(v, this.getLayoutPosition());
         }
     }
 }

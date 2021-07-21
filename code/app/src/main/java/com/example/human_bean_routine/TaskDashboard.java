@@ -23,7 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener, PopupMenu.OnMenuItemClickListener {
+public class TaskDashboard extends AppCompatActivity implements RecyclerViewClickListener, MyRecyclerViewAdapter.ItemClickListener, PopupMenu.OnMenuItemClickListener {
 
     MyRecyclerViewAdapter adapter;
     // hardcoded -- will be removed later
@@ -33,6 +33,8 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
     RecyclerView parentRecyclerView;
     RecyclerView recyclerView;
     PopupWindow popupWindow;
+    RecyclerViewClickListener recyclerViewClickListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +60,7 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
 
         CategoryListAdapter
                 parentItemAdapter
-                = new CategoryListAdapter(parentItemList());
+                = new CategoryListAdapter(parentItemList(), getApplicationContext(), recyclerViewClickListener);
 
         categoryRecyclerView
                 .setAdapter(parentItemAdapter);
@@ -94,6 +96,14 @@ public class TaskDashboard extends AppCompatActivity implements MyRecyclerViewAd
         categories.add(foodTaskList);
         categories.add(sleepTaskList);
         return categories;
+    }
+
+    @Override
+    public void recyclerViewListClicked(View v, int position){
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(TaskDashboard.this);
+        popup.getMenuInflater().inflate(R.menu.menu, popup.getMenu());
+        popup.show();
     }
 
     public void ellipses(View v) {

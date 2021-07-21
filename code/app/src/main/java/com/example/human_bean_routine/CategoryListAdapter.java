@@ -3,6 +3,8 @@ package com.example.human_bean_routine;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +24,14 @@ public class CategoryListAdapter
             viewPool
             = new RecyclerView.RecycledViewPool();
     private List<CategoryTaskList> itemList;
+    private Context context;
+    private static RecyclerViewClickListener recyclerViewClickListener;
 
-    CategoryListAdapter(List<CategoryTaskList> itemList)
+    CategoryListAdapter(List<CategoryTaskList> itemList, Context context, RecyclerViewClickListener recyclerViewClickListener)
     {
+        this.context = context;
         this.itemList = itemList;
+        this.recyclerViewClickListener = recyclerViewClickListener;
     }
 
     @NonNull
@@ -92,8 +98,8 @@ public class CategoryListAdapter
         // item view adapter and set its
         // adapter, layout manager and RecyclerViewPool
         TaskListAdapter childItemAdapter
-                = new TaskListAdapter(
-                parentItem.getTasks());
+                = new TaskListAdapter(this.context,
+                this.recyclerViewClickListener, parentItem.getTasks());
         parentViewHolder
                 .ChildRecyclerView
                 .setLayoutManager(layoutManager);
@@ -138,6 +144,8 @@ public class CategoryListAdapter
                     = itemView
                     .findViewById(
                             R.id.taskList);
+      //      itemView.setOnClickListener(this);
         }
+
     }
 }
