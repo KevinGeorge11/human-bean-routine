@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PreviousPuzzlesActivity extends AppCompatActivity {
 
     Puzzle puzzle1 = new Puzzle(1, "lavender", false, "res/drawable/lavender.jpg", true);
@@ -20,15 +23,16 @@ public class PreviousPuzzlesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_previous_puzzles);
 
         // create dynamic list of buttons
-        Puzzle[] puzzles = new Puzzle[2];
-        puzzles[0] = puzzle1;
-        puzzles[1] = puzzle2;
+        List<Puzzle> puzzles = new ArrayList<Puzzle>();
+        puzzles.add(puzzle1);
+        puzzles.add(puzzle2);
+
         LinearLayout ll = (LinearLayout)findViewById(R.id.llPuzzleList);
         LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
         // create a button for each completed puzzle
-        for(int i=0; i<puzzles.length; ++i) {
-            String text = puzzles[i].getName();
+        for(int i=0; i<puzzles.size(); ++i) {
+            String text = puzzles.get(i).getName();
             Button button = new Button(this);
             button.setText(text);
             ll.addView(button, lp);
@@ -38,7 +42,7 @@ public class PreviousPuzzlesActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(),PuzzleActivity.class);
-                    intent.putExtra("puzzleID", puzzles[id].getPuzzleID());
+                    intent.putExtra("puzzleID", puzzles.get(id).getPuzzleID());
                     startActivity(intent);
                 }
             });
