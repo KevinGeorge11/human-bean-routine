@@ -4,6 +4,13 @@
     <string name="puzzle">Puzzles</string>
     <string name="previous_puzzles">Previous Puzzles</string>
     <string name="current_puzzle">Current Puzzle</string>
-
+    <string-array name="encouraging_messages">
+        <item>Act as if what you do makes a difference. It does. - William James</item>
+        <item>Success is not final, failure is not fatal: it is the courage to continue that counts. - Winston Churchill</item>
+        <item>Believe you can and you are halfway there. - Theodore Roosevelt</item>
+        <item>Life is like riding a bicycle. To keep your balance, you must keep moving. - Albert Einstein</item>
+        <item>You are never too old to set another goal or to dream a new dream. - C.S. Lewis</item>
+        <item>If I cannot do great things, I can do small things in a great way. - Martin Luther King Jr.</item>
+    </string-array>
 
 </resources>
