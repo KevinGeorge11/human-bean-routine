@@ -116,11 +116,11 @@ public class PuzzleActivity extends AppCompatActivity {
             int min = 1;
             int max = 6;
             int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
-            String[] array = getResources().getStringArray(R.array.encouraging_messages);
-            message = array[randomNum];
+//            String[] array = getResources().getStringArray(R.array.encouraging_messages);
+//            message = array[randomNum];
         }
         
-        PuzzlePiece newPiece = new PuzzlePiece(xCoord, yCoord, edgeLength,  puzzleID, PuzzlePiece.PieceStatus.REVEALED)
+        PuzzlePiece newPiece = new PuzzlePiece(xCoord, yCoord, edgeLength,  puzzleID, PuzzlePiece.PieceStatus.REVEALED);
 
     }
 }
