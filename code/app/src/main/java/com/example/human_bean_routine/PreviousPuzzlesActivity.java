@@ -26,11 +26,22 @@ public class PreviousPuzzlesActivity extends AppCompatActivity {
         LinearLayout ll = (LinearLayout)findViewById(R.id.llPuzzleList);
         LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
+        // create a button for each completed puzzle
         for(int i=0; i<puzzles.length; ++i) {
             String text = puzzles[i].getName();
             Button button = new Button(this);
             button.setText(text);
             ll.addView(button, lp);
+            final int id = i;
+            // clicking will open the puzzle page with the old puzzle
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(),PuzzleActivity.class);
+                    intent.putExtra("puzzleID", puzzles[id].getPuzzleID());
+                    startActivity(intent);
+                }
+            });
         }
 
         // set navigation back to the current puzzle page
