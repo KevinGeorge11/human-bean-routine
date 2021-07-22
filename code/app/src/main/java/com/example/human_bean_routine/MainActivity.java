@@ -20,12 +20,20 @@ public class MainActivity extends AppCompatActivity {
 
         // Bottom navigation buttons
         BottomNavigationItemView miTasks = findViewById(R.id.miTasks);
+        BottomNavigationItemView miPuzzle = findViewById(R.id.miPuzzle);
 
         // Bottom navigation on click listeners
         miTasks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 navigate(TaskDashboard.class, miTasks);
+            }
+        });
+
+        miPuzzle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigate(PuzzleActivity.class, miPuzzle);
             }
         });
     }
