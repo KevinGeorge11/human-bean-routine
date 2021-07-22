@@ -26,22 +26,21 @@ public class MainActivity extends AppCompatActivity {
         miTasks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigate(TaskDashboard.class, miTasks);
+                navigate(new Intent(MainActivity.this, TaskDashboard.class), miTasks);
             }
         });
 
         miPuzzle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigate(PuzzleActivity.class, miPuzzle);
+                navigate(new Intent(MainActivity.this, PuzzleActivity.class), miPuzzle);
             }
         });
     }
 
-    /* navigates to the [activity] on clicking [menuItem] */
-    private void navigate(Class activity, BottomNavigationItemView menuItem) {
+    /* starts activity [intent] on clicking [menuItem] */
+    private void navigate(Intent intent, BottomNavigationItemView menuItem) {
         // TODO: make menuItem highlighted (change color)
-        Intent intent = new Intent(this, activity);
         startActivity(intent);
     }
 }
