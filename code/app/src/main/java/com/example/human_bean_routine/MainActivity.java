@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -16,22 +19,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Bottom navigation buttons
-        MenuItem miTasks = findViewById(R.id.miTasks);
-        MenuItem miPuzzle = findViewById(R.id.miPuzzle);
-        MenuItem miSettings = findViewById(R.id.miSettings);
+        BottomNavigationItemView miTasks = findViewById(R.id.miTasks);
 
         // Bottom navigation on click listeners
-        miTasks.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        miTasks.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            public void onClick(View v) {
                 navigate(TaskDashboard.class, miTasks);
-                return true;
             }
         });
     }
 
     /* navigates to the [activity] on clicking [menuItem] */
-    private void navigate(Class activity, MenuItem menuItem) {
+    private void navigate(Class activity, BottomNavigationItemView menuItem) {
         // TODO: make menuItem highlighted (change color)
         Intent intent = new Intent(this, activity);
         startActivity(intent);
