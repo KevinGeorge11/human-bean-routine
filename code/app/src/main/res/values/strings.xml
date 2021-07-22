@@ -7,6 +7,7 @@
     <string name="miTasksStr">Tasks</string>
     <string name="miPuzzleStr">Puzzles</string>
     <string name="miSettingsStr">Settings</string>
+    <string name="miCategoryStr">Categories</string>
     <string-array name="encouraging_messages">
         <item>Act as if what you do makes a difference. It does. - William James</item>
         <item>Success is not final, failure is not fatal: it is the courage to continue that counts. - Winston Churchill</item>

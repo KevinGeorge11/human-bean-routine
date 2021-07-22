@@ -4,6 +4,10 @@
         android:icon="@drawable/list_icon"
         android:title="@string/miTasksStr" />
     <item
+        android:id="@+id/miCategories"
+        android:icon="@drawable/category_icon"
+        android:title="@string/miCategoryStr" />
+    <item
         android:id="@+id/miPuzzle"
         android:icon="@drawable/puzzle_icon"
         android:title="@string/miPuzzleStr" />

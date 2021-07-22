@@ -1,15 +1,10 @@
 package com.example.human_bean_routine;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         // Bottom navigation buttons
         BottomNavigationItemView miTasks = findViewById(R.id.miTasks);
         BottomNavigationItemView miPuzzle = findViewById(R.id.miPuzzle);
+        BottomNavigationItemView miCategories = findViewById(R.id.miCategories);
 
         // Bottom navigation on click listeners
         miTasks.setOnClickListener(new View.OnClickListener() {
@@ -29,6 +25,14 @@ public class MainActivity extends AppCompatActivity {
                 navigate(new Intent(MainActivity.this, TaskDashboard.class), miTasks);
             }
         });
+
+/*
+        miCategories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigate(new Intent(MainActivity.this, CategoryActivity.class), miCategories);
+            }
+        });*/
 
         miPuzzle.setOnClickListener(new View.OnClickListener() {
             @Override
