@@ -13,6 +13,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Bottom navigation buttons
+        MenuItem miTasks = findViewById(R.id.miTasks);
+        MenuItem miPuzzle = findViewById(R.id.miPuzzle);
+        MenuItem miSettings = findViewById(R.id.miSettings);
+
+        
     }
 
     /* navigates to the [activity] on clicking [menuItem] */
