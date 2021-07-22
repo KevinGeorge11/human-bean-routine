@@ -90,7 +90,7 @@ public class PuzzleActivity extends AppCompatActivity {
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
         modal = new PopupWindow(popupView, width, height, focusable);
-        modal.showAtLocation(findViewById(R.id.taskList), Gravity.CENTER, 0, 0);
+        modal.showAtLocation(findViewById(R.id.ivPuzzle), Gravity.CENTER, 0, 0);
 
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -116,11 +116,11 @@ public class PuzzleActivity extends AppCompatActivity {
             int min = 1;
             int max = 6;
             int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
-            String[] array = getResources().getStringArray(R.array.encouraging_messages);
-            message = array[randomNum];
+//            String[] array = getResources().getStringArray(R.array.encouraging_messages);
+//            message = array[randomNum];
         }
         
-        PuzzlePiece newPiece = new PuzzlePiece(xCoord, yCoord, edgeLength,  puzzleID, PuzzlePiece.PieceStatus.REVEALED)
+        PuzzlePiece newPiece = new PuzzlePiece(xCoord, yCoord, edgeLength,  puzzleID, PuzzlePiece.PieceStatus.REVEALED);
 
     }
 }
