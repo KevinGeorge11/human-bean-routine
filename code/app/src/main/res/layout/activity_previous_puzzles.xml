@@ -39,14 +39,16 @@
         android:id="@+id/bCurrentPuzzle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="68dp"
         android:text="@string/current_puzzle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <ScrollView
+        android:layout_width="393dp"
+        android:layout_height="528dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
@@ -54,7 +56,9 @@
         app:layout_constraintBottom_toTopOf="@+id/bCurrentPuzzle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPuzzleHeader4">
+        app:layout_constraintTop_toBottomOf="@+id/tvPuzzleHeader4"
+        app:layout_constraintVertical_bias="0.038">
+
         <LinearLayout
             android:id="@+id/llPuzzleList"
             android:layout_width="match_parent"
