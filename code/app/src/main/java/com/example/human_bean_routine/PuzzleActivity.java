@@ -5,8 +5,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,12 +20,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PuzzleActivity extends AppCompatActivity {
 
-    ArrayList<Bitmap> pieces;
+//    ArrayList<Bitmap> pieces;
+    PuzzlePiece[] pieces = new PuzzlePiece[12];
     PopupWindow modal;
     int numPieces = 12;
     int rows = 4;
@@ -36,14 +41,24 @@ public class PuzzleActivity extends AppCompatActivity {
         final ConstraintLayout layout = findViewById(R.id.clPuzzleLayout);
         ImageView imageView = findViewById(R.id.ivPuzzle);
 
-        imageView.post(() -> {
-            pieces = splitImage();
-            for(Bitmap piece : pieces) {
-                ImageView iv = new ImageView(getApplicationContext());
-                iv.setImageBitmap(piece);
-                layout.addView(iv);
-            }
-        });
+        Puzzle currentPuzzle = new Puzzle(1, "lavender", false, "lavender", true);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        // prioritize puzzleRequest and replace current puzzle if not the same
+        int puzzleRequest = getIntent().getIntExtra("puzzleID", currentPuzzle.getPuzzleID()); //getCurrentPuzzle();
+        if(currentPuzzle.getPuzzleID() != puzzleRequest) {
+            currentPuzzle = new Puzzle(2, "mountain", false, "mountain_river", true);
+            //getPuzzle(puzzleRequest);
+        }
+
+        // replace image in imageView using the file path
+        int resID = getResources().getIdentifier(currentPuzzle.getImagePath(), "drawable", "com.example.human_bean_routine");
+        imageView.setImageResource(resID);
+
+        int tileHeight = imageView.getHeight() / rows;
+        int tileWidth = imageView.getWidth() / cols;
+//        pieces = getPuzzlePieces(currentPuzzle.getPuzzleID());
+
 
         Button previousPuzzles = findViewById(R.id.bPreviousPuzzles);
         previousPuzzles.setOnClickListener(v -> {
@@ -81,11 +96,24 @@ public class PuzzleActivity extends AppCompatActivity {
         return pieces;
     }
 
-    public void showPreviousPuzzleModal() {
-        LayoutInflater inflater = (LayoutInflater)
-                getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.old_puzzle_piece_modal, null);
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float touchX = event.getX();
+        float touchY = event.getY();
 
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+
+        }
+
+        return true;
+    }
+
+    public void generateBlackTiles() {
+
+    }
+
+    public void showPuzzleModal(View popupView) {
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
@@ -116,8 +144,8 @@ public class PuzzleActivity extends AppCompatActivity {
             int min = 1;
             int max = 6;
             int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
-//            String[] array = getResources().getStringArray(R.array.encouraging_messages);
-//            message = array[randomNum];
+            String[] array = getResources().getStringArray(R.array.encouraging_messages);
+            message = array[randomNum];
         }
         
         PuzzlePiece newPiece = new PuzzlePiece(xCoord, yCoord, edgeLength,  puzzleID, PuzzlePiece.PieceStatus.REVEALED);
