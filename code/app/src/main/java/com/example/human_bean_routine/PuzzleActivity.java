@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -105,6 +106,10 @@ public class PuzzleActivity extends AppCompatActivity {
         for(int i=0; i<pieces.length; ++i) {
             int x = (int)pieces[i].getxCoord()-1;
             int y = (int)pieces[i].getyCoord()-1;
+
+            GradientDrawable gd = new GradientDrawable();
+            gd.setStroke(1, 0xFFFFFFFF);
+
             Button button = new Button(this);
             button.setWidth(tileWidth);
             button.setHeight(tileHeight);
@@ -112,7 +117,8 @@ public class PuzzleActivity extends AppCompatActivity {
             button.setY(imageView.getY() + y*tileHeight);
 
             if(pieces[i].getStatus() == PuzzlePiece.PieceStatus.UNLOCKED) {
-                button.setBackgroundColor(getResources().getColor(R.color.dark_green));
+                gd.setColor(getResources().getColor(R.color.dark_green));
+                button.setBackground(gd);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -121,7 +127,8 @@ public class PuzzleActivity extends AppCompatActivity {
                     }
                 });
             } else if(pieces[i].getStatus() == PuzzlePiece.PieceStatus.REVEALED) {
-                button.setBackgroundColor(Color.TRANSPARENT);
+                gd.setColor(Color.TRANSPARENT);
+                button.setBackground(gd);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -131,7 +138,9 @@ public class PuzzleActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                button.setBackgroundColor(Color.BLACK);
+                gd.setColor(Color.BLACK);
+                button.setBackground(gd);
+//                button.setBackgroundColor(Color.BLACK);
             }
             overlay[i] = button;
             layout.addView(button);
@@ -175,6 +184,5 @@ public class PuzzleActivity extends AppCompatActivity {
         }
         
         PuzzlePiece newPiece = new PuzzlePiece(xCoord, yCoord, edgeLength,  puzzleID, PuzzlePiece.PieceStatus.REVEALED);
-
     }
 }
