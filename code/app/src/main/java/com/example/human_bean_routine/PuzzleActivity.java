@@ -26,7 +26,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PuzzleActivity extends AppCompatActivity {
 
-//    ArrayList<Bitmap> pieces;
     PuzzlePiece[] pieces = new PuzzlePiece[12];
     PopupWindow modal;
     int numPieces = 12;
@@ -69,13 +68,13 @@ public class PuzzleActivity extends AppCompatActivity {
 
     private ArrayList<Bitmap> splitImage() {
         ImageView imageView = findViewById(R.id.ivPuzzle);
-        ArrayList<Bitmap> pieces = new ArrayList<>(numPieces);
+        ArrayList<Bitmap> overlayPieces = new ArrayList<>(numPieces);
 
         // Get the bitmap of the source image
         BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
         Bitmap bitmap = drawable.getBitmap();
 
-        // Calculate the with and height of the pieces
+        // Calculate the width and height of the pieces
         int pieceWidth = bitmap.getWidth()/cols;
         int pieceHeight = bitmap.getHeight()/rows;
 
@@ -84,16 +83,16 @@ public class PuzzleActivity extends AppCompatActivity {
         for (int row = 0; row < rows; row++) {
             int x = 0;
             for (int col = 0; col < cols; col++) {
-//                int x = pieceWidth*row;
-//                int y = pieceHeight*col;
-                pieces.add(Bitmap.createBitmap(bitmap, x, y, pieceWidth, pieceHeight));
+                x = pieceWidth*row;
+                y = pieceHeight*col;
+                overlayPieces.add(Bitmap.createBitmap(bitmap, x, y, pieceWidth, pieceHeight));
 
                 x += pieceWidth;
             }
             y += pieceHeight;
         }
 
-        return pieces;
+        return overlayPieces;
     }
 
     @Override
