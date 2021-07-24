@@ -4,6 +4,7 @@
     <string name="puzzle">Puzzles</string>
     <string name="previous_puzzles">Previous Puzzles</string>
     <string name="current_puzzle">Current Puzzle</string>
+    <string name="completed_puzzles">Completed Puzzles</string>
     <string-array name="encouraging_messages">
         <item>Act as if what you do makes a difference. It does. - William James</item>
         <item>Success is not final, failure is not fatal: it is the courage to continue that counts. - Winston Churchill</item>
