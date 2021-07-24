@@ -3,6 +3,7 @@ package com.example.human_bean_routine;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,8 @@ public class PreviousPuzzlesActivity extends AppCompatActivity {
             String text = puzzles.get(i).getName();
             Button button = new Button(this);
             button.setText(text);
+            button.setBackgroundColor(Color.WHITE);
+            lp.setMargins(30,30,30,0);
             ll.addView(button, lp);
             final int id = i;
             // clicking will open the puzzle page with the old puzzle
