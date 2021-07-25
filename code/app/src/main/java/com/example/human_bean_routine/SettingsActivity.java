@@ -22,8 +22,10 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bnvMenu);
+        navigation.setSelectedItemId(R.id.miSettings);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
