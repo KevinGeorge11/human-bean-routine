@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
             // TODO: add method to populate preferences
             editor.putBoolean(launched, true);
             editor.apply();
+            // TODO: show a startup screen
             // Intent intent = new Intent((MainActivity.this, CategoriesSetupActivity));
             // startActivity(intent);
         }
