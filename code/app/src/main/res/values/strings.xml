@@ -16,5 +16,6 @@
         <item>You are never too old to set another goal or to dream a new dream. - C.S. Lewis</item>
         <item>If I cannot do great things, I can do small things in a great way. - Martin Luther King Jr.</item>
     </string-array>
+    <string name="title_activity_settings">ScrollingActivity</string>
 
 </resources>
