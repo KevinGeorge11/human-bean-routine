@@ -8,16 +8,17 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="387dp"
+        android:layout_width="350dp"
         android:layout_height="405dp">
 
         <TextView
-            android:id="@+id/tvInstruction"
-            android:layout_width="340dp"
+            android:id="@+id/tvReason"
+            android:layout_width="280dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="4dp"
+            android:layout_marginHorizontal="20dp"
             android:text="You received this puzzle piece because"
             android:textAlignment="center"
             android:textColor="@color/white"
@@ -27,19 +28,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDateCompleted" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </RelativeLayout>
-
         <TextView
             android:id="@+id/tvDateCompleted"
-            android:layout_width="340dp"
-            android:layout_height="50dp"
+            android:layout_width="280dp"
+            android:layout_height="49dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="120dp"
+            android:layout_marginEnd="20dp"
             android:text="Date"
             android:textAlignment="center"
             android:textColor="@color/white"
@@ -52,8 +49,10 @@
 
         <TextView
             android:id="@+id/tvMessage"
-            android:layout_width="343dp"
-            android:layout_height="89dp"
+            android:layout_width="280dp"
+            android:layout_height="86dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:background="#CAD2C5"
             android:gravity="center_vertical"
             android:text="Encouraging message"
@@ -63,18 +62,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.489"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvInstruction"
+            app:layout_constraintTop_toBottomOf="@+id/tvReason"
             app:layout_constraintVertical_bias="0.206" />
 
         <Button
             android:id="@+id/bClose"
-            android:layout_width="340dp"
-            android:layout_height="wrap_content"
+            android:layout_width="280dp"
+            android:layout_height="48dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:backgroundTint="#84A98C"
-            android:onClick="closeButton"
+            android:onClick="close"
             android:text="Close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -82,13 +81,14 @@
 
         <ImageView
             android:id="@+id/ivPuzzlePreview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="59dp"
+            android:layout_height="81dp"
             app:layout_constraintBottom_toTopOf="@+id/tvDateCompleted"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_gallery" />
+            app:srcCompat="@drawable/plugin" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
