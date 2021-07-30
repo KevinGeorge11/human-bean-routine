@@ -16,6 +16,7 @@ import androidx.core.app.ComponentActivity;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Switch;
 
 import com.example.human_bean_routine.databinding.ActivitySettingsBinding;
 
@@ -53,9 +54,11 @@ public class SettingsActivity extends AppCompatActivity {
                 Context.MODE_PRIVATE);
         // SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        // Get settings value
+        // confirm before delete settings
         Boolean confirmBeforeDelete =
                 sh.getBoolean(String.valueOf(R.string.confirmBeforeDelete), true);
+        Switch switchConfirmDelete = findViewById(R.id.switchConfirmDelete);
+        switchConfirmDelete.setChecked(confirmBeforeDelete);
 
     }
 }
