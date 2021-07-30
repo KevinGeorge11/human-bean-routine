@@ -65,6 +65,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 editor.putBoolean(String.valueOf(R.string.confirmBeforeDelete), isChecked);
+                editor.apply();
             }
         });
 
