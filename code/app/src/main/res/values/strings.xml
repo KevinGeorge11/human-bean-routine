@@ -17,5 +17,10 @@
         <item>If I cannot do great things, I can do small things in a great way. - Martin Luther King Jr.</item>
     </string-array>
     <string name="title_activity_settings">ScrollingActivity</string>
+    
+    <!-- Shared Preferences Keys -->
+    <string name="hbrPrefs">hbrPreferences</string>
+    <string name="launched">launched</string>
+    <string name="confirmBeforeDelete">confirmBeforeDelete</string>
 
 </resources>
