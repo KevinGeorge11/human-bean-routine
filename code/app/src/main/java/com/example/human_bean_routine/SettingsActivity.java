@@ -1,6 +1,8 @@
 package com.example.human_bean_routine;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -44,6 +46,16 @@ public class SettingsActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
+        // Get shared preferences (settings)
+        SharedPreferences sh = getSharedPreferences(String.valueOf(R.string.hbrPrefs),
+                Context.MODE_PRIVATE);
+        // SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // Get settings value
+        Boolean confirmBeforeDelete =
+                sh.getBoolean(String.valueOf(R.string.confirmBeforeDelete), true);
 
     }
 }
