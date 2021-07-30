@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(String.valueOf(R.string.hbrPrefs),
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        
+
         // Check if first launch or not
         if (sharedPreferences.contains(String.valueOf(R.string.launched))) {
             //Handler to count down 2 sec before changing screens
