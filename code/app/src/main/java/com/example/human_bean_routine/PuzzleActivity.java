@@ -4,36 +4,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
+import static java.util.Objects.nonNull;
 
 public class PuzzleActivity extends AppCompatActivity {
 
     PuzzlePiece[] pieces = new PuzzlePiece[12];
+    Puzzle currentPuzzle;
+    EditText editText;
 
     PopupWindow modal;
-    int numPieces = 12;
     int rows = 4;
     int cols = 3;
+
     PuzzlePiece p1 = new PuzzlePiece(1, 1, 1, 10, 1, PuzzlePiece.PieceStatus.REVEALED, "August 12", 5, "Great job me!");
     PuzzlePiece p2 = new PuzzlePiece(2, 2, 1, 10, 1, PuzzlePiece.PieceStatus.UNLOCKED, "August 12", 5, "Great job me!");
     PuzzlePiece p3 = new PuzzlePiece(3, 3, 1, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
@@ -52,10 +51,11 @@ public class PuzzleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle);
 
-        final ConstraintLayout layout = findViewById(R.id.clPuzzleLayout);
+//        final ConstraintLayout layout = findViewById(R.id.clPuzzleLayout);
         ImageView imageView = findViewById(R.id.ivPuzzle);
+//        RequestQueue queue = Volley.newRequestQueue(this);
 
-        Puzzle currentPuzzle = new Puzzle(1, "lavender", false, "lavender", true);
+        currentPuzzle = new Puzzle(1, "lavender", false, "lavender", true);
 
         // prioritize puzzleRequest and replace current puzzle if not the same
         int puzzleRequest = getIntent().getIntExtra("puzzleID", currentPuzzle.getPuzzleID()); //getCurrentPuzzle();
@@ -83,6 +83,12 @@ public class PuzzleActivity extends AppCompatActivity {
         pieces[10] = p11;
         pieces[11] = p12;
 
+        int currentTasks = 4; //call database
+        TextView currentCompletedTasks = findViewById(R.id.tvNumCurrentTasks);
+        ProgressBar progress = findViewById(R.id.pbNumCurrentTasks);
+        progress.setProgress(20*currentTasks);
+        currentCompletedTasks.setText(String.valueOf(currentTasks));
+
         Button previousPuzzles = findViewById(R.id.bPreviousPuzzles);
         previousPuzzles.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(), PreviousPuzzlesActivity.class);
@@ -91,98 +97,134 @@ public class PuzzleActivity extends AppCompatActivity {
     }
 
     @Override
+//    public void onAttachedToWindow() {
     public void onWindowFocusChanged(boolean hasFocus) {
+        Log.d("PuzzleActivity", "WINDOW FOCUS CHANGED");
         // create puzzle piece buttons here since imageView's getHeight() and getWidth()
         // can't be used in onCreate
         final ConstraintLayout layout = findViewById(R.id.clPuzzleLayout);
         ImageView imageView = findViewById(R.id.ivPuzzle);
-        Button[] overlay = new Button[12];
+        if(nonNull(imageView)) {
+            Button[] overlay = new Button[12];
 
-        int tileHeight = imageView.getHeight() / rows;
-        int tileWidth = imageView.getWidth() / cols;
+            int tileHeight = imageView.getHeight() / rows;
+            int tileWidth = imageView.getWidth() / cols;
 
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+            for (int i = 0; i < pieces.length; ++i) {
+                int x = (int) pieces[i].getxCoord() - 1;
+                int y = (int) pieces[i].getyCoord() - 1;
 
-        for(int i=0; i<pieces.length; ++i) {
-            int x = (int)pieces[i].getxCoord()-1;
-            int y = (int)pieces[i].getyCoord()-1;
+                GradientDrawable gd = new GradientDrawable();
+                gd.setStroke(1, 0xFFFFFFFF);
 
-            GradientDrawable gd = new GradientDrawable();
-            gd.setStroke(1, 0xFFFFFFFF);
+                Button button = new Button(this);
+                button.setWidth(tileWidth);
+                button.setHeight(tileHeight);
+                button.setX(imageView.getX() + x * tileWidth);
+                button.setY(imageView.getY() + y * tileHeight);
 
-            Button button = new Button(this);
-            button.setWidth(tileWidth);
-            button.setHeight(tileHeight);
-            button.setX(imageView.getX() + x*tileWidth);
-            button.setY(imageView.getY() + y*tileHeight);
-
-            if(pieces[i].getStatus() == PuzzlePiece.PieceStatus.UNLOCKED) {
-                gd.setColor(getResources().getColor(R.color.dark_green));
-                button.setBackground(gd);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        View popupView = inflater.inflate(R.layout.completed_puzzle_piece_modal, null);
-                        showPuzzleModal(popupView);
-                    }
-                });
-            } else if(pieces[i].getStatus() == PuzzlePiece.PieceStatus.REVEALED) {
-                gd.setColor(Color.TRANSPARENT);
-                button.setBackground(gd);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d("PuzzleActivity", "clicked revealed piece");
-                        View popupView = inflater.inflate(R.layout.old_puzzle_piece_modal, null);
-                        showPuzzleModal(popupView);
-                    }
-                });
-            } else {
-                gd.setColor(Color.BLACK);
-                button.setBackground(gd);
-//                button.setBackgroundColor(Color.BLACK);
+                if (pieces[i].getStatus() == PuzzlePiece.PieceStatus.UNLOCKED) {
+                    final PuzzlePiece p = pieces[i];
+                    final int idx = i;
+                    gd.setColor(getResources().getColor(R.color.dark_green));
+                    button.setBackground(gd);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showPuzzleModal(p);
+                            gd.setColor(Color.TRANSPARENT);
+                            overlay[idx].setBackground(gd);
+                        }
+                    });
+                } else if (pieces[i].getStatus() == PuzzlePiece.PieceStatus.REVEALED) {
+                    final PuzzlePiece p = pieces[i];
+                    gd.setColor(Color.TRANSPARENT);
+                    button.setBackground(gd);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showPuzzleModal(p);
+                        }
+                    });
+                } else {
+                    gd.setColor(Color.BLACK);
+                    button.setBackground(gd);
+                }
+                overlay[i] = button;
+                layout.addView(button);
             }
-            overlay[i] = button;
-            layout.addView(button);
+            imageView.setVisibility(View.VISIBLE);
         }
-        imageView.setVisibility(View.VISIBLE);
     }
 
-    public void showPuzzleModal(View popupView) {
+    public void showPuzzleModal(PuzzlePiece p) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        int layout = (p.getStatus() == PuzzlePiece.PieceStatus.REVEALED) ? R.layout.old_puzzle_piece_modal : R.layout.completed_puzzle_piece_modal;
+        View popupView = inflater.inflate(layout, null);
+
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
+        boolean focusable = true;//(p.getStatus() == PuzzlePiece.PieceStatus.REVEALED) ? true : false; // lets taps outside the popup also dismiss it
         modal = new PopupWindow(popupView, width, height, focusable);
+        modal.setBackgroundDrawable(null);
         modal.showAtLocation(findViewById(R.id.ivPuzzle), Gravity.CENTER, 0, 0);
+        modal.setOutsideTouchable(false);
 
-        popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                modal.dismiss();
-                return true;
-            }
-        });
+        if(p.getStatus() == PuzzlePiece.PieceStatus.REVEALED) {
+            TextView encouragingMessage = (TextView) modal.getContentView().findViewById(R.id.tvMessage);
+            encouragingMessage.setText(p.getUserMessage());
+            TextView reason = (TextView) modal.getContentView().findViewById(R.id.tvReason);
+            reason.setText(p.generateUnlockMessage());
+            TextView date = (TextView) modal.getContentView().findViewById(R.id.tvDateCompleted);
+            date.setText(p.getDateUnlocked());
+        } else {
+//            modal.setFocusable(false);
+            p.setStatus(PuzzlePiece.PieceStatus.REVEALED);
+            Button b = modal.getContentView().findViewById(R.id.bSave);
+            editText = modal.getContentView().findViewById(R.id.etNote);
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    saveMessage(v, p);
+                    checkComplete(v);
+                }
+            });
+        }
     }
 
     // saveMessage takes the text from the etNote textbox and updates the database
     // so that puzzle pieces will have an associated message
-    public void saveMessage(View view) {
+    public void saveMessage(View view, PuzzlePiece piece) {
         int xCoord = 1;
         int yCoord = 1;
         int edgeLength = 1;
-        int puzzleID = 1;
+        int puzzleID = 2;
 
-        EditText editText = findViewById(R.id.etNote);
         String message = editText.getText().toString();
-
-        if(message.matches("")) { // if user doesn't input a message, choose a random one
+        if(message.isEmpty()) { // if user doesn't input a message, choose a random one
             int min = 1;
-            int max = 6;
+            int max = 5;
             int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
             String[] array = getResources().getStringArray(R.array.encouraging_messages);
             message = array[randomNum];
         }
-        
+        close(view);
+
         PuzzlePiece newPiece = new PuzzlePiece(xCoord, yCoord, edgeLength,  puzzleID, PuzzlePiece.PieceStatus.REVEALED);
+        piece.setUserMessage(message);
+    }
+
+    public void close(View view) {
+        this.modal.dismiss();
+    }
+
+    public boolean checkComplete(View v) {
+        for(int i=0; i<pieces.length; ++i) {
+            if(pieces[i].getStatus() != PuzzlePiece.PieceStatus.REVEALED) {
+                return false;
+            }
+        }
+        currentPuzzle.setComplete(true);
+        return true;
     }
 }
