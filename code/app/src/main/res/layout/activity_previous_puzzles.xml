@@ -4,36 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#CAD2C5"
     tools:context=".PreviousPuzzlesActivity">
-
-    <TextView
-        android:id="@+id/tvPuzzleHeader4"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="#52856F"
-        android:gravity="center"
-        android:lineSpacingExtra="20sp"
-        android:text="@string/puzzle"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imgPuzzle2"
-        android:layout_width="46dp"
-        android:layout_height="42dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="start"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:foreground="@drawable/plugin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
 
     <Button
         android:id="@+id/bCurrentPuzzle"
@@ -48,19 +20,16 @@
 
     <ScrollView
         android:id="@+id/svPuzzleList"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="350dp"
+        android:layout_height="518dp"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="64dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="8dp"
         android:background="#E7F0E1"
         app:layout_constraintBottom_toTopOf="@+id/bCurrentPuzzle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPuzzleHeader4"
-        app:layout_constraintVertical_bias="0.797">
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:id="@+id/llPuzzleList"
