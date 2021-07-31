@@ -4,39 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PuzzleActivity"
-    android:id="@+id/clPuzzleLayout">
+    android:id="@+id/clPuzzleLayout"
+    android:background="#CAD2C5"
+    tools:context=".PuzzleActivity">
+
+    <ProgressBar
+        android:id="@+id/pbNumCurrentTasks"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="64dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/circle_shape"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="60"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvPuzzleHeader"
-        android:layout_width="0dp"
-        android:layout_height="67dp"
-        android:background="#52856F"
-        android:gravity="center"
-        android:lineSpacingExtra="20sp"
-        android:text="@string/puzzle"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <ImageView
-        android:id="@+id/ivPuzzleIcon"
-        android:layout_width="46dp"
-        android:layout_height="42dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="start"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:foreground="@drawable/plugin"
-        tools:ignore="ContentDescription"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/tvNumCurrentTasks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3"
+        android:textSize="20dp"
+        android:textColor="@color/dark_green"
+        app:layout_constraintBottom_toBottomOf="@+id/pbNumCurrentTasks"
+        app:layout_constraintEnd_toEndOf="@+id/pbNumCurrentTasks"
+        app:layout_constraintStart_toStartOf="@+id/pbNumCurrentTasks"
+        app:layout_constraintTop_toTopOf="@+id/pbNumCurrentTasks" />
 
     <Button
         android:id="@+id/bPreviousPuzzles"
@@ -50,18 +47,13 @@
 
     <ImageView
         android:id="@+id/ivPuzzle"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="369dp"
+        android:layout_height="477dp"
+        android:layout_marginBottom="20dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/bPreviousPuzzles"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPuzzleHeader"
-        app:layout_constraintVertical_bias="0.04"
         app:srcCompat="@drawable/lavender" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
