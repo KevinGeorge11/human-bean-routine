@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -18,7 +19,10 @@ import java.util.List;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     // Database Name
-    public static final String DATABASE_NAME = "humanBeanRoutine.db";
+    private static final String DATABASE_NAME = "humanBeanRoutine.db";
+
+    // Database Version
+    private static final int DATABASE_VERSION = 1;
 
     // Table Names
     public static final String TASKS_TABLE = "tasks";
@@ -35,7 +39,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     // Column names of TASKS table
     public static final String TASK_DESCRIPTION = "description";
-    public static final String TASK_CATEGORY = "category";
+    public static final String TASK_CATEGORY_ID = "category_id";
     public static final String TASK_START_DATE = "start_date";
     public static final String TASK_START_TIME = "start_time";
     public static final String TASK_END_DATE = "end_date";
@@ -50,11 +54,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String PIECE_PUZZLE_ID = "puzzle_id";
 
     // TASKS table create statement
-    public static final String createTaskTableStatement = "CREATE TABLE " + TASKS_TABLE + " ( "
+    private static final String createTaskTableStatement = "CREATE TABLE " + TASKS_TABLE + " ( "
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KEY_NAME + " TEXT, "
             + TASK_DESCRIPTION + " TEXT, "
-            + TASK_CATEGORY + " TEXT, "
+            + TASK_CATEGORY_ID + " INTEGER, "
             + TASK_START_DATE + " TEXT, "
             + TASK_START_TIME + " TEXT, "
             + TASK_END_DATE + " TEXT, "
@@ -65,13 +69,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             + TASK_COMPLETE + " BOOL )";
 
     // Category table create statement
-    public static final String createCategoryTableStatement = "CREATE TABLE " + CATEGORIES_TABLE + " ( "
-            + KEY_NAME + " TEXT PRIMARY KEY, "
+    private static final String createCategoryTableStatement = "CREATE TABLE " + CATEGORIES_TABLE + " ( "
+            + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + KEY_NAME + " TEXT, "
             + KEY_IMAGE_PATH + " TEXT, "
             + KEY_ACTIVE + " BOOL )";
 
     // Puzzle table create statement
-    public static final String createPuzzleTableStatement = "CREATE TABLE " + PUZZLES_TABLE + " ( "
+    private static final String createPuzzleTableStatement = "CREATE TABLE " + PUZZLES_TABLE + " ( "
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KEY_NAME + " TEXT, "
             + KEY_IMAGE_PATH + " TEXT, "
@@ -79,7 +84,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             + KEY_COMPLETE + " BOOL )";
 
     // Pieces table create statement
-    public static final String createPiecesTableStatement = "CREATE TABLE " + PIECES_TABLE + " ( "
+    private static final String createPiecesTableStatement = "CREATE TABLE " + PIECES_TABLE + " ( "
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KEY_NAME + " TEXT, "
             + PIECE_STATUS + " TEXT, "
@@ -87,7 +92,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public DataBaseHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -96,6 +101,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(createCategoryTableStatement);
         db.execSQL(createPuzzleTableStatement);
         db.execSQL(createPiecesTableStatement);
+
+        // TODO populate initial puzzles
     }
 
     @Override
@@ -108,7 +115,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         cv.put(KEY_NAME, task.getName());
         cv.put(TASK_DESCRIPTION, task.getDescription());
-        cv.put(TASK_CATEGORY, task.getCategory());
+        cv.put(TASK_CATEGORY_ID, task.getCategory());
         cv.put(TASK_START_DATE, task.getStartDate());
         cv.put(TASK_START_TIME, task.getStartTime());
         cv.put(TASK_END_DATE, task.getEndDate());
@@ -119,6 +126,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(TASK_COMPLETE, task.getComplete());
 
         long insert = db.insert(TASKS_TABLE, null, cv);
+        Log.d("dbhelper", "Succesfully added: " + String.valueOf(insert));
 
         if (insert == -1) { // unsuccessful insertion
             return false;
@@ -131,7 +139,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         cv.put(KEY_NAME, task.getName());
         cv.put(TASK_DESCRIPTION, task.getDescription());
-        cv.put(TASK_CATEGORY, task.getCategory());
+        cv.put(TASK_CATEGORY_ID, task.getCategory());
         cv.put(TASK_START_DATE, task.getStartDate());
         cv.put(TASK_START_TIME, task.getStartTime());
         cv.put(TASK_END_DATE, task.getEndDate());
@@ -161,7 +169,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 int taskID = cursor.getInt(cursor.getColumnIndex(KEY_ID));
                 String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
                 String description = cursor.getString(cursor.getColumnIndex(TASK_DESCRIPTION));
-                String category = cursor.getString(cursor.getColumnIndex(TASK_CATEGORY));
+                String category = cursor.getString(cursor.getColumnIndex(TASK_CATEGORY_ID));
                 String startDate  = cursor.getString(cursor.getColumnIndex(TASK_START_DATE));
                 String startTime = cursor.getString(cursor.getColumnIndex(TASK_START_TIME));
                 String endDate = cursor.getString(cursor.getColumnIndex(TASK_END_DATE));
@@ -181,12 +189,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public int deleteTask(int taskId) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         int delete = db.delete(TASKS_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(taskId)});
-
         return delete;
     }
-
 
     public boolean addCategory(Category category) {
         ContentValues cv = new ContentValues();
@@ -242,12 +247,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public int deleteCategory(String categoryName) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         int delete = db.delete(CATEGORIES_TABLE, KEY_NAME + " = ?", new String[]{String.valueOf(categoryName)});
-
         return delete;
     }
-
 
     public boolean addPuzzle(Puzzle puzzle) {
         ContentValues cv = new ContentValues();
@@ -278,7 +280,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(KEY_ACTIVE, puzzle.getActive());
         cv.put(KEY_COMPLETE, puzzle.getComplete());
 
-        int update = db.update(TASKS_TABLE, cv, KEY_NAME + " = ?", new String[] { String.valueOf(puzzle.getName()) });
+        int update = db.update(PUZZLES_TABLE, cv, KEY_ID + " = ?", new String[] { String.valueOf(puzzle.getPuzzleID()) });
         // update() returns the number of rows affected
 
         return update;
@@ -313,5 +315,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         int delete = db.delete(PUZZLES_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(puzzleId)});
 
         return delete;
+    }
+
+    public void clearTasksTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TASKS_TABLE);
+        db.execSQL(createTaskTableStatement);
+    }
+    public void clearCategoriesTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + CATEGORIES_TABLE);
+        db.execSQL(createCategoryTableStatement);
+    }
+    public void clearPiecesTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + PIECES_TABLE);
+        db.execSQL(createPiecesTableStatement);
+    }
+    public void clearPuzzlesTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + PUZZLES_TABLE);
+        db.execSQL(createPuzzleTableStatement);
     }
 }
