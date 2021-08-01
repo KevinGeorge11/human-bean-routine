@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">human-bean-routine</string>
-
     <string name="puzzle">Puzzles</string>
     <string name="previous_puzzles">Previous Puzzles</string>
     <string name="current_puzzle">Current Puzzle</string>
@@ -12,5 +11,11 @@
         <item>You are never too old to set another goal or to dream a new dream. - C.S. Lewis</item>
         <item>If I cannot do great things, I can do small things in a great way. - Martin Luther King Jr.</item>
     </string-array>
-
+    <string name="choose_categories">Choose categories:</string>
+    <string name="category_mental_health">Mental Health</string>
+    <string name="category_sleep">Sleep</string>
+    <string name="category_exercise">Exercise</string>
+    <string name="category_food">Food</string>
+    <string name="category_medicine">Medicine</string>
+    <string name="category_assets">Assets</string>
 </resources>
