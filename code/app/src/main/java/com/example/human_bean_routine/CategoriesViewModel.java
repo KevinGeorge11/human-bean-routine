@@ -63,6 +63,12 @@ public class CategoriesViewModel {
         // TODO: save edited category in database
     }
 
+    public void deleteCategory(Category deletedCategory) {
+        categories.remove(deletedCategory);
+
+        // TODO: delete category from database
+    }
+
 
     public void removeInactiveCategories() {
         for(Category category : categories) {
