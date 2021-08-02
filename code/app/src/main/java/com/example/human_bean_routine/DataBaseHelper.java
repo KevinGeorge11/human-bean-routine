@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.method.SingleLineTransformationMethod;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -17,6 +19,8 @@ import java.util.List;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
+    private static DataBaseHelper dbInstance;
+
     // Database Name
     private static final String DATABASE_NAME = "humanBeanRoutine.db";
 
@@ -28,9 +32,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String CATEGORIES_TABLE = "categories";
     public static final String PUZZLES_TABLE = "puzzles";
     public static final String PIECES_TABLE = "pieces";
+    public static final String SINGLE_VALUES_TABLE = "single_values";
 
     // Common column names
     public static final String KEY_ID = "id";
+    public static final String KEY_VALUE = "value";
     public static final String KEY_NAME = "name";
     public static final String KEY_COMPLETE = "complete";
     public static final String KEY_ACTIVE = "active";
@@ -49,8 +55,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String TASK_COMPLETE = "complete";
 
     // Column names of PIECES table
-    public static final String PIECE_STATUS = "status";
+    public static final String PIECE_X_COORD = "x_coord";
+    public static final String PIECE_Y_COORD = "y_coord";
+    public static final String PIECE_EDGE_LENGTH = "edge_length";
     public static final String PIECE_PUZZLE_ID = "puzzle_id";
+    public static final String PIECE_STATUS = "status";
+    public static final String PIECE_DATE_UNLOCKED = "date_unlocked";
+    public static final String PIECE_TASKS_COMPLETED = "tasks_completed";
+    public static final String PIECE_USER_MESSAGE = "user_message";
+
+    // Values for SINGLE_VALUES table
+    public static final String CURRENT_TASKS =  "current_tasks";
 
     // TASKS table create statement
     private static final String createTaskTableStatement = "CREATE TABLE " + TASKS_TABLE + " ( "
@@ -78,17 +93,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String createPuzzleTableStatement = "CREATE TABLE " + PUZZLES_TABLE + " ( "
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KEY_NAME + " TEXT, "
-            + KEY_IMAGE_PATH + " TEXT, "
             + KEY_ACTIVE + " BOOL, "
+            + KEY_IMAGE_PATH + " TEXT, "
             + KEY_COMPLETE + " BOOL )";
 
     // Pieces table create statement
     private static final String createPiecesTableStatement = "CREATE TABLE " + PIECES_TABLE + " ( "
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + KEY_NAME + " TEXT, "
+            + PIECE_X_COORD + " INTEGER, "
+            + PIECE_Y_COORD + " INTEGER, "
+            + PIECE_EDGE_LENGTH + " INTEGER, "
+            + PIECE_PUZZLE_ID + " INTEGER, "
             + PIECE_STATUS + " TEXT, "
-            + PIECE_PUZZLE_ID + " INTEGER )";
+            + PIECE_DATE_UNLOCKED + " TEXT, "
+            + PIECE_TASKS_COMPLETED + " INTEGER, "
+            + PIECE_USER_MESSAGE + " TEXT )";
 
+    private static final String createSingleValuesTableStatement = "CREATE TABLE " + SINGLE_VALUES_TABLE + " ( "
+            + KEY_ID + " TEXT PRIMARY KEY, "
+            + KEY_VALUE + " TEXT )";
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -100,12 +123,183 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(createCategoryTableStatement);
         db.execSQL(createPuzzleTableStatement);
         db.execSQL(createPiecesTableStatement);
+        db.execSQL(createSingleValuesTableStatement);
+
+        ContentValues cv = new ContentValues();
+//        cv.put(KEY_ID, CURRENT_TASKS);
+//        cv.put(KEY_VALUE, 0);
+//        db.insert(SINGLE_VALUES_TABLE, null, cv);
 
         // TODO populate initial puzzles
+
+        // Temporary coding for default values
+        cv.put(KEY_ID, CURRENT_TASKS);
+        cv.put(KEY_VALUE, 4);
+        db.insert(SINGLE_VALUES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(KEY_NAME, "lavender");
+        cv.put(KEY_ACTIVE, false);
+        cv.put(KEY_IMAGE_PATH, "lavender");
+        cv.put(KEY_COMPLETE, true);
+        db.insert(PUZZLES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(KEY_NAME, "mountain");
+        cv.put(KEY_ACTIVE, false);
+        cv.put(KEY_IMAGE_PATH, "mountain_river");
+        cv.put(KEY_COMPLETE, true);
+        db.insert(PUZZLES_TABLE, null, cv);
+
+        // all pieces
+        cv.clear();
+        cv.put(PIECE_X_COORD, 1);
+        cv.put(PIECE_Y_COORD, 1);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.REVEALED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 11");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+//        db.insert(PIECES_TABLE, null, cv);        Log.d("DataBaseHelper", "Initialized database");
+        Log.d("DataBaseHelper", "Added piece " + db.insert(PIECES_TABLE, null, cv));
+
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 2);
+        cv.put(PIECE_Y_COORD, 1);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.UNLOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 11");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 3);
+        cv.put(PIECE_Y_COORD, 1);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 11");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 1);
+        cv.put(PIECE_Y_COORD, 2);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 2);
+        cv.put(PIECE_Y_COORD, 2);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 3);
+        cv.put(PIECE_Y_COORD, 2);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 1);
+        cv.put(PIECE_Y_COORD, 3);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 2);
+        cv.put(PIECE_Y_COORD, 3);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 3);
+        cv.put(PIECE_Y_COORD, 3);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 1);
+        cv.put(PIECE_Y_COORD, 4);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 2);
+        cv.put(PIECE_Y_COORD, 4);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 3);
+        cv.put(PIECE_Y_COORD, 4);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+//        String query = "INSERT INTO " + PIECES_TABLE + "(x_coord, y_coord, edge_length, puzzle_id, status, date_unlocked, tasks_completed, user_message)";
+
+        Log.d("DataBaseHelper", "Initialized database");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+    }
+
+    public static synchronized DataBaseHelper getDbInstance(Context context) {
+        if (dbInstance == null) {
+            dbInstance = new DataBaseHelper(context.getApplicationContext());
+        }
+        return dbInstance;
     }
 
     public boolean addTask(Task task) {
@@ -126,7 +320,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         long insert = db.insert(TASKS_TABLE, null, cv);
 
-        // unsuccessful insertion
         return insert != -1;
     }
 
@@ -243,17 +436,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean addPuzzle(Puzzle puzzle) {
         ContentValues cv = new ContentValues();
 
-        cv.put(KEY_ID, puzzle.getPuzzleID());
         cv.put(KEY_NAME, puzzle.getName());
-        cv.put(KEY_IMAGE_PATH, puzzle.getImagePath());
         cv.put(KEY_ACTIVE, puzzle.getActive());
+        cv.put(KEY_IMAGE_PATH, puzzle.getImagePath());
         cv.put(KEY_COMPLETE, puzzle.getComplete());
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         long insert = db.insert(PUZZLES_TABLE, null, cv);
 
-        // unsuccessful insertion
+        // TODO create pieces
+
         return insert != -1;
     }
 
@@ -263,8 +456,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         cv.put(KEY_ID, puzzle.getPuzzleID());
         cv.put(KEY_NAME, puzzle.getName());
-        cv.put(KEY_IMAGE_PATH, puzzle.getImagePath());
         cv.put(KEY_ACTIVE, puzzle.getActive());
+        cv.put(KEY_IMAGE_PATH, puzzle.getImagePath());
         cv.put(KEY_COMPLETE, puzzle.getComplete());
 
         // Returns the number of rows affected
@@ -274,7 +467,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public List<Puzzle> getAllPuzzles() {
         List<Puzzle> puzzles = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + CATEGORIES_TABLE;
+        String query = "SELECT * FROM " + PUZZLES_TABLE;
 
         Cursor cursor = db.rawQuery(query, null);
 
@@ -282,8 +475,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             do {
                 int puzzleID = cursor.getInt(cursor.getColumnIndex(KEY_ID));
                 String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
-                String imagePath = cursor.getString(cursor.getColumnIndex(KEY_IMAGE_PATH));
                 Boolean active = cursor.getInt(cursor.getColumnIndex(KEY_ACTIVE)) == 1;
+                String imagePath = cursor.getString(cursor.getColumnIndex(KEY_IMAGE_PATH));
                 Boolean complete = cursor.getInt(cursor.getColumnIndex(KEY_COMPLETE)) == 1;
 
                 Puzzle p = new Puzzle(puzzleID, name, active, imagePath, complete);
@@ -295,10 +488,175 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return puzzles;
     }
 
+    public List<Puzzle> getCompletedPuzzles() {
+        List<Puzzle> puzzles = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + PUZZLES_TABLE + " WHERE " + KEY_COMPLETE + " = 1";
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int puzzleID = cursor.getInt(cursor.getColumnIndex(KEY_ID));
+                String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
+                Boolean active = cursor.getInt(cursor.getColumnIndex(KEY_ACTIVE)) == 1;
+                String imagePath = cursor.getString(cursor.getColumnIndex(KEY_IMAGE_PATH));
+                Boolean complete = cursor.getInt(cursor.getColumnIndex(KEY_COMPLETE)) == 1;
+
+                Puzzle p = new Puzzle(puzzleID, name, active, imagePath, complete);
+                puzzles.add(p);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return puzzles;
+    }
+
+    public Puzzle getPuzzleByID(int puzzleID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + PUZZLES_TABLE + " WHERE " + KEY_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(puzzleID)});
+
+        if (cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex(KEY_ID));
+            String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
+            Boolean active = cursor.getInt(cursor.getColumnIndex(KEY_ACTIVE)) == 1;
+            String imagePath = cursor.getString(cursor.getColumnIndex(KEY_IMAGE_PATH));
+            Boolean complete = cursor.getInt(cursor.getColumnIndex(KEY_COMPLETE)) == 1;
+
+            return new Puzzle(puzzleID, name, active, imagePath, complete);
+        }
+        return new Puzzle(-1, "error", false, "", false);
+    }
+
+    public Puzzle getActivePuzzle() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + PUZZLES_TABLE + " WHERE " + KEY_ACTIVE + " = 1";
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            int puzzleID = cursor.getInt(cursor.getColumnIndex(KEY_ID));
+            String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
+            Boolean active = cursor.getInt(cursor.getColumnIndex(KEY_ACTIVE)) == 1;
+            String imagePath = cursor.getString(cursor.getColumnIndex(KEY_IMAGE_PATH));
+            Boolean complete = cursor.getInt(cursor.getColumnIndex(KEY_COMPLETE)) == 1;
+
+            return new Puzzle(puzzleID, name, active, imagePath, complete);
+        }
+        return new Puzzle(-1, "error", false, "", false);
+    }
+
     public int deletePuzzle(int puzzleId) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(PUZZLES_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(puzzleId)});
     }
+
+    public boolean addPiece(PuzzlePiece piece) {
+        ContentValues cv = new ContentValues();
+
+        cv.put(PIECE_X_COORD, piece.getxCoord());
+        cv.put(PIECE_Y_COORD, piece.getyCoord());
+        cv.put(PIECE_EDGE_LENGTH, piece.getEdgeLength());
+        cv.put(PIECE_PUZZLE_ID, piece.getPuzzleID());
+        cv.put(PIECE_STATUS, piece.getStatus().name());
+        cv.put(PIECE_DATE_UNLOCKED, piece.getDateUnlocked());
+        cv.put(PIECE_TASKS_COMPLETED, piece.getTasksCompleted());
+        cv.put(PIECE_USER_MESSAGE, piece.getUserMessage());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        long insert = db.insert(PIECES_TABLE, null, cv);
+
+        return insert != -1;
+    }
+
+    public int updatePiece(PuzzlePiece piece) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(KEY_ID, piece.getPieceID());
+        cv.put(PIECE_X_COORD, piece.getxCoord());
+        cv.put(PIECE_Y_COORD, piece.getyCoord());
+        cv.put(PIECE_EDGE_LENGTH,piece.getEdgeLength());
+        cv.put(PIECE_PUZZLE_ID, piece.getPuzzleID());
+        cv.put(PIECE_STATUS, piece.getStatus().name());
+        cv.put(PIECE_DATE_UNLOCKED, piece.getDateUnlocked());
+        cv.put(PIECE_TASKS_COMPLETED, piece.getTasksCompleted());
+        cv.put(PIECE_USER_MESSAGE, piece.getUserMessage());
+
+        // Returns the number of rows affected
+        return db.update(PIECES_TABLE, cv, KEY_ID + " = ?", new String[] { String.valueOf(piece.getPieceID()) });
+    }
+
+    public List<PuzzlePiece> getPuzzlePieces(int puzzleID) {
+        List<PuzzlePiece> pieces = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + PIECES_TABLE + " WHERE " + PIECE_PUZZLE_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(puzzleID)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int pieceID = cursor.getInt(cursor.getColumnIndex(KEY_ID));
+                int xCoord = cursor.getInt(cursor.getColumnIndex(PIECE_X_COORD));
+                int yCoord = cursor.getInt(cursor.getColumnIndex(PIECE_Y_COORD));
+                int edgeLength = cursor.getInt(cursor.getColumnIndex(PIECE_EDGE_LENGTH));
+                int puzzID = cursor.getInt(cursor.getColumnIndex(PIECE_PUZZLE_ID));
+                PuzzlePiece.PieceStatus status = PuzzlePiece.PieceStatus.valueOf(cursor.getString(cursor.getColumnIndex(PIECE_STATUS)));
+                String dateUnlocked = cursor.getString(cursor.getColumnIndex(PIECE_DATE_UNLOCKED));
+                int tasksCompleted = cursor.getInt(cursor.getColumnIndex(PIECE_TASKS_COMPLETED));
+                String userMessage = cursor.getString(cursor.getColumnIndex(PIECE_USER_MESSAGE));
+
+                PuzzlePiece p = new PuzzlePiece(pieceID, xCoord, yCoord, edgeLength, puzzID, status, dateUnlocked, tasksCompleted, userMessage);
+                pieces.add(p);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return pieces;
+    }
+
+    public int deletePiece(int pieceId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(PIECES_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(pieceId)});
+    }
+
+    public String getSingleValue(String key) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + SINGLE_VALUES_TABLE + " WHERE " + KEY_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[] {key});
+
+        String out = "";
+
+        if (cursor.moveToFirst()) {
+            out = cursor.getString(cursor.getColumnIndex(KEY_VALUE));
+        }
+        cursor.close();
+
+        return out;
+    }
+
+    public int updateSingleValue(String key, String value) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(KEY_ID, key);
+        cv.put(KEY_VALUE, value);
+        return db.update(SINGLE_VALUES_TABLE, cv, KEY_ID + " = ?", new String[] { key });
+
+    }
+
+    public int getCurrentNumberOfTasks() {
+        return Integer.parseInt(getSingleValue(CURRENT_TASKS));
+    }
+
+    public int updateCurrentNumberOfTasks(int num) {
+        return updateSingleValue(CURRENT_TASKS, String.valueOf(num));
+    }
+
 
     public void clearTasksTable() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -320,4 +678,5 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + PUZZLES_TABLE);
         db.execSQL(createPuzzleTableStatement);
     }
+
 }
