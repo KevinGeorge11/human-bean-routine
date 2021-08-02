@@ -126,13 +126,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(createSingleValuesTableStatement);
 
         ContentValues cv = new ContentValues();
-        cv.put(KEY_ID, CURRENT_TASKS);
-        cv.put(KEY_VALUE, 0);
-        db.insert(SINGLE_VALUES_TABLE, null, cv);
+//        cv.put(KEY_ID, CURRENT_TASKS);
+//        cv.put(KEY_VALUE, 0);
+//        db.insert(SINGLE_VALUES_TABLE, null, cv);
 
         // TODO populate initial puzzles
 
         // Temporary coding for default values
+        cv.put(KEY_ID, CURRENT_TASKS);
+        cv.put(KEY_VALUE, 4);
+        db.insert(SINGLE_VALUES_TABLE, null, cv);
+
         cv.clear();
         cv.put(KEY_NAME, "lavender");
         cv.put(KEY_ACTIVE, false);
@@ -147,16 +151,142 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(KEY_COMPLETE, true);
         db.insert(PUZZLES_TABLE, null, cv);
 
+        // all pieces
         cv.clear();
         cv.put(PIECE_X_COORD, 1);
         cv.put(PIECE_Y_COORD, 1);
         cv.put(PIECE_EDGE_LENGTH,10);
         cv.put(PIECE_PUZZLE_ID, 1);
         cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.REVEALED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 11");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+//        db.insert(PIECES_TABLE, null, cv);        Log.d("DataBaseHelper", "Initialized database");
+        Log.d("DataBaseHelper", "Added piece " + db.insert(PIECES_TABLE, null, cv));
+
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 2);
+        cv.put(PIECE_Y_COORD, 1);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.UNLOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 11");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 3);
+        cv.put(PIECE_Y_COORD, 1);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 11");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 1);
+        cv.put(PIECE_Y_COORD, 2);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
         cv.put(PIECE_DATE_UNLOCKED, "August 12");
         cv.put(PIECE_TASKS_COMPLETED, 5);
         cv.put(PIECE_USER_MESSAGE, "Great job me!");
-        // db.insert();
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 2);
+        cv.put(PIECE_Y_COORD, 2);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 3);
+        cv.put(PIECE_Y_COORD, 2);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 1);
+        cv.put(PIECE_Y_COORD, 3);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 2);
+        cv.put(PIECE_Y_COORD, 3);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 3);
+        cv.put(PIECE_Y_COORD, 3);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 1);
+        cv.put(PIECE_Y_COORD, 4);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 2);
+        cv.put(PIECE_Y_COORD, 4);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+        cv.clear();
+        cv.put(PIECE_X_COORD, 3);
+        cv.put(PIECE_Y_COORD, 4);
+        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_PUZZLE_ID, 1);
+        cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+        cv.put(PIECE_DATE_UNLOCKED, "August 12");
+        cv.put(PIECE_TASKS_COMPLETED, 5);
+        cv.put(PIECE_USER_MESSAGE, "Great job me!");
+        db.insert(PIECES_TABLE, null, cv);
+
+//        String query = "INSERT INTO " + PIECES_TABLE + "(x_coord, y_coord, edge_length, puzzle_id, status, date_unlocked, tasks_completed, user_message)";
 
         Log.d("DataBaseHelper", "Initialized database");
     }

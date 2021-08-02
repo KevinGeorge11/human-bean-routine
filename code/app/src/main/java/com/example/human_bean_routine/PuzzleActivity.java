@@ -60,31 +60,13 @@ public class PuzzleActivity extends AppCompatActivity {
 
         DataBaseHelper db = DataBaseHelper.getDbInstance(this);
 
-        // FILL DB WITH HARDCODED VALUES
-        // TODO Fix the addpiece
-        db.clearPiecesTable();
-        db.addPiece(p1);
-        db.addPiece(p2);
-        db.addPiece(p3);
-        db.addPiece(p4);
-        db.addPiece(p5);
-        db.addPiece(p6);
-        db.addPiece(p7);
-        db.addPiece(p8);
-        db.addPiece(p9);
-        db.addPiece(p10);
-        db.addPiece(p11);
-        db.addPiece(p12);
-
-        db.updateCurrentNumberOfTasks(4);
-
         currentPuzzle = new Puzzle(1, "lavender", false, "lavender", true);
 
         // prioritize puzzleRequest and replace current puzzle if not the same
         int puzzleRequest = getIntent().getIntExtra("puzzleID", currentPuzzle.getPuzzleID()); //getCurrentPuzzle();
         if (currentPuzzle.getPuzzleID() != puzzleRequest) {
             currentPuzzle = db.getPuzzleByID(puzzleRequest);
-            // ^^ There is also db.getActivePuzzle()
+            // ^ There is also db.getActivePuzzle()
         }
 
         // replace image in imageView using the file path
