@@ -9,6 +9,7 @@ import java.util.List;
 
 public class CategoriesViewModel {
     private List<Category> categories;
+    private List<String> categoryTypes;
     private String packageName;
     private Resources res;
 
@@ -19,6 +20,7 @@ public class CategoriesViewModel {
         this.res = res;
 
         categories = new ArrayList<Category>();
+        categoryTypes = new ArrayList<String>();
         initCategoriesList();
     }
 
@@ -46,6 +48,10 @@ public class CategoriesViewModel {
         }
     }
 
+    public String getCategoryTypeAtIndex(int num) {
+        return categoryTypes.get(num);
+    }
+
     // initialize the default list of categories
     private void initCategoriesList() {
         Field[] fields = R.string.class.getFields();
@@ -53,6 +59,7 @@ public class CategoriesViewModel {
         for (int  i =0; i < fields.length; i++) {
             String stringKey = fields[i].getName();
             if(stringKey.startsWith("category")) {
+                categoryTypes.add(stringKey);
                 String stringValue = res.getString(res.getIdentifier(stringKey, "string", packageName));
                 Category category = new Category(i, stringValue, "/res/drawable/" + stringKey + ".xml" , false);
                 categories.add(category);

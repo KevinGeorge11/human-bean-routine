@@ -55,7 +55,9 @@ public class CategoriesSetupActivity extends AppCompatActivity {
     }
 
     public void saveCategories(View v) {
-        categoriesViewModel.removeInactiveCategories();
+        // categoriesViewModel.removeInactiveCategories();
         // TODO: save categoriesViewModel to database
+        Intent i = new Intent(getApplicationContext(), CategoriesActivity.class);
+        startActivity(i);
     }
 }

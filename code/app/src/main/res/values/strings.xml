@@ -18,4 +18,6 @@
     <string name="category_food">Food</string>
     <string name="category_medicine">Medicine</string>
     <string name="category_assets">Assets</string>
+    <string name="categories">Categories</string>
+    <string name="active_categories"> Active</string>
 </resources>
