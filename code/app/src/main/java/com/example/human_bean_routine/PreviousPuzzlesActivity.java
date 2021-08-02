@@ -13,10 +13,8 @@ import android.widget.LinearLayout.LayoutParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PreviousPuzzlesActivity extends AppCompatActivity {
 
-    Puzzle puzzle1 = new Puzzle(1, "lavender", false, "res/drawable/lavender.jpg", true);
-    Puzzle puzzle2 = new Puzzle(2, "mountain", false, "res/drawable/mountain_river.jpg", true);
+public class PreviousPuzzlesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +22,8 @@ public class PreviousPuzzlesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_previous_puzzles);
 
         // create dynamic list of buttons
-        List<Puzzle> puzzles = new ArrayList<Puzzle>();
-        puzzles.add(puzzle1);
-        puzzles.add(puzzle2);
+        DataBaseHelper db = DataBaseHelper.getDbInstance(this);
+        List<Puzzle> puzzles = db.getCompletedPuzzles();
 
         LinearLayout ll = (LinearLayout)findViewById(R.id.llPuzzleList);
         LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
