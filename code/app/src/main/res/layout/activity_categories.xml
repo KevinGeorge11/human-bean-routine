@@ -113,4 +113,18 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btAddCategory"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
+        android:drawableLeft="@drawable/ic_baseline_add_36"
+        android:gravity="center"
+        android:onClick="onAddOrEditCategory"
+        app:iconPadding="0dp"
+        app:layout_constraintEnd_toEndOf="@+id/llCategoriesListLayout"
+        app:layout_constraintTop_toBottomOf="@+id/llCategoriesListLayout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

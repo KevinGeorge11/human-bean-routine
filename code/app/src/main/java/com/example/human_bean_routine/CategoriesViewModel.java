@@ -9,9 +9,8 @@ import java.util.List;
 
 public class CategoriesViewModel {
     private List<Category> categories;
-    private List<String> categoryTypes;
-    private String packageName;
-    private Resources res;
+    private final String packageName;
+    private final Resources res;
 
     // needs the package name and resource object from activity's context
     //  to dynamically load the default categories that are in the strings resource
@@ -20,7 +19,6 @@ public class CategoriesViewModel {
         this.res = res;
 
         categories = new ArrayList<Category>();
-        categoryTypes = new ArrayList<String>();
         initCategoriesList();
     }
 
@@ -40,6 +38,32 @@ public class CategoriesViewModel {
         }
     }
 
+    public Category getCategoryByName(String name) {
+        for(Category category : categories) {
+            if(name.equalsIgnoreCase(category.getName())) {
+                return category;
+            }
+        }
+        return null;
+    }
+
+    public void addNewCategory(String name, String iconFileName, boolean active) {
+        Category category = new Category(categories.size(), name, iconFileName, active);
+        categories.add(category);
+
+        // TODO: save new category in database
+    }
+
+    public void editCategory(int id, String name, String iconFileName, boolean active) {
+        Category category = categories.get(id);
+        category.setName(name);
+        category.setIconPath(iconFileName);
+        category.setActive(active);
+
+        // TODO: save edited category in database
+    }
+
+
     public void removeInactiveCategories() {
         for(Category category : categories) {
             if(!category.getActive()) {
@@ -48,20 +72,15 @@ public class CategoriesViewModel {
         }
     }
 
-    public String getCategoryTypeAtIndex(int num) {
-        return categoryTypes.get(num);
-    }
-
     // initialize the default list of categories
     private void initCategoriesList() {
         Field[] fields = R.string.class.getFields();
 
         for (int  i =0; i < fields.length; i++) {
-            String stringKey = fields[i].getName();
-            if(stringKey.startsWith("category")) {
-                categoryTypes.add(stringKey);
-                String stringValue = res.getString(res.getIdentifier(stringKey, "string", packageName));
-                Category category = new Category(i, stringValue, "/res/drawable/" + stringKey + ".xml" , false);
+            String stringKeyName = fields[i].getName();
+            if(stringKeyName.startsWith("category")) {
+                String stringValue = res.getString(res.getIdentifier(stringKeyName, "string", packageName));
+                Category category = new Category(i, stringValue, stringKeyName + "_icon"  , true); // change later
                 categories.add(category);
             }
         }
