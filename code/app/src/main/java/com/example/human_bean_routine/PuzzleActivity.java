@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,14 +20,12 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import static java.util.Objects.nonNull;
 
 public class PuzzleActivity extends AppCompatActivity {
 
-    List<PuzzlePiece> pieces = new ArrayList<PuzzlePiece>();
+    PuzzlePiece[] pieces = new PuzzlePiece[12];
     Puzzle currentPuzzle;
     EditText editText;
 
@@ -36,18 +33,18 @@ public class PuzzleActivity extends AppCompatActivity {
     int rows = 4;
     int cols = 3;
 
-//    PuzzlePiece p1 = new PuzzlePiece(1, 1, 1, 10, 1, PuzzlePiece.PieceStatus.REVEALED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p2 = new PuzzlePiece(2, 2, 1, 10, 1, PuzzlePiece.PieceStatus.UNLOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p3 = new PuzzlePiece(3, 3, 1, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p4 = new PuzzlePiece(4, 1, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p5 = new PuzzlePiece(5, 2, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p6 = new PuzzlePiece(6, 3, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p7 = new PuzzlePiece(7, 1, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p8 = new PuzzlePiece(8, 2, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p9 = new PuzzlePiece(9, 3, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p10 = new PuzzlePiece(10, 1, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p11 = new PuzzlePiece(11, 2, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p12 = new PuzzlePiece(12, 3, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p1 = new PuzzlePiece(1, 1, 1, 10, 1, PuzzlePiece.PieceStatus.REVEALED, "August 12", 5, "Great job me!");
+    PuzzlePiece p2 = new PuzzlePiece(2, 2, 1, 10, 1, PuzzlePiece.PieceStatus.UNLOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p3 = new PuzzlePiece(3, 3, 1, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p4 = new PuzzlePiece(4, 1, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p5 = new PuzzlePiece(5, 2, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p6 = new PuzzlePiece(6, 3, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p7 = new PuzzlePiece(7, 1, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p8 = new PuzzlePiece(8, 2, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p9 = new PuzzlePiece(9, 3, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p10 = new PuzzlePiece(10, 1, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p11 = new PuzzlePiece(11, 2, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p12 = new PuzzlePiece(12, 3, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,25 +55,35 @@ public class PuzzleActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.ivPuzzle);
 //        RequestQueue queue = Volley.newRequestQueue(this);
 
-        DataBaseHelper db = DataBaseHelper.getDbInstance(this);
-        db.getActivePuzzle();
-
         currentPuzzle = new Puzzle(1, "lavender", false, "lavender", true);
 
         // prioritize puzzleRequest and replace current puzzle if not the same
         int puzzleRequest = getIntent().getIntExtra("puzzleID", currentPuzzle.getPuzzleID()); //getCurrentPuzzle();
-        if (currentPuzzle.getPuzzleID() != puzzleRequest) {
-            currentPuzzle = db.getPuzzleByID(puzzleRequest);
-            // ^^ There is also db.getActivePuzzle()
+        if(currentPuzzle.getPuzzleID() != puzzleRequest) {
+            currentPuzzle = new Puzzle(2, "mountain", false, "mountain_river", true);
+            //getPuzzle(puzzleRequest);
         }
 
         // replace image in imageView using the file path
         int resID = getResources().getIdentifier(currentPuzzle.getImagePath(), "drawable", "com.example.human_bean_routine");
         imageView.setImageResource(resID);
         imageView.setVisibility(View.INVISIBLE);
-        pieces = db.getPuzzlePieces(currentPuzzle.getPuzzleID());
+//        pieces = getPuzzlePieces(currentPuzzle.getPuzzleID());
 
-        int currentTasks = db.getCurrentNumberOfTasks();
+        pieces[0] = p1;
+        pieces[1] = p2;
+        pieces[2] = p3;
+        pieces[3] = p4;
+        pieces[4] = p5;
+        pieces[5] = p6;
+        pieces[6] = p7;
+        pieces[7] = p8;
+        pieces[8] = p9;
+        pieces[9] = p10;
+        pieces[10] = p11;
+        pieces[11] = p12;
+
+        int currentTasks = 4; //call database
         TextView currentCompletedTasks = findViewById(R.id.tvNumCurrentTasks);
         ProgressBar progress = findViewById(R.id.pbNumCurrentTasks);
         progress.setProgress(20*currentTasks);
@@ -103,9 +110,9 @@ public class PuzzleActivity extends AppCompatActivity {
             int tileHeight = imageView.getHeight() / rows;
             int tileWidth = imageView.getWidth() / cols;
 
-            for (int i = 0; i < pieces.size(); ++i) {
-                int x = (int) pieces.get(i).getxCoord() - 1;
-                int y = (int) pieces.get(i).getyCoord() - 1;
+            for (int i = 0; i < pieces.length; ++i) {
+                int x = (int) pieces[i].getxCoord() - 1;
+                int y = (int) pieces[i].getyCoord() - 1;
 
                 GradientDrawable gd = new GradientDrawable();
                 gd.setStroke(1, 0xFFFFFFFF);
@@ -116,8 +123,8 @@ public class PuzzleActivity extends AppCompatActivity {
                 button.setX(imageView.getX() + x * tileWidth);
                 button.setY(imageView.getY() + y * tileHeight);
 
-                if (pieces.get(i).getStatus() == PuzzlePiece.PieceStatus.UNLOCKED) {
-                    final PuzzlePiece p = pieces.get(i);
+                if (pieces[i].getStatus() == PuzzlePiece.PieceStatus.UNLOCKED) {
+                    final PuzzlePiece p = pieces[i];
                     final int idx = i;
                     gd.setColor(getResources().getColor(R.color.dark_green));
                     button.setBackground(gd);
@@ -129,8 +136,8 @@ public class PuzzleActivity extends AppCompatActivity {
                             overlay[idx].setBackground(gd);
                         }
                     });
-                } else if (pieces.get(i).getStatus() == PuzzlePiece.PieceStatus.REVEALED) {
-                    final PuzzlePiece p = pieces.get(i);
+                } else if (pieces[i].getStatus() == PuzzlePiece.PieceStatus.REVEALED) {
+                    final PuzzlePiece p = pieces[i];
                     gd.setColor(Color.TRANSPARENT);
                     button.setBackground(gd);
                     button.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +199,6 @@ public class PuzzleActivity extends AppCompatActivity {
         int yCoord = 1;
         int edgeLength = 1;
         int puzzleID = 2;
-        DataBaseHelper db = DataBaseHelper.getDbInstance(this);
 
         String message = editText.getText().toString();
         if(message.isEmpty()) { // if user doesn't input a message, choose a random one
@@ -206,7 +212,6 @@ public class PuzzleActivity extends AppCompatActivity {
 
         PuzzlePiece newPiece = new PuzzlePiece(xCoord, yCoord, edgeLength,  puzzleID, PuzzlePiece.PieceStatus.REVEALED);
         piece.setUserMessage(message);
-        db.updatePiece(newPiece);
     }
 
     public void close(View view) {
@@ -214,14 +219,12 @@ public class PuzzleActivity extends AppCompatActivity {
     }
 
     public boolean checkComplete(View v) {
-        for(int i=0; i<pieces.size(); ++i) {
-            if(pieces.get(i).getStatus() != PuzzlePiece.PieceStatus.REVEALED) {
+        for(int i=0; i<pieces.length; ++i) {
+            if(pieces[i].getStatus() != PuzzlePiece.PieceStatus.REVEALED) {
                 return false;
             }
         }
         currentPuzzle.setComplete(true);
-        DataBaseHelper db = DataBaseHelper.getDbInstance(this);
-        db.updatePuzzle(currentPuzzle);
         return true;
     }
 }
