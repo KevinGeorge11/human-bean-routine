@@ -36,18 +36,18 @@ public class PuzzleActivity extends AppCompatActivity {
     int rows = 4;
     int cols = 3;
 
-//    PuzzlePiece p1 = new PuzzlePiece(1, 1, 1, 10, 1, PuzzlePiece.PieceStatus.REVEALED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p2 = new PuzzlePiece(2, 2, 1, 10, 1, PuzzlePiece.PieceStatus.UNLOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p3 = new PuzzlePiece(3, 3, 1, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p4 = new PuzzlePiece(4, 1, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p5 = new PuzzlePiece(5, 2, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p6 = new PuzzlePiece(6, 3, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p7 = new PuzzlePiece(7, 1, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p8 = new PuzzlePiece(8, 2, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p9 = new PuzzlePiece(9, 3, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p10 = new PuzzlePiece(10, 1, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p11 = new PuzzlePiece(11, 2, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-//    PuzzlePiece p12 = new PuzzlePiece(12, 3, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p1 = new PuzzlePiece(1, 1, 1, 10, 1, PuzzlePiece.PieceStatus.REVEALED, "August 12", 5, "Great job me!");
+    PuzzlePiece p2 = new PuzzlePiece(2, 2, 1, 10, 1, PuzzlePiece.PieceStatus.UNLOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p3 = new PuzzlePiece(3, 3, 1, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p4 = new PuzzlePiece(4, 1, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p5 = new PuzzlePiece(5, 2, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p6 = new PuzzlePiece(6, 3, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p7 = new PuzzlePiece(7, 1, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p8 = new PuzzlePiece(8, 2, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p9 = new PuzzlePiece(9, 3, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p10 = new PuzzlePiece(10, 1, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p11 = new PuzzlePiece(11, 2, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    PuzzlePiece p12 = new PuzzlePiece(12, 3, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,24 @@ public class PuzzleActivity extends AppCompatActivity {
 //        RequestQueue queue = Volley.newRequestQueue(this);
 
         DataBaseHelper db = DataBaseHelper.getDbInstance(this);
-        db.getActivePuzzle();
+
+        // FILL DB WITH HARDCODED VALUES
+        // TODO Fix the addpiece
+        db.clearPiecesTable();
+        db.addPiece(p1);
+        db.addPiece(p2);
+        db.addPiece(p3);
+        db.addPiece(p4);
+        db.addPiece(p5);
+        db.addPiece(p6);
+        db.addPiece(p7);
+        db.addPiece(p8);
+        db.addPiece(p9);
+        db.addPiece(p10);
+        db.addPiece(p11);
+        db.addPiece(p12);
+
+        db.updateCurrentNumberOfTasks(4);
 
         currentPuzzle = new Puzzle(1, "lavender", false, "lavender", true);
 
