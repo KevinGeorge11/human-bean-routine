@@ -57,16 +57,14 @@ public class PuzzleActivity extends AppCompatActivity {
 //        final ConstraintLayout layout = findViewById(R.id.clPuzzleLayout);
         ImageView imageView = findViewById(R.id.ivPuzzle);
 //        RequestQueue queue = Volley.newRequestQueue(this);
-
         DataBaseHelper db = DataBaseHelper.getDbInstance(this);
 
-        currentPuzzle = new Puzzle(1, "lavender", false, "lavender", true);
+        currentPuzzle = db.getActivePuzzle();
 
         // prioritize puzzleRequest and replace current puzzle if not the same
         int puzzleRequest = getIntent().getIntExtra("puzzleID", currentPuzzle.getPuzzleID()); //getCurrentPuzzle();
         if (currentPuzzle.getPuzzleID() != puzzleRequest) {
             currentPuzzle = db.getPuzzleByID(puzzleRequest);
-            // ^ There is also db.getActivePuzzle()
         }
 
         // replace image in imageView using the file path
@@ -89,11 +87,9 @@ public class PuzzleActivity extends AppCompatActivity {
     }
 
     @Override
-//    public void onAttachedToWindow() {
     public void onWindowFocusChanged(boolean hasFocus) {
-        Log.d("PuzzleActivity", "WINDOW FOCUS CHANGED");
         // create puzzle piece buttons here since imageView's getHeight() and getWidth()
-        // can't be used in onCreate
+        // can't be used in onCreate and require puzzle layout to be fully loaded
         final ConstraintLayout layout = findViewById(R.id.clPuzzleLayout);
         ImageView imageView = findViewById(R.id.ivPuzzle);
         if(nonNull(imageView)) {
@@ -103,6 +99,9 @@ public class PuzzleActivity extends AppCompatActivity {
             int tileWidth = imageView.getWidth() / cols;
 
             for (int i = 0; i < pieces.size(); ++i) {
+                final PuzzlePiece p = pieces.get(i);
+                final int idx = i;
+
                 int x = (int) pieces.get(i).getxCoord() - 1;
                 int y = (int) pieces.get(i).getyCoord() - 1;
 
@@ -116,8 +115,6 @@ public class PuzzleActivity extends AppCompatActivity {
                 button.setY(imageView.getY() + y * tileHeight);
 
                 if (pieces.get(i).getStatus() == PuzzlePiece.PieceStatus.UNLOCKED) {
-                    final PuzzlePiece p = pieces.get(i);
-                    final int idx = i;
                     gd.setColor(getResources().getColor(R.color.dark_green));
                     button.setBackground(gd);
                     button.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +126,6 @@ public class PuzzleActivity extends AppCompatActivity {
                         }
                     });
                 } else if (pieces.get(i).getStatus() == PuzzlePiece.PieceStatus.REVEALED) {
-                    final PuzzlePiece p = pieces.get(i);
                     gd.setColor(Color.TRANSPARENT);
                     button.setBackground(gd);
                     button.setOnClickListener(new View.OnClickListener() {
@@ -163,11 +159,11 @@ public class PuzzleActivity extends AppCompatActivity {
         modal.setOutsideTouchable(false);
 
         if(p.getStatus() == PuzzlePiece.PieceStatus.REVEALED) {
-            TextView encouragingMessage = (TextView) modal.getContentView().findViewById(R.id.tvMessage);
+            TextView encouragingMessage = modal.getContentView().findViewById(R.id.tvMessage);
             encouragingMessage.setText(p.getUserMessage());
-            TextView reason = (TextView) modal.getContentView().findViewById(R.id.tvReason);
+            TextView reason = modal.getContentView().findViewById(R.id.tvReason);
             reason.setText(p.generateUnlockMessage());
-            TextView date = (TextView) modal.getContentView().findViewById(R.id.tvDateCompleted);
+            TextView date = modal.getContentView().findViewById(R.id.tvDateCompleted);
             date.setText(p.getDateUnlocked());
         } else {
 //            modal.setFocusable(false);
