@@ -48,6 +48,9 @@ public class Task {
         this.complete = complete;
     }
 
+    public Task(String taskName) {
+        this.taskName = taskName;
+    }
 
     public Boolean getComplete() {
         return complete;
