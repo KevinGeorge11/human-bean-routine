@@ -78,6 +78,14 @@ public class CategoriesViewModel {
         }
     }
 
+    public void saveCategories(Context context) {
+        DataBaseHelper db = DataBaseHelper.getDbInstance(context);
+
+        for(Category category : categories) {
+            db.updateCategory(category);
+        }
+    }
+
     // initialize the default list of categories
     private void initCategoriesList() {
         Field[] fields = R.string.class.getFields();

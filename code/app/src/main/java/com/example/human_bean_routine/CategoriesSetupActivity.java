@@ -57,13 +57,7 @@ public class CategoriesSetupActivity extends AppCompatActivity {
     public void saveCategories(View v) {
         // categoriesViewModel.removeInactiveCategories();
 
-        // TODO: save categoriesViewModel to database
-        // Note this may not be necessary if we assume that values aren't being edited anywhere else
-        DataBaseHelper db = DataBaseHelper.getDbInstance(this);
-
-        for(Category category : categoriesViewModel.getCategories(this)) {
-            db.updateCategory(category);
-        }
+        categoriesViewModel.saveCategories(this);
 
         Intent i = new Intent(getApplicationContext(), CategoriesActivity.class);
         startActivity(i);
