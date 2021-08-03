@@ -20,15 +20,17 @@
     <ScrollView
         android:id="@+id/svPuzzleList"
         android:layout_width="350dp"
-        android:layout_height="518dp"
+        android:layout_height="0dp"
         android:layout_marginStart="25dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="8dp"
         android:background="@color/lightest_green"
         app:layout_constraintBottom_toTopOf="@+id/bCurrentPuzzle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/llPuzzleList"
