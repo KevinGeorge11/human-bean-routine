@@ -147,4 +147,5 @@ public class Task {
 
     public void editTaskName(String newTaskName) {
         this.taskName = newTaskName;
+    }
 }
