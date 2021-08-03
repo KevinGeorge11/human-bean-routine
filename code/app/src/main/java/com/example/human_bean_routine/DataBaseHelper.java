@@ -375,6 +375,31 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return tasks;
     }
 
+    public Task getTaskByID(int taskID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TASKS_TABLE + " WHERE " + KEY_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(taskID)});
+
+        if (cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex(KEY_ID));
+            String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
+            String description = cursor.getString(cursor.getColumnIndex(TASK_DESCRIPTION));
+            int categoryID = cursor.getInt(cursor.getColumnIndex(TASK_CATEGORY_ID));
+            String startDate  = cursor.getString(cursor.getColumnIndex(TASK_START_DATE));
+            String startTime = cursor.getString(cursor.getColumnIndex(TASK_START_TIME));
+            String endDate = cursor.getString(cursor.getColumnIndex(TASK_END_DATE));
+            String endTime = cursor.getString(cursor.getColumnIndex(TASK_END_TIME));
+            String repeat = cursor.getString(cursor.getColumnIndex(TASK_REPEAT));
+            String reminderDate = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_DATE));
+            String reminderTime = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_TIME));
+            Boolean complete = cursor.getInt(cursor.getColumnIndex(TASK_COMPLETE)) == 1;
+
+            return new Task(taskID, name, description, categoryID, startDate, startTime, endDate, endTime, repeat, reminderDate, reminderTime, complete);
+        }
+        return new Task("error", "error", -1, "", "", "", "", "", "", "", false);
+    }
+
     public int deleteTask(int taskId) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TASKS_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(taskId)});
