@@ -50,7 +50,7 @@ public class CategoriesActivity extends AppCompatActivity {
         // get the grid layout we are on
         GridLayout gridLayout = (GridLayout) findViewById(R.id.glCategoriesGridLayout);
 
-        List<Category> categoryList = categoriesViewModel.getCategories();
+        List<Category> categoryList = categoriesViewModel.getCategories(this);
         for(Category category : categoryList) {
 
             // create category button and set layout properties
@@ -82,6 +82,8 @@ public class CategoriesActivity extends AppCompatActivity {
 
     private void loadCategories(){
         // TODO: load categories from database
+        // Please verify if this is correct
+        categoriesViewModel.getCategories(this);
     }
 
 

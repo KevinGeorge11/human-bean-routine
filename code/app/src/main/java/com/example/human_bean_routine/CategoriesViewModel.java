@@ -22,9 +22,10 @@ public class CategoriesViewModel {
         initCategoriesList();
     }
 
-    public List<Category> getCategories() {
+    public List<Category> getCategories(Context context) {
         if(categories == null || categories.isEmpty()){
-            // TODO: load categories from database
+            DataBaseHelper db = DataBaseHelper.getDbInstance(context);
+            categories = db.getAllCategories();
         }
         return categories;
     }
@@ -47,26 +48,31 @@ public class CategoriesViewModel {
         return null;
     }
 
-    public void addNewCategory(String name, String iconFileName, boolean active) {
+    public void addNewCategory(String name, String iconFileName, boolean active, Context context) {
         Category category = new Category(categories.size(), name, iconFileName, active);
         categories.add(category);
 
-        // TODO: save new category in database
+        DataBaseHelper db = DataBaseHelper.getDbInstance(context);
+        db.addCategory(category);
     }
 
-    public void editCategory(int id, String name, String iconFileName, boolean active) {
+    public void editCategory(int id, String name, String iconFileName, boolean active, Context context) {
         Category category = categories.get(id);
         category.setName(name);
         category.setIconPath(iconFileName);
         category.setActive(active);
 
-        // TODO: save edited category in database
+        DataBaseHelper db = DataBaseHelper.getDbInstance(context);
+        db.updateCategory(category);
     }
 
 
-    public void removeInactiveCategories() {
+    public void removeInactiveCategories(Context context) {
+        DataBaseHelper db = DataBaseHelper.getDbInstance(context);
+
         for(Category category : categories) {
             if(!category.getActive()) {
+                db.deleteCategory(category.getName());
                 categories.remove(category);
             }
         }
@@ -80,7 +86,7 @@ public class CategoriesViewModel {
             String stringKeyName = fields[i].getName();
             if(stringKeyName.startsWith("category")) {
                 String stringValue = res.getString(res.getIdentifier(stringKeyName, "string", packageName));
-                Category category = new Category(i, stringValue, stringKeyName + "_icon"  , true); // change later
+                Category category = new Category(i, stringValue, stringKeyName + "_icon"  , true); // TODO change later
                 categories.add(category);
             }
         }
