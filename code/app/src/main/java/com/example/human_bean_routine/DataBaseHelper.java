@@ -139,7 +139,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         cv.clear();
         cv.put(KEY_NAME, "lavender");
-        cv.put(KEY_ACTIVE, false);
+        cv.put(KEY_ACTIVE, true);
         cv.put(KEY_IMAGE_PATH, "lavender");
         cv.put(KEY_COMPLETE, true);
         db.insert(PUZZLES_TABLE, null, cv);
