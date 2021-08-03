@@ -70,14 +70,6 @@ public class CategoriesViewModel {
     }
 
 
-    public void removeInactiveCategories() {
-        for(Category category : categories) {
-            if(!category.getActive()) {
-                categories.remove(category);
-            }
-        }
-    }
-
     // initialize the default list of categories
     private void initCategoriesList() {
         Field[] fields = R.string.class.getFields();

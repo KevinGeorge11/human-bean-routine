@@ -36,7 +36,6 @@ public class CategoriesActivity extends AppCompatActivity {
             i.putExtra("Id", category.getCategoryID());
             i.putExtra("Name", category.getName());
             i.putExtra("IconPath", category.getIconPath());
-            i.putExtra("Active", category.getActive());
         }
 
         startActivity(i);

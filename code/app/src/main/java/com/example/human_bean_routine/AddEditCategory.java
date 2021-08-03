@@ -18,7 +18,6 @@ public class AddEditCategory extends AppCompatActivity {
     private int categoryId;
     private String oldCategoryName;
     private String oldIconPath;
-    private boolean oldStatus;
 
     private AlertDialog.Builder alertDialogBuilder;
     private AlertDialog alertDialog;
@@ -35,7 +34,6 @@ public class AddEditCategory extends AppCompatActivity {
         if(isEditing){
             oldCategoryName = i.getStringExtra("Name");
             oldIconPath = i.getStringExtra("IconPath");
-            oldStatus = i.getBooleanExtra("Active", false);
             loadEditCategoryValues();
         }
     }
@@ -52,8 +50,6 @@ public class AddEditCategory extends AppCompatActivity {
         String newName = ((EditText) findViewById(R.id.edNameInput)).getText().toString();
 
         String newFilePath =((Button) findViewById(R.id.btIconPictureInput)).getCompoundDrawables()[0].toString();
-
-        boolean newStatus = ((Switch) findViewById(R.id.swActiveToogle)).isChecked();
     }
 
 
@@ -75,8 +71,6 @@ public class AddEditCategory extends AppCompatActivity {
         // get associated category icon from drawable resources
         int resourceId = getResources().getIdentifier(oldIconPath, "drawable", getPackageName());
         ((Button) findViewById(R.id.btIconPictureInput)).setCompoundDrawablesWithIntrinsicBounds(0 , resourceId, 0, 0);
-
-        ((Switch) findViewById(R.id.swActiveToogle)).setChecked(oldStatus);
     }
 
 
