@@ -69,7 +69,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String UNLOCKED_PIECES =  "unlocked_pieces";
 
     // TASKS table create statement
-    private static final String createTaskTableStatement = "CREATE TABLE " + TASKS_TABLE + " ( "
+    private static final String createTaskTableStatement =
+            "CREATE TABLE " + TASKS_TABLE + " ( "
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KEY_NAME + " TEXT, "
             + TASK_DESCRIPTION + " TEXT, "
@@ -84,14 +85,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             + TASK_COMPLETE + " BOOL )";
 
     // Category table create statement
-    private static final String createCategoryTableStatement = "CREATE TABLE " + CATEGORIES_TABLE + " ( "
+    private static final String createCategoryTableStatement =
+            "CREATE TABLE " + CATEGORIES_TABLE + " ( "
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KEY_NAME + " TEXT, "
             + KEY_IMAGE_PATH + " TEXT, "
             + KEY_ACTIVE + " BOOL )";
 
     // Puzzle table create statement
-    private static final String createPuzzleTableStatement = "CREATE TABLE " + PUZZLES_TABLE + " ( "
+    private static final String createPuzzleTableStatement =
+            "CREATE TABLE " + PUZZLES_TABLE + " ( "
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KEY_NAME + " TEXT, "
             + KEY_ACTIVE + " BOOL, "
@@ -99,7 +102,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             + KEY_COMPLETE + " BOOL )";
 
     // Pieces table create statement
-    private static final String createPiecesTableStatement = "CREATE TABLE " + PIECES_TABLE + " ( "
+    private static final String createPiecesTableStatement =
+            "CREATE TABLE " + PIECES_TABLE + " ( "
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + PIECE_X_COORD + " INTEGER, "
             + PIECE_Y_COORD + " INTEGER, "
@@ -110,11 +114,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             + PIECE_TASKS_COMPLETED + " INTEGER, "
             + PIECE_USER_MESSAGE + " TEXT )";
 
-    private static final String createSingleValuesTableStatement = "CREATE TABLE " + SINGLE_VALUES_TABLE + " ( "
+    private static final String createSingleValuesTableStatement =
+            "CREATE TABLE " + SINGLE_VALUES_TABLE + " ( "
             + KEY_ID + " TEXT PRIMARY KEY, "
             + KEY_VALUE + " TEXT )";
 
-    public DataBaseHelper(@Nullable Context context) {
+
+    private DataBaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -406,7 +412,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public List<Task> getTasks(String startDate, String endDate, int categoryID) {
-        String query = " WHERE " + TASK_CATEGORY_ID + " = ? AND " + TASK_START_DATE + " BETWEEN ? AND ?";
+        String query = " WHERE " + TASK_CATEGORY_ID + " = ? AND "
+                + TASK_START_DATE + " BETWEEN ? AND ?";
         return retrieveTasks(query,String.valueOf(categoryID) + startDate + endDate);
     }
 
