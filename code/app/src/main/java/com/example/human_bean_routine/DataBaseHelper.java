@@ -66,6 +66,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     // Values for SINGLE_VALUES table
     public static final String CURRENT_TASKS =  "current_tasks";
+    public static final String UNLOCKED_PIECES =  "unlocked_pieces";
 
     // TASKS table create statement
     private static final String createTaskTableStatement = "CREATE TABLE " + TASKS_TABLE + " ( "
@@ -117,6 +118,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(createTaskTableStatement);
@@ -137,6 +139,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(KEY_VALUE, 4);
         db.insert(SINGLE_VALUES_TABLE, null, cv);
 
+        cv.put(KEY_ID, UNLOCKED_PIECES);
+        cv.put(KEY_VALUE, 0);
+        db.insert(SINGLE_VALUES_TABLE, null, cv);
+
         cv.clear();
         cv.put(KEY_NAME, "lavender");
         cv.put(KEY_ACTIVE, false);
@@ -155,7 +161,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.clear();
         cv.put(PIECE_X_COORD, 1);
         cv.put(PIECE_Y_COORD, 1);
-        cv.put(PIECE_EDGE_LENGTH,10);
+        cv.put(PIECE_EDGE_LENGTH, 10);
         cv.put(PIECE_PUZZLE_ID, 1);
         cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.REVEALED));
         cv.put(PIECE_DATE_UNLOCKED, "August 11");
@@ -286,7 +292,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(PIECE_USER_MESSAGE, "Great job me!");
         db.insert(PIECES_TABLE, null, cv);
 
-//        String query = "INSERT INTO " + PIECES_TABLE + "(x_coord, y_coord, edge_length, puzzle_id, status, date_unlocked, tasks_completed, user_message)";
 
         Log.d("DataBaseHelper", "Initialized database");
     }
@@ -295,6 +300,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
     }
 
+
     public static synchronized DataBaseHelper getDbInstance(Context context) {
         if (dbInstance == null) {
             dbInstance = new DataBaseHelper(context.getApplicationContext());
@@ -302,8 +308,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return dbInstance;
     }
 
-    public boolean addTask(Task task) {
-        SQLiteDatabase db = this.getWritableDatabase();
+
+    public int addTask(Task task) {
         ContentValues cv = new ContentValues();
 
         cv.put(KEY_NAME, task.getName());
@@ -318,10 +324,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(TASK_REMINDER_TIME, task.getReminderTime());
         cv.put(TASK_COMPLETE, task.getComplete());
 
-        long insert = db.insert(TASKS_TABLE, null, cv);
-
-        return insert != -1;
+        SQLiteDatabase db = this.getWritableDatabase();
+        return (int) db.insert(TASKS_TABLE, null, cv);
     }
+
 
     public int updateTask(Task task) {
         ContentValues cv = new ContentValues();
@@ -340,16 +346,33 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // Returns the number of rows affected
-        return db.update(TASKS_TABLE, cv, KEY_ID + " = ?", new String[] { String.valueOf(task.getTaskId()) });
+        return db.update(TASKS_TABLE, cv, KEY_ID + " = ?",
+                new String[] { String.valueOf(task.getTaskId()) });
     }
 
-    public List<Task> getAllTasks() {
+
+    public int completeTask(Task task) {
+        int update = updateTask(task);
+        int tasks = getCurrentNumberOfTasks();
+        int unlocked = getNumberOfUnlockedPieces();
+
+        if (tasks >= 5) {
+            updateCurrentNumberOfTasks(0);
+            updateNumberOfUnlockedPieces(unlocked + 1);
+        } else {
+            updateCurrentNumberOfTasks(tasks + 1);
+        }
+
+        return update;
+    }
+
+
+    private List<Task> retrieveTasks(String query, String selectionArgs) {
         List<Task> tasks = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TASKS_TABLE;
+        String fullQuery = "SELECT * FROM " + TASKS_TABLE + query;
 
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = db.rawQuery(fullQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -366,7 +389,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String reminderTime = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_TIME));
                 Boolean complete = cursor.getInt(cursor.getColumnIndex(TASK_COMPLETE)) == 1;
 
-                Task t = new Task(taskID, name, description, categoryID, startDate, startTime, endDate, endTime, repeat, reminderDate, reminderTime, complete);
+                Task t = new Task(taskID, name, description, categoryID, startDate, startTime,
+                        endDate, endTime, repeat, reminderDate, reminderTime, complete);
                 tasks.add(t);
             } while (cursor.moveToNext());
         }
@@ -375,37 +399,38 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return tasks;
     }
 
-    public Task getTaskByID(int taskID) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TASKS_TABLE + " WHERE " + KEY_ID + " = ?";
 
-        Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(taskID)});
-
-        if (cursor.moveToFirst()) {
-            int id = cursor.getInt(cursor.getColumnIndex(KEY_ID));
-            String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
-            String description = cursor.getString(cursor.getColumnIndex(TASK_DESCRIPTION));
-            int categoryID = cursor.getInt(cursor.getColumnIndex(TASK_CATEGORY_ID));
-            String startDate  = cursor.getString(cursor.getColumnIndex(TASK_START_DATE));
-            String startTime = cursor.getString(cursor.getColumnIndex(TASK_START_TIME));
-            String endDate = cursor.getString(cursor.getColumnIndex(TASK_END_DATE));
-            String endTime = cursor.getString(cursor.getColumnIndex(TASK_END_TIME));
-            String repeat = cursor.getString(cursor.getColumnIndex(TASK_REPEAT));
-            String reminderDate = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_DATE));
-            String reminderTime = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_TIME));
-            Boolean complete = cursor.getInt(cursor.getColumnIndex(TASK_COMPLETE)) == 1;
-
-            return new Task(taskID, name, description, categoryID, startDate, startTime, endDate, endTime, repeat, reminderDate, reminderTime, complete);
-        }
-        return new Task("error", "error", -1, "", "", "", "", "", "", "", false);
+    public List<Task> getAllTasks() {
+        return retrieveTasks("", "");
     }
+
+
+    public List<Task> getTasks(String startDate, String endDate, int categoryID) {
+        String query = " WHERE " + TASK_CATEGORY_ID + " = ? AND " + TASK_START_DATE + " BETWEEN ? AND ?";
+        return retrieveTasks(query,String.valueOf(categoryID) + startDate + endDate);
+    }
+
+
+    public Task getTaskByID(int taskID) {
+        String query = " WHERE " + KEY_ID + " = ?";
+        List<Task> retrieved = retrieveTasks(query, String.valueOf(taskID));
+
+        if (retrieved.size() >= 1) {
+            return retrieved.get(0);
+        }
+        return new Task("error", "error", -1, "", "",
+                "", "", "", "", "", false);
+    }
+
 
     public int deleteTask(int taskId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TASKS_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(taskId)});
+        return db.delete(TASKS_TABLE, KEY_ID + " = ?",
+                new String[]{String.valueOf(taskId)});
     }
 
-    public boolean addCategory(Category category) {
+
+    public int addCategory(Category category) {
         ContentValues cv = new ContentValues();
 
         cv.put(KEY_NAME, category.getName());
@@ -413,11 +438,27 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(KEY_ACTIVE, category.getActive());
 
         SQLiteDatabase db = this.getWritableDatabase();
-
-        long insert = db.insert(CATEGORIES_TABLE, null, cv);
-
-        return insert != -1;
+        return (int) db.insert(CATEGORIES_TABLE, null, cv);
     }
+
+
+    public void setupCategories(List<Category> categories) {
+        ContentValues cv = new ContentValues();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        for (Category c : categories) {
+            cv.put(KEY_NAME, c.getName());
+            cv.put(KEY_IMAGE_PATH, c.getIconPath());
+            cv.put(KEY_ACTIVE, c.getActive());
+
+            long insert = db.insert(CATEGORIES_TABLE, null, cv);
+
+            // TODO generate default tasks
+        }
+
+        return;
+    }
+
 
     public int updateCategory(Category category) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -428,8 +469,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(KEY_ACTIVE, category.getActive());
 
         // Returns the number of rows affected
-        return db.update(TASKS_TABLE, cv, KEY_NAME + " = ?", new String[] { String.valueOf(category.getName()) });
+        return db.update(TASKS_TABLE, cv, KEY_NAME + " = ?",
+                new String[] { String.valueOf(category.getName()) });
     }
+
 
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
@@ -453,12 +496,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return categories;
     }
 
+
     public int deleteCategory(String categoryName) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(CATEGORIES_TABLE, KEY_NAME + " = ?", new String[]{String.valueOf(categoryName)});
+        return db.delete(CATEGORIES_TABLE, KEY_NAME + " = ?",
+                new String[]{String.valueOf(categoryName)});
     }
 
-    public boolean addPuzzle(Puzzle puzzle) {
+
+    public int addPuzzle(Puzzle puzzle) {
         ContentValues cv = new ContentValues();
 
         cv.put(KEY_NAME, puzzle.getName());
@@ -472,8 +518,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         // TODO create pieces
 
-        return insert != -1;
+        return (int) insert;
     }
+
 
     public int updatePuzzle(Puzzle puzzle) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -486,8 +533,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(KEY_COMPLETE, puzzle.getComplete());
 
         // Returns the number of rows affected
-        return db.update(PUZZLES_TABLE, cv, KEY_ID + " = ?", new String[] { String.valueOf(puzzle.getPuzzleID()) });
+        return db.update(PUZZLES_TABLE, cv, KEY_ID + " = ?",
+                new String[] { String.valueOf(puzzle.getPuzzleID()) });
     }
+
 
     public List<Puzzle> getAllPuzzles() {
         List<Puzzle> puzzles = new ArrayList<>();
@@ -513,6 +562,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return puzzles;
     }
 
+
     public List<Puzzle> getCompletedPuzzles() {
         List<Puzzle> puzzles = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -537,6 +587,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return puzzles;
     }
 
+
     public Puzzle getPuzzleByID(int puzzleID) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + PUZZLES_TABLE + " WHERE " + KEY_ID + " = ?";
@@ -554,6 +605,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return new Puzzle(-1, "error", false, "", false);
     }
+
 
     public Puzzle getActivePuzzle() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -573,12 +625,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return new Puzzle(-1, "error", false, "", false);
     }
 
+
     public int deletePuzzle(int puzzleId) {
+        // TODO delete PuzzlePieces
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(PUZZLES_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(puzzleId)});
+        return db.delete(PUZZLES_TABLE, KEY_ID + " = ?",
+                new String[]{String.valueOf(puzzleId)});
     }
 
-    public boolean addPiece(PuzzlePiece piece) {
+
+    public int addPiece(PuzzlePiece piece) {
         ContentValues cv = new ContentValues();
 
         cv.put(PIECE_X_COORD, piece.getxCoord());
@@ -592,10 +648,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        long insert = db.insert(PIECES_TABLE, null, cv);
-
-        return insert != -1;
+        return  (int) db.insert(PIECES_TABLE, null, cv);
     }
+
 
     public int updatePiece(PuzzlePiece piece) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -612,8 +667,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(PIECE_USER_MESSAGE, piece.getUserMessage());
 
         // Returns the number of rows affected
-        return db.update(PIECES_TABLE, cv, KEY_ID + " = ?", new String[] { String.valueOf(piece.getPieceID()) });
+        return db.update(PIECES_TABLE, cv, KEY_ID + " = ?",
+                new String[] { String.valueOf(piece.getPieceID()) });
     }
+
 
     public List<PuzzlePiece> getPuzzlePieces(int puzzleID) {
         List<PuzzlePiece> pieces = new ArrayList<>();
@@ -629,12 +686,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 int yCoord = cursor.getInt(cursor.getColumnIndex(PIECE_Y_COORD));
                 int edgeLength = cursor.getInt(cursor.getColumnIndex(PIECE_EDGE_LENGTH));
                 int puzzID = cursor.getInt(cursor.getColumnIndex(PIECE_PUZZLE_ID));
-                PuzzlePiece.PieceStatus status = PuzzlePiece.PieceStatus.valueOf(cursor.getString(cursor.getColumnIndex(PIECE_STATUS)));
+                PuzzlePiece.PieceStatus status = PuzzlePiece.PieceStatus.valueOf(
+                        cursor.getString(cursor.getColumnIndex(PIECE_STATUS)));
                 String dateUnlocked = cursor.getString(cursor.getColumnIndex(PIECE_DATE_UNLOCKED));
                 int tasksCompleted = cursor.getInt(cursor.getColumnIndex(PIECE_TASKS_COMPLETED));
                 String userMessage = cursor.getString(cursor.getColumnIndex(PIECE_USER_MESSAGE));
 
-                PuzzlePiece p = new PuzzlePiece(pieceID, xCoord, yCoord, edgeLength, puzzID, status, dateUnlocked, tasksCompleted, userMessage);
+                PuzzlePiece p = new PuzzlePiece(pieceID, xCoord, yCoord, edgeLength, puzzID,
+                        status, dateUnlocked, tasksCompleted, userMessage);
                 pieces.add(p);
             } while (cursor.moveToNext());
         }
@@ -643,10 +702,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return pieces;
     }
 
+
     public int deletePiece(int pieceId) {
+        // TODO remove or make private (to call when deleting a puzzle)
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(PIECES_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(pieceId)});
+        return db.delete(PIECES_TABLE, KEY_ID + " = ?",
+                new String[]{String.valueOf(pieceId)});
     }
+
 
     public String getSingleValue(String key) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -664,6 +727,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return out;
     }
 
+
     public int updateSingleValue(String key, String value) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -674,12 +738,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+
     public int getCurrentNumberOfTasks() {
         return Integer.parseInt(getSingleValue(CURRENT_TASKS));
     }
 
+
     public int updateCurrentNumberOfTasks(int num) {
         return updateSingleValue(CURRENT_TASKS, String.valueOf(num));
+    }
+
+
+    public int getNumberOfUnlockedPieces() {
+        return Integer.parseInt(getSingleValue(UNLOCKED_PIECES));
+    }
+
+
+    public int updateNumberOfUnlockedPieces(int num) {
+        return updateSingleValue(UNLOCKED_PIECES, String.valueOf(num));
     }
 
 
@@ -688,20 +764,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TASKS_TABLE);
         db.execSQL(createTaskTableStatement);
     }
+
+
     public void clearCategoriesTable() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS " + CATEGORIES_TABLE);
         db.execSQL(createCategoryTableStatement);
     }
+
+
     public void clearPiecesTable() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS " + PIECES_TABLE);
         db.execSQL(createPiecesTableStatement);
     }
+
+
     public void clearPuzzlesTable() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS " + PUZZLES_TABLE);
         db.execSQL(createPuzzleTableStatement);
     }
-
 }
