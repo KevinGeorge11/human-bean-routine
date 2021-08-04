@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.app.Activity;
 import android.text.Layout;
@@ -23,22 +24,23 @@ import java.util.*;
 import java.util.stream.*;
 
 public class CategoriesSetupActivity extends AppCompatActivity {
-
-    List<Category> categories;
+    // keep track a list of default categories
+    private List<Category> defaultCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories_setup);
-        initCategoriesList();
+        initDefaultCategoriesList();
     }
 
+    // when clicking a category toggle button update its status is the list
     public void onClickCategory(View v) {
-        // get the category button's associated checkmark
+        // get the category toggle button's checkmark image view
         ViewGroup vg = (ViewGroup) v.getParent();
         ImageView checkmark = (ImageView) vg.getChildAt(1);
 
-        // get the category button's category name
+        // get the category toggle button's  name
         ToggleButton toggleBtn = ((ToggleButton) v);
         String categoryName = toggleBtn.getText().toString();
 
@@ -55,38 +57,45 @@ public class CategoriesSetupActivity extends AppCompatActivity {
 
     // save the user's selected category list
     public void saveCategories(View v) {
-        for(Category category : categories) {
-            // TODO: save active categories to database
+        List<Category> activeCategories = new ArrayList<Category>();
+        for(Category category : defaultCategories) {
             if(category.getActive()){
-
-                //Log.d("category","name: " + category.getName());
+                activeCategories.add(category);
             }
         }
+        // TODO: save active categories to database
 
         // go to Task dashboard after saving
         Intent i = new Intent(getApplicationContext(), TaskDashboard.class);
         startActivity(i);
     }
 
-    // initialize the default list of categories
-    private void initCategoriesList() {
-        categories = new ArrayList<Category>();
+    // initialize dynamically the default list of categories from string resources
+    private void initDefaultCategoriesList() {
+        defaultCategories = new ArrayList<Category>();
+
+        // get resources and package name need to access resources
+        Resources res = getResources();
+        String packName = getPackageName();
+
+        // get all the field values from string resources
         Field[] fields = R.string.class.getFields();
 
-        // try to get default list from the string resources
+        // create the categories and include them into the default category list
         for (int  i =0; i < fields.length; i++) {
+            // get only the field values starting with category
             String stringKeyName = fields[i].getName();
             if(stringKeyName.startsWith("category")) {
-                String stringValue = getResources().getString(getResources().getIdentifier(stringKeyName, "string", getPackageName()));
+                String stringValue = res.getString(res.getIdentifier(stringKeyName, "string", packName));
                 Category category = new Category(i, stringValue, stringKeyName + "_icon"  , false);
-                categories.add(category);
-                //Log.d("category loaded","loaded name: " + category.getName());
+                defaultCategories.add(category);
             }
         }
     }
 
+    // select the category from the list and update its status based on select/deselect
     private void selectCategory(String name, boolean select) {
-        for(Category category : categories) {
+        for(Category category : defaultCategories) {
             if(category.getName().equals(name)) {
                 category.setActive(select);
                 return;

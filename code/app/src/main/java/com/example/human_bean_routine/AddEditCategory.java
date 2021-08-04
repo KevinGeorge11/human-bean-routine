@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 
 public class AddEditCategory extends AppCompatActivity {
 
+    // list of categories data to be used by the UI
+    private CategoriesViewModel categoriesViewModel;
     // could be used for both adding a new category or editing existing category
     private boolean isEditing;
     // if editing, store category values that were passed in by intent
@@ -34,6 +37,7 @@ public class AddEditCategory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_category);
+        categoriesViewModel = new CategoriesViewModel(getPackageName(), getResources());
 
         // check if category id and remaining  values were passed in through the intent
         Intent i = getIntent();
@@ -52,7 +56,7 @@ public class AddEditCategory extends AppCompatActivity {
         newCategoryName = ((EditText) findViewById(R.id.edNameInput)).getText().toString();
 
         // check for duplicate category name and create toast warning message if so
-        if(checkIfCategoryNameIsDuplicate(newCategoryName)){
+        if(categoriesViewModel.checkIfCategoryNameIsDuplicate(newCategoryName)){
             Toast.makeText(this, "You cant have duplicate category names!", Toast.LENGTH_SHORT).show();
         }
         else{
@@ -80,7 +84,11 @@ public class AddEditCategory extends AppCompatActivity {
         alertDialogBuilder.setView(iconSelectPopupView);
         AlertDialog alertDialog = alertDialogBuilder.create();
 
-        // create icon button for each icon filename from resources in the string array
+        // get resources and package name need to access resources
+        Resources res = getResources();
+        String packName = getPackageName();
+
+        // create dynamically all the icon buttons from the filename string array in resources
         String[] iconFilenames = getResources().getStringArray(R.array.category_icon_filenames);
         for (int  i =0; i < iconFilenames.length; i++) {
             // create icon select button and set properties
@@ -92,14 +100,15 @@ public class AddEditCategory extends AppCompatActivity {
 
             // get associated category icon from drawable resources and set it to icon select button
             String iconFile = iconFilenames[i];
-            int resourceId = getResources().getIdentifier(iconFile, "drawable", getPackageName());
-            iconBtn.setImageDrawable(getDrawable(resourceId));
+            int resourceId = res.getIdentifier(iconFile, "drawable", packName);
+            Drawable iconImage = getDrawable(resourceId);
+            iconBtn.setImageDrawable(iconImage);
 
             // set on click listener for each select button
             iconBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    iconSelectButton.setImageDrawable(getDrawable(resourceId));
+                    iconSelectButton.setImageDrawable(iconImage);
                     newIconFile = iconFile;
                     alertDialog.dismiss();
                 }
@@ -113,10 +122,7 @@ public class AddEditCategory extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private boolean checkIfCategoryNameIsDuplicate(String newName){
-        // TODO: need list of category names to check
-        return false;
-    }
+
 
     // if we are editing a category, should load its values to input widgets by default
     private void loadEditCategoryValues(){
