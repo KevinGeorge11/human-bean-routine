@@ -65,7 +65,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String PIECE_USER_MESSAGE = "user_message";
 
     // Values for SINGLE_VALUES table
-    public static final String CURRENT_TASKS =  "current_tasks";
+    public static final String COMPLETED_TASKS =  "COMPLETED_TASKS";
     public static final String UNLOCKED_PIECES =  "unlocked_pieces";
 
     // TASKS table create statement
@@ -134,14 +134,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(createSingleValuesTableStatement);
 
         ContentValues cv = new ContentValues();
-//        cv.put(KEY_ID, CURRENT_TASKS);
+//        cv.put(KEY_ID, COMPLETED_TASKS);
 //        cv.put(KEY_VALUE, 0);
 //        db.insert(SINGLE_VALUES_TABLE, null, cv);
 
         // TODO populate initial puzzles
 
         // Temporary coding for default values
-        cv.put(KEY_ID, CURRENT_TASKS);
+        cv.put(KEY_ID, COMPLETED_TASKS);
         cv.put(KEY_VALUE, 4);
         db.insert(SINGLE_VALUES_TABLE, null, cv);
 
@@ -359,14 +359,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public int completeTask(Task task) {
         int update = updateTask(task);
-        int tasks = getCurrentNumberOfTasks();
+        int tasks = getNumberOfCompletedTasks();
         int unlocked = getNumberOfUnlockedPieces();
 
         if (tasks >= 5) {
-            updateCurrentNumberOfTasks(0);
+            updateNumberOfCompletedTasks(0);
             updateNumberOfUnlockedPieces(unlocked + 1);
         } else {
-            updateCurrentNumberOfTasks(tasks + 1);
+            updateNumberOfCompletedTasks(tasks + 1);
         }
 
         return update;
@@ -746,13 +746,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public int getCurrentNumberOfTasks() {
-        return Integer.parseInt(getSingleValue(CURRENT_TASKS));
+    public int getNumberOfCompletedTasks() {
+        return Integer.parseInt(getSingleValue(COMPLETED_TASKS));
     }
 
 
-    public int updateCurrentNumberOfTasks(int num) {
-        return updateSingleValue(CURRENT_TASKS, String.valueOf(num));
+    public int updateNumberOfCompletedTasks(int num) {
+        return updateSingleValue(COMPLETED_TASKS, String.valueOf(num));
     }
 
 
