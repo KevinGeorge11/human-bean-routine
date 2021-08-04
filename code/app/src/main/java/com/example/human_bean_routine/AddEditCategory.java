@@ -4,74 +4,132 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
+import android.widget.GridLayout;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AddEditCategory extends AppCompatActivity {
 
+    // could be used for both adding a new category or editing existing category
     private boolean isEditing;
+    // if editing, store category values that were passed in by intent
     private int categoryId;
-    private String oldCategoryName;
-    private String oldIconPath;
-
-    private AlertDialog.Builder alertDialogBuilder;
-    private AlertDialog alertDialog;
+    private String categoryName;
+    private String iconPath;
+    // need to track what icon file was selected and the new category name
+    private String newIconFile;
+    private String newCategoryName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_category);
 
-        // check if id and category values were passed in through the intent
+        // check if category id and remaining  values were passed in through the intent
         Intent i = getIntent();
         categoryId = i.getIntExtra("Id", -1);
         isEditing = categoryId != -1;
+        // if we are editing, store those values to
         if(isEditing){
-            oldCategoryName = i.getStringExtra("Name");
-            oldIconPath = i.getStringExtra("IconPath");
+            categoryName = i.getStringExtra("Name");
+            iconPath = i.getStringExtra("IconPath");
             loadEditCategoryValues();
         }
     }
 
-    public void onClickIcon(View view){
-
-    }
-
-    public void onClickChangeIcon(View view){
-
-    }
-
+    // on saving a category, check if there no duplicate names and save to database
     public void onSaveCategory (View view){
-        String newName = ((EditText) findViewById(R.id.edNameInput)).getText().toString();
+        newCategoryName = ((EditText) findViewById(R.id.edNameInput)).getText().toString();
 
-        String newFilePath =((Button) findViewById(R.id.btIconPictureInput)).getCompoundDrawables()[0].toString();
+        // check for duplicate category name and create toast warning message if so
+        if(checkIfCategoryNameIsDuplicate(newCategoryName)){
+            Toast.makeText(this, "You cant have duplicate category names!", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            // TODO save new/edited category to database
+        }
     }
 
-
+    // on cancel adding/editing a category, go back to the categories screen
     public void onCancel(View view){
         Intent i = new Intent(getApplicationContext(), CategoriesActivity.class);
         startActivity(i);
     }
 
-    public void createNewContactDialog(){
-        alertDialogBuilder = new AlertDialog.Builder(this);
-        final View contactPopupView = getLayoutInflater().inflate(R.layout.category_icon_select_popup, null);
+    // create a dialog when clicking the icon image button
+    public void createNewIconDialog(View view){
+        // get icon image button from view param
+        ImageButton iconSelectButton = (ImageButton) view;
+
+        // get popup dialogue layout from xml
+        ScrollView iconSelectPopupView = (ScrollView) getLayoutInflater().inflate(R.layout.category_icon_select_popup, null);
+        GridLayout iconGridLayout = (GridLayout) iconSelectPopupView.getChildAt(0);
+
+        // create alert dialog and alert dialog builder with the icon select popup layout
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setView(iconSelectPopupView);
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // create icon button for each icon filename from resources in the string array
+        String[] iconFilenames = getResources().getStringArray(R.array.category_icon_filenames);
+        for (int  i =0; i < iconFilenames.length; i++) {
+            // create icon select button and set properties
+            ImageButton iconBtn = new ImageButton(this);
+            LinearLayout.LayoutParams iconBtnParams = new LinearLayout.LayoutParams(250, 250);
+            iconBtnParams.setMargins(20, 20, 20, 20);
+            iconBtn.setLayoutParams(iconBtnParams);
+            iconBtn.setBackgroundColor(Color.WHITE);
+
+            // get associated category icon from drawable resources and set it to icon select button
+            String iconFile = iconFilenames[i];
+            int resourceId = getResources().getIdentifier(iconFile, "drawable", getPackageName());
+            iconBtn.setImageDrawable(getDrawable(resourceId));
+
+            // set on click listener for each select button
+            iconBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    iconSelectButton.setImageDrawable(getDrawable(resourceId));
+                    newIconFile = iconFile;
+                    alertDialog.dismiss();
+                }
+            });
+
+            // add the button to the grid view
+            iconGridLayout.addView(iconBtn);
+        }
+
+        // after the setup, show toe dialog
+        alertDialog.show();
     }
 
+    private boolean checkIfCategoryNameIsDuplicate(String newName){
+        // TODO: need list of category names to check
+        return false;
+    }
+
+    // if we are editing a category, should load its values to input widgets by default
     private void loadEditCategoryValues(){
+        // change the screen header to Edit Categories
         ((TextView) findViewById(R.id.tvAddEditCategoriesHeader)).setText(R.string.edit_category);
 
-        ((EditText) findViewById(R.id.edNameInput)).setText(oldCategoryName);
+        // change the text input to the existing category name
+        ((EditText) findViewById(R.id.edNameInput)).setText(categoryName);
 
-        // get associated category icon from drawable resources
-        int resourceId = getResources().getIdentifier(oldIconPath, "drawable", getPackageName());
-        ((Button) findViewById(R.id.btIconPictureInput)).setCompoundDrawablesWithIntrinsicBounds(0 , resourceId, 0, 0);
+        // get associated category icon for the icon button from drawable resources
+        Resources res = getResources();
+        int resId = res.getIdentifier(iconPath, "drawable", getPackageName());
+        ImageButton iconButton = ((ImageButton) findViewById(R.id.btIconPictureInput));
+        iconButton.setImageDrawable(res.getDrawable(resId));
     }
-
-
 }

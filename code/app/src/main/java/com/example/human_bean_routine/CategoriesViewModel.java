@@ -18,25 +18,15 @@ public class CategoriesViewModel {
         this.packageName = packageName;
         this.res = res;
 
-        categories = new ArrayList<Category>();
-        initCategoriesList();
     }
 
     public List<Category> getCategories() {
-        if(categories == null || categories.isEmpty()){
-            // TODO: load categories from database
+        if(categories == null){
+            loadCategories();
         }
         return categories;
     }
 
-    public void selectCategory(String name, boolean select) {
-        for(Category category : categories) {
-            if(category.getName().equals(name)) {
-                category.setActive(select);
-                return;
-            }
-        }
-    }
 
     public Category getCategoryByName(String name) {
         for(Category category : categories) {
@@ -69,18 +59,25 @@ public class CategoriesViewModel {
         // TODO: delete category from database
     }
 
+    public void loadCategories() {
+        categories = new ArrayList<Category>();
+        // TODO: load categories from database
+        // TODO: remove this later
 
-    // initialize the default list of categories
-    private void initCategoriesList() {
         Field[] fields = R.string.class.getFields();
 
+        // try to get default list from the string resources
         for (int  i =0; i < fields.length; i++) {
             String stringKeyName = fields[i].getName();
             if(stringKeyName.startsWith("category")) {
                 String stringValue = res.getString(res.getIdentifier(stringKeyName, "string", packageName));
-                Category category = new Category(i, stringValue, stringKeyName + "_icon"  , true); // change later
+                Category category = new Category(i, stringValue, stringKeyName + "_icon"  , false);
                 categories.add(category);
+                //Log.d("category loaded","loaded name: " + category.getName());
             }
         }
+
     }
+
+
 }

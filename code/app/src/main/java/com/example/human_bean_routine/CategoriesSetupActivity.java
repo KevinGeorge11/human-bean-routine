@@ -24,14 +24,13 @@ import java.util.stream.*;
 
 public class CategoriesSetupActivity extends AppCompatActivity {
 
-    // list of categories data to be used by the UI
-    CategoriesViewModel categoriesViewModel;
+    List<Category> categories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories_setup);
-        categoriesViewModel = new CategoriesViewModel(getPackageName(), getResources());
+        initCategoriesList();
     }
 
     public void onClickCategory(View v) {
@@ -46,18 +45,52 @@ public class CategoriesSetupActivity extends AppCompatActivity {
         // on select/deselect set the category to active/inactive and show/hide the checkmark
         if(toggleBtn.isChecked()) {
             checkmark.setVisibility(View.VISIBLE);
-            categoriesViewModel.selectCategory(categoryName, true);
+            selectCategory(categoryName, true);
         }
         else {
             checkmark.setVisibility(View.INVISIBLE);
-            categoriesViewModel.selectCategory(categoryName, false);
+            selectCategory(categoryName, false);
         }
     }
 
+    // save the user's selected category list
     public void saveCategories(View v) {
-        // categoriesViewModel.removeInactiveCategories();
-        // TODO: save categoriesViewModel to database
-        Intent i = new Intent(getApplicationContext(), CategoriesActivity.class);
+        for(Category category : categories) {
+            // TODO: save active categories to database
+            if(category.getActive()){
+
+                //Log.d("category","name: " + category.getName());
+            }
+        }
+
+        // go to Task dashboard after saving
+        Intent i = new Intent(getApplicationContext(), TaskDashboard.class);
         startActivity(i);
+    }
+
+    // initialize the default list of categories
+    private void initCategoriesList() {
+        categories = new ArrayList<Category>();
+        Field[] fields = R.string.class.getFields();
+
+        // try to get default list from the string resources
+        for (int  i =0; i < fields.length; i++) {
+            String stringKeyName = fields[i].getName();
+            if(stringKeyName.startsWith("category")) {
+                String stringValue = getResources().getString(getResources().getIdentifier(stringKeyName, "string", getPackageName()));
+                Category category = new Category(i, stringValue, stringKeyName + "_icon"  , false);
+                categories.add(category);
+                //Log.d("category loaded","loaded name: " + category.getName());
+            }
+        }
+    }
+
+    private void selectCategory(String name, boolean select) {
+        for(Category category : categories) {
+            if(category.getName().equals(name)) {
+                category.setActive(select);
+                return;
+            }
+        }
     }
 }

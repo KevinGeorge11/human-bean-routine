@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import java.util.List;
 
 public class CategoriesActivity extends AppCompatActivity {
+
+    // list of categories data to be used by the UI
     CategoriesViewModel categoriesViewModel;
 
     @Override
