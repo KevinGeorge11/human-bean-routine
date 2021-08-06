@@ -71,7 +71,7 @@ public class AddEditCategory extends AppCompatActivity {
     }
 
     // create a dialog when clicking the icon image button
-    public void createNewIconDialog(View view){
+    public void onChangeIconImage(View view){
         // get icon image button from view param
         ImageButton iconSelectButton = (ImageButton) view;
 
