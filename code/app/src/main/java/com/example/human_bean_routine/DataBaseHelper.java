@@ -306,7 +306,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(KEY_NAME, task.getName());
+        cv.put(KEY_NAME, task.getTaskName());
         cv.put(TASK_DESCRIPTION, task.getDescription());
         cv.put(TASK_CATEGORY_ID, task.getCategoryID());
         cv.put(TASK_START_DATE, task.getStartDate());
@@ -326,7 +326,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public int updateTask(Task task) {
         ContentValues cv = new ContentValues();
 
-        cv.put(KEY_NAME, task.getName());
+        cv.put(KEY_NAME, task.getTaskName());
         cv.put(TASK_DESCRIPTION, task.getDescription());
         cv.put(TASK_CATEGORY_ID, task.getCategoryID());
         cv.put(TASK_START_DATE, task.getStartDate());
@@ -345,11 +345,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public List<Task> getAllTasks() {
+        return retrieveTasks("", "");
+    }
+
+    private List<Task> retrieveTasks(String query, String selectionArgs) {
         List<Task> tasks = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TASKS_TABLE;
+        String fullQuery = "SELECT * FROM " + TASKS_TABLE + query;
 
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = db.rawQuery(fullQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -366,7 +370,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String reminderTime = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_TIME));
                 Boolean complete = cursor.getInt(cursor.getColumnIndex(TASK_COMPLETE)) == 1;
 
-                Task t = new Task(taskID, name, description, categoryID, startDate, startTime, endDate, endTime, repeat, reminderDate, reminderTime, complete);
+                Task t = new Task(taskID, name, description, categoryID, startDate, startTime,
+                        endDate, endTime, repeat, reminderDate, reminderTime, complete);
                 tasks.add(t);
             } while (cursor.moveToNext());
         }
@@ -378,6 +383,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public int deleteTask(int taskId) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TASKS_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(taskId)});
+    }
+
+    public int deleteAllTasks() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TASKS_TABLE,"1", null);
     }
 
     public boolean addCategory(Category category) {

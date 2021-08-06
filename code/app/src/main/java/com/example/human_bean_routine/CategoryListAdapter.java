@@ -26,12 +26,21 @@ public class CategoryListAdapter
     private List<CategoryTaskList> itemList;
     private Context context;
     private static RecyclerViewClickListener recyclerViewClickListener;
+    private TaskListAdapter childItemAdapter;
 
     CategoryListAdapter(List<CategoryTaskList> itemList, Context context, RecyclerViewClickListener recyclerViewClickListener)
     {
         this.context = context;
         this.itemList = itemList;
         this.recyclerViewClickListener = recyclerViewClickListener;
+        this.childItemAdapter = null;
+    }
+
+    public void notifyNewData() {
+        notifyDataSetChanged();
+        if (this.childItemAdapter != null) {
+            this.childItemAdapter.notifyDataSetChanged();
+        }
     }
 
     @NonNull
@@ -97,16 +106,15 @@ public class CategoryListAdapter
         // Create an instance of the child
         // item view adapter and set its
         // adapter, layout manager and RecyclerViewPool
-        TaskListAdapter childItemAdapter
-                = new TaskListAdapter(this.context,
+        this.childItemAdapter = new TaskListAdapter(this.context,
                 this.recyclerViewClickListener, parentItem.getTasks());
-        childItemAdapter.SetOnItemClickListener(recyclerViewClickListener);
+        this.childItemAdapter.SetOnItemClickListener(recyclerViewClickListener);
         parentViewHolder
                 .ChildRecyclerView
                 .setLayoutManager(layoutManager);
         parentViewHolder
                 .ChildRecyclerView
-                .setAdapter(childItemAdapter);
+                .setAdapter(this.childItemAdapter);
         parentViewHolder
                 .ChildRecyclerView
                 .setRecycledViewPool(viewPool);
