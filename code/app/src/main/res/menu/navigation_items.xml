@@ -1,3 +1,8 @@
+<!-- Sources referenced:
+menu: https://developer.android.com/guide/topics/ui/menus
+icons: <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from
+ <a href="https://www.flaticon.com/" title="Flaticon">Free Vector Icons and Stickers - Thousands of resources to download </a></div>-->
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/miTasks"

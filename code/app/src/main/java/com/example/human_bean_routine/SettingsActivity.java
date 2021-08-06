@@ -1,3 +1,6 @@
+//Source referenced:
+// bottom navbar code: https://developer.android.com/reference/com/google/android/material/bottomnavigation/BottomNavigationView
+
 package com.example.human_bean_routine;
 
 import android.content.Context;
