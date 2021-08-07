@@ -412,8 +412,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public List<Task> getTasks(String startDate, String endDate, int categoryID) {
-        String query = " WHERE " + TASK_CATEGORY_ID + " = ? AND "
-                + TASK_START_DATE + " BETWEEN ? AND ?";
+        String query = " WHERE " + TASK_CATEGORY_ID + " = ? ";
+//        query += "AND " + TASK_START_DATE + " BETWEEN ? AND ?" ;
+        // TODO include repeating tasks
         return retrieveTasks(query,String.valueOf(categoryID) + startDate + endDate);
     }
 
@@ -523,7 +524,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         long insert = db.insert(PUZZLES_TABLE, null, cv);
 
-        // TODO create pieces
+        for (int x = 1; x < 3; x++) {
+            for (int y = 1; y<4; y++) {
+                cv.clear();
+                cv.put(PIECE_X_COORD, x);
+                cv.put(PIECE_Y_COORD, y);
+                cv.put(PIECE_PUZZLE_ID, (int) insert);
+                cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.LOCKED));
+
+//                cv.put(PIECE_EDGE_LENGTH,10);
+//                cv.put(PIECE_DATE_UNLOCKED, "");
+//                cv.put(PIECE_TASKS_COMPLETED, "");
+//                cv.put(PIECE_USER_MESSAGE, "");
+
+                db.insert(PIECES_TABLE, null, cv);
+            }
+        }
 
         return (int) insert;
     }
@@ -634,8 +650,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public int deletePuzzle(int puzzleId) {
-        // TODO delete PuzzlePieces
         SQLiteDatabase db = this.getWritableDatabase();
+
+        List<PuzzlePiece> pieces = getPuzzlePieces(puzzleId);
+        for (PuzzlePiece piece : pieces) {
+            deletePiece(piece.getPieceID());
+        }
+
         return db.delete(PUZZLES_TABLE, KEY_ID + " = ?",
                 new String[]{String.valueOf(puzzleId)});
     }
@@ -711,7 +732,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public int deletePiece(int pieceId) {
-        // TODO remove or make private (to call when deleting a puzzle)
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(PIECES_TABLE, KEY_ID + " = ?",
                 new String[]{String.valueOf(pieceId)});
