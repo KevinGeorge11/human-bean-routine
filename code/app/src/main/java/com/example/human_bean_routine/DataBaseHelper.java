@@ -522,6 +522,35 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return puzzles;
     }
 
+    public Task getTaskByID(int taskID) {
+        String query = "SELECT * FROM " + TASKS_TABLE + " WHERE " + KEY_ID + " = ?";
+   //     List<Task> retrieved = retrieveTasks(query, String.valueOf(taskID));
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
+                String description = cursor.getString(cursor.getColumnIndex(TASK_DESCRIPTION));
+                int categoryID = cursor.getInt(cursor.getColumnIndex(TASK_CATEGORY_ID));
+                String startDate = cursor.getString(cursor.getColumnIndex(TASK_START_DATE));
+                String startTime = cursor.getString(cursor.getColumnIndex(TASK_START_TIME));
+                String endDate = cursor.getString(cursor.getColumnIndex(TASK_END_DATE));
+                String endTime = cursor.getString(cursor.getColumnIndex(TASK_END_TIME));
+                String repeat = cursor.getString(cursor.getColumnIndex(TASK_REPEAT));
+                String reminderDate = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_DATE));
+                String reminderTime = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_TIME));
+                Boolean complete = cursor.getInt(cursor.getColumnIndex(TASK_COMPLETE)) == 1;
+
+                Task t = new Task(taskID, name, description, categoryID, startDate, startTime,
+                        endDate, endTime, repeat, reminderDate, reminderTime, complete);
+                return t;
+            } while (cursor.moveToNext());
+        }
+        return new Task("error", "error", -1, "", "",
+                "", "", "", "", "", false);
+    }
+
     public Puzzle getPuzzleByID(int puzzleID) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + PUZZLES_TABLE + " WHERE " + KEY_ID + " = ?";

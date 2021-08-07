@@ -14,11 +14,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
@@ -35,6 +37,8 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
     DataBaseHelper db;
     PopupWindow popupWindow;
     List<CategoryTaskList> parentItemList;
+    int current;
+    CategoryListAdapter parentAdapter;
     RecyclerViewClickListener recyclerViewClickListener = new RecyclerViewClickListener() {
         @Override
         public void recyclerViewListClicked(View v, int position) {
@@ -74,6 +78,7 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         CategoryListAdapter
                 parentItemAdapter
                 = new CategoryListAdapter(parentItemList, getApplicationContext(), recyclerViewClickListener);
+        this.parentAdapter = parentItemAdapter;
         parentItemAdapter.SetOnItemClickListener(recyclerViewClickListener);
         categoryRecyclerView
                 .setAdapter(parentItemAdapter);
@@ -162,6 +167,7 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         PopupMenu popup = new PopupMenu(this, v);
         popup.setOnMenuItemClickListener(TaskDashboard.this);
         popup.getMenuInflater().inflate(R.menu.menu, popup.getMenu());
+        current = position;
         popup.show();
     }
 
@@ -182,6 +188,18 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         boolean focusable = true; // lets taps outside the popup also dismiss it
         popupWindow = new PopupWindow(popupView, width, height, focusable);
         popupWindow.showAtLocation(findViewById(R.id.taskList), Gravity.CENTER, 0, 0);
+        Button deleteButton = findViewById(R.id.deleteButton);
+
+   /*     deleteButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                List<Task> tasks = db.getAllTasks();
+                int taskId = tasks.get(current).getTaskId();
+                db.deleteTask(taskId);
+                popupWindow.dismiss();
+            }
+        }); */
 
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -191,19 +209,66 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
             }
         });
     }
-    /*
-        public void deleteButton(View v) {
+
+    public void deleteThis(View v) {
             //     taskNames.remove(0);
             //     adapter = new MyRecyclerViewAdapter(this, taskNames);
-            adapter.setClickListener(this);
-            recyclerView.setAdapter(adapter);
-            popupWindow.dismiss();
-        }
-        @Override
-        public void onItemClick(View view, int position) {
-            Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
-        }
-    */
+    //    adapter.setClickListener(this);
+    //    recyclerView.setAdapter(adapter);
+        List<Task> tasks = db.getAllTasks();
+        int taskId = tasks.get(KeepTrack.currentTaskPosition).getTaskId();
+
+        db.deleteTask(taskId);
+    //    List<Task> newTasks = db.getAllTasks();
+    //    CategoryTaskList sleepTaskList = new CategoryTaskList("Sleep", newTasks);
+    //    parentItemList.clear();
+    //    parentItemList.add(sleepTaskList);
+        this.parentAdapter.notifyDataSetChanged();
+        popupWindow.dismiss();
+
+    }
+
+    public void editThis(View v) {
+        //     taskNames.remove(0);
+        //     adapter = new MyRecyclerViewAdapter(this, taskNames);
+        //    adapter.setClickListener(this);
+        //    recyclerView.setAdapter(adapter);
+        List<Task> tasks = db.getAllTasks();
+        int taskId = tasks.get(KeepTrack.currentTaskPosition).getTaskId();
+    //    Task editableTask = db.getTaskByID(taskId);
+
+        ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Intent data = result.getData();
+                            List<Task> newTasks = db.getAllTasks();
+                            CategoryTaskList sleepTaskList = new CategoryTaskList("Sleep", newTasks);
+                            parentItemList.clear();
+                            parentItemList.add(sleepTaskList);
+                            parentAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+
+        Intent i = new Intent(getApplicationContext(),AddEditTask.class);
+        i.putExtra("isAddable", false);
+        i.putExtra("taskId", taskId);
+        launchSomeActivity.launch(i);
+        //    registerForActivityResult(i, LAUNCH_SECOND_ACTIVITY);
+        this.parentAdapter.notifyDataSetChanged();
+        popupWindow.dismiss();
+
+    }
+
+ /*   @Override
+    public void onItemClick(View view, int position) {
+      //  CategoryListAdapter adapter = new CategoryListAdapter();
+        Toast.makeText(this, "You clicked " + this.parentAdapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
+    }
+*/
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {

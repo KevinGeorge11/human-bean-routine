@@ -27,6 +27,7 @@ public class CategoryListAdapter
     private Context context;
     private static RecyclerViewClickListener recyclerViewClickListener;
     private TaskListAdapter childItemAdapter;
+    private RecyclerViewClickListener childRecyclerViewClickListener;
 
     CategoryListAdapter(List<CategoryTaskList> itemList, Context context, RecyclerViewClickListener recyclerViewClickListener)
     {
@@ -128,13 +129,16 @@ public class CategoryListAdapter
     @Override
     public int getItemCount()
     {
-
         return itemList.size();
     }
 
     public void SetOnItemClickListener(RecyclerViewClickListener recyclerViewClickListener) {
         this.recyclerViewClickListener = recyclerViewClickListener;
+     //   this.childItemAdapter.SetOnItemClickListener(recyclerViewClickListener);
     }
+
+ /*   public String getItem(int position) {
+    } */
 
     // This class is to initialize
     // the Views present in

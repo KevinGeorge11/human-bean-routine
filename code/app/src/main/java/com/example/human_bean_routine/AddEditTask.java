@@ -19,16 +19,23 @@ public class AddEditTask extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_task);
         this.db = DataBaseHelper.getDbInstance(this);
+        Bundle extras = getIntent().getExtras();
         if (savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
             isAdd = extras.getBoolean("isAddable");
 
         } else {
             isAdd = (Boolean) savedInstanceState.getSerializable("isAddable");
         }
-        // On clicking save button
+
         Button saveButton = findViewById(R.id.btnSave);
         EditText taskName = findViewById(R.id.editName);
+        if (isAdd == false) {
+            Task editableTask = db.getTaskByID(extras.getInt("taskId"));
+            taskName.setText(editableTask.getTaskName());
+        }
+        // On clicking save button
+
+       // taskName.setText(editableTask.get);
         saveButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

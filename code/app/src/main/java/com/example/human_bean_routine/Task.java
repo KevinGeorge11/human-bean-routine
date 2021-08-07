@@ -17,7 +17,8 @@ public class Task {
     public Task(String name, String description, Integer categoryID,
                 String startDate, String startTime, String endDate, String endTime,
                 String repeat, String reminderDate, String reminderTime, Boolean complete) {
-        this.taskId = -1;
+        int random_int = (int)Math.floor(Math.random()*(10000000-100+1)+100);
+        this.taskId = random_int;
         this.taskName = name;
         this.description = description;
         this.categoryID = categoryID;
@@ -49,6 +50,8 @@ public class Task {
     }
 
     public Task(String taskName) {
+        int random_int = (int)Math.floor(Math.random()*(10000000-100+1)+100);
+        this.taskId = random_int;
         this.taskName = taskName;
     }
 

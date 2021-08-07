@@ -17,12 +17,17 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
     private List<Task> tasks;
     private Context context;
     private static RecyclerViewClickListener recyclerViewClickListener;
+    KeepTrack tracker;
 
     TaskListAdapter(Context context, RecyclerViewClickListener recyclerViewClickListener, List<Task> tasks) {
         this.tasks = tasks;
         this.recyclerViewClickListener = recyclerViewClickListener;
         this.context = context;
     }
+
+ /*   public RecyclerViewClickListener getRecyclerViewClickListener() {
+        return this.recyclerViewClickListener;
+    }*/
 
     @NonNull
     @Override
@@ -57,6 +62,16 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
         childViewHolder
                 .ChildItemTitle
                 .setText(task.getTaskName());
+
+        childViewHolder.ellipses.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                tracker.currentTaskPosition = position;
+            }
+        });
+        childViewHolder.ellipses.setOnClickListener(childViewHolder);
+
     }
 
     @Override
@@ -73,6 +88,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
 
         TextView ChildItemTitle;
         ImageButton ellipses;
+        KeepTrack tracker;
 
         TaskViewHolder(View itemView)
         {
@@ -83,11 +99,22 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
             ellipses = itemView.findViewById(R.id.ellipses);
 
             ellipses.setOnClickListener(this);
+        //    int x = this.getLayoutPosition();
+        //    recyclerViewClickListener.recyclerViewListClicked(itemView, this.getLayoutPosition());
+
+        /*    ellipses.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    tracker.currentTaskPosition = x;
+                }
+            });*/
         }
 
         @Override
         public void onClick(View v) {
             recyclerViewClickListener.recyclerViewListClicked(v, this.getLayoutPosition());
+            KeepTrack.currentTaskPosition = this.getLayoutPosition();
         }
     }
 }
