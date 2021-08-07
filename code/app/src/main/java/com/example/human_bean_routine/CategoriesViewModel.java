@@ -90,9 +90,10 @@ public class CategoriesViewModel {
     }
 
     // checking the new name does not overlap any other existing category names
-    public boolean checkIfCategoryNameIsDuplicate(String newName){
+    public boolean checkIfCategoryNameIsDuplicate(String newName, int currentCategoryId){
         for(Category category : categories) {
-            if(newName.equalsIgnoreCase(category.getName())) {
+            if(currentCategoryId != category.getCategoryID()
+                    && newName.equalsIgnoreCase(category.getName())){
                 return true;
             }
         }

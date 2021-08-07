@@ -60,7 +60,7 @@ public class AddEditCategory extends AppCompatActivity {
         newCategoryName = ((EditText) findViewById(R.id.edNameInput)).getText().toString();
 
         // check for duplicate category name and create toast warning message if so
-        if(categoriesViewModel.checkIfCategoryNameIsDuplicate(newCategoryName)){
+        if(categoriesViewModel.checkIfCategoryNameIsDuplicate(newCategoryName, categoryId)){
             Toast.makeText(this, "You cant have duplicate category names!", Toast.LENGTH_SHORT).show();
         }
         else{
