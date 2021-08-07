@@ -37,7 +37,7 @@ public class AddEditCategory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_category);
-        categoriesViewModel = new CategoriesViewModel(getPackageName(), getResources());
+        categoriesViewModel = new CategoriesViewModel(this /*getPackageName(), getResources() */);
 
         // check if category id and remaining  values were passed in through the intent
         Intent i = getIntent();
@@ -48,6 +48,10 @@ public class AddEditCategory extends AppCompatActivity {
             categoryName = i.getStringExtra("Name");
             iconPath = i.getStringExtra("IconPath");
             loadEditCategoryValues();
+            newIconFile = iconPath;
+        }
+        else{
+            newIconFile ="category_star_icon";
         }
     }
 
@@ -60,7 +64,14 @@ public class AddEditCategory extends AppCompatActivity {
             Toast.makeText(this, "You cant have duplicate category names!", Toast.LENGTH_SHORT).show();
         }
         else{
-            // TODO save new/edited category to database
+            if(isEditing){
+                categoriesViewModel.editCategory(categoryId, newCategoryName, newIconFile, true );
+            }
+            else{
+                categoriesViewModel.addNewCategory(newCategoryName, newIconFile, true );
+            }
+            Intent i = new Intent(getApplicationContext(), CategoriesActivity.class);
+            startActivity(i);
         }
     }
 

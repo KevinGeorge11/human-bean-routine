@@ -10,21 +10,17 @@ import java.util.List;
 public class CategoriesViewModel {
     // the user selected categories data
     private List<Category> categories;
-    // TODO : remove the packageName and res fields
-    private final String packageName;
-    private final Resources res;
+    private Context context;
 
-    // TODO : remove this constructor as it wont be needed
-    public CategoriesViewModel(String packageName, Resources res){
-        this.packageName = packageName;
-        this.res = res;
-        loadCategories();
+    public CategoriesViewModel(Context context){
+        this.context = context;
+        loadCategoriesList(this.context);
     }
 
     // get all the categories or reload them if the data is not already existing
-    public List<Category> getCategories() {
+    public List<Category> getCategories(Context context) {
         if(categories == null){
-            loadCategories();
+            loadCategoriesList(this.context);
         }
         return categories;
     }
@@ -39,37 +35,49 @@ public class CategoriesViewModel {
         return null;
     }
 
+
     // add new category to list data and save to category database
     public void addNewCategory(String name, String iconFileName, boolean active) {
         Category category = new Category(categories.size(), name, iconFileName, active);
         categories.add(category);
 
-        // TODO: save new category in database
+        DataBaseHelper db = DataBaseHelper.getDbInstance(context);
+        db.addCategory(category);
     }
 
     // edit existing category on list data and update category database
     public void editCategory(int id, String name, String iconFileName, boolean active) {
-        Category category = categories.get(id);
+        Category category = categories.get(id-1);
         category.setName(name);
         category.setIconPath(iconFileName);
         category.setActive(active);
 
-        // TODO: save edited category in database
+        DataBaseHelper db = DataBaseHelper.getDbInstance(context);
+        db.updateCategory(category);
     }
 
     // remove existing category from list data and delete it in category database
     public void deleteCategory(Category deletedCategory) {
         categories.remove(deletedCategory);
+    }
 
-        // TODO: delete category from database
+
+    public void removeInactiveCategories(Context context) {
+        DataBaseHelper db = DataBaseHelper.getDbInstance(context);
+
+        for(Category category : categories) {
+            if(!category.getActive()) {
+                db.deleteCategory(category.getName());
+                categories.remove(category);
+            }
+        }
     }
 
     // load all the user selected categories from category database
-    public void loadCategories() {
-        categories = new ArrayList<Category>();
-        // TODO: load categories from database
-
-        // TODO: remove this selection after integrated with database
+    private void loadCategoriesList(Context context) {
+        DataBaseHelper db = DataBaseHelper.getDbInstance(context);
+        categories = db.getAllCategories();
+        /*Field[] fields = R.string.class.getFields();
         Field[] fields = R.string.class.getFields();
         for (int  i =0; i < fields.length; i++) {
             String stringKeyName = fields[i].getName();
@@ -78,8 +86,7 @@ public class CategoriesViewModel {
                 Category category = new Category(i, stringValue, stringKeyName + "_icon"  , false);
                 categories.add(category);
             }
-        }
-        // TODO: remove this selection after integrated with database
+        }*/
     }
 
     // checking the new name does not overlap any other existing category names

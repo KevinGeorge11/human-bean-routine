@@ -31,6 +31,10 @@ public class CategoriesSetupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories_setup);
+        DataBaseHelper db = DataBaseHelper.getDbInstance(this);
+        // TODO: on setup, should clear all the categories in the database
+        db.clearCategoriesTable();
+
         initDefaultCategoriesList();
     }
 
@@ -58,15 +62,17 @@ public class CategoriesSetupActivity extends AppCompatActivity {
     // save the user's selected category list
     public void saveCategories(View v) {
         List<Category> activeCategories = new ArrayList<Category>();
+        DataBaseHelper db = DataBaseHelper.getDbInstance(this);
+
         for(Category category : defaultCategories) {
             if(category.getActive()){
                 activeCategories.add(category);
+                db.addCategory(category);
             }
         }
-        // TODO: save active categories to database
 
         // go to Task dashboard after saving
-        Intent i = new Intent(getApplicationContext(), TaskDashboard.class);
+        Intent i = new Intent(getApplicationContext(),CategoriesActivity.class);   //TaskDashboard.class);
         startActivity(i);
     }
 

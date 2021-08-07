@@ -25,7 +25,7 @@ public class CategoriesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
-        categoriesViewModel = new CategoriesViewModel(getPackageName(), getResources());
+        categoriesViewModel = new CategoriesViewModel(this /*getPackageName(), getResources()*/);
         createCategoryButtons();
     }
 
@@ -55,7 +55,7 @@ public class CategoriesActivity extends AppCompatActivity {
         String packName = getPackageName();
 
         // get the category list data and for each one create the category button
-        List<Category> categoryList = categoriesViewModel.getCategories();
+        List<Category> categoryList = categoriesViewModel.getCategories(this);
         for(Category category : categoryList) {
 
             // create base frame layout for both the category button and delete button
@@ -116,11 +116,4 @@ public class CategoriesActivity extends AppCompatActivity {
             gridLayout.addView(frameLayout);
         }
     }
-
-    // load the categories from the database
-    private void loadCategories(){
-        // TODO: load categories from database
-    }
-
-
 }

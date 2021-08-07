@@ -6,14 +6,6 @@ public class Category {
     private String iconPath;
     private Boolean active;
 
-
-    public Category(String name, String iconPath, Boolean active) {
-        this.categoryID = -1;
-        this.name = name;
-        this.iconPath = iconPath;
-        this.active = active;
-    }
-
     public Category(Integer categoryID,String name, String iconPath, Boolean active) {
         this.categoryID = categoryID;
         this.name = name;
