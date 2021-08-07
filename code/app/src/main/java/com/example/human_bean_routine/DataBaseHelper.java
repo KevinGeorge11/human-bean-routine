@@ -415,7 +415,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String query = " WHERE " + TASK_CATEGORY_ID + " = ? ";
 //        query += "AND " + TASK_START_DATE + " BETWEEN ? AND ?" ;
         // TODO include repeating tasks
-        return retrieveTasks(query,String.valueOf(categoryID) + startDate + endDate);
+        return retrieveTasks(query, String.valueOf(categoryID)); // + startDate + endDate);
     }
 
 
@@ -502,6 +502,45 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return categories;
+    }
+
+    public List<Category> getActiveCategories() {
+        List<Category> categories = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + CATEGORIES_TABLE + " WHERE " + KEY_ACTIVE + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String [] {"1"});
+
+        if (cursor.moveToFirst()) {
+            do {
+                String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
+                String iconPath = cursor.getString(cursor.getColumnIndex(KEY_IMAGE_PATH));
+                Boolean active = cursor.getInt(cursor.getColumnIndex(KEY_ACTIVE)) == 1;
+
+                Category c = new Category(name, iconPath, active);
+                categories.add(c);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return categories;
+    }
+
+    public Category getCategoryByID(int categoryID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + CATEGORIES_TABLE + " WHERE " + KEY_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(categoryID)});
+
+        if (cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex(KEY_ID));
+            String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
+            Boolean active = cursor.getInt(cursor.getColumnIndex(KEY_ACTIVE)) == 1;
+            String imagePath = cursor.getString(cursor.getColumnIndex(KEY_IMAGE_PATH));
+
+            return new Category(id, name, imagePath, active);
+        }
+        return new Category(-1, "error", "", false);
     }
 
 
