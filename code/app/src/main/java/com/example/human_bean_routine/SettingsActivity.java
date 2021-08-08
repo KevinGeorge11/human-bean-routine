@@ -37,7 +37,10 @@ public class SettingsActivity extends AppCompatActivity {
                         Intent taskIntent = new Intent(SettingsActivity.this, TaskDashboard.class);
                         startActivity(taskIntent);
                         break;
-                    // TODO: add case for categories
+                    case R.id.miCategories:
+                        Intent categoriesIntent = new Intent (SettingsActivity.this, CategoriesActivity.class);
+                        startActivity(categoriesIntent);
+                        break;
                 }
                 return false;
             }
