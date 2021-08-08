@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#355D52">
-
+    android:background="@color/dark_green"
+    android:id="@+id/congratsModal">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -13,30 +13,28 @@
 
         <TextView
             android:id="@+id/tvInstruction"
-            android:layout_width="336dp"
+            android:layout_width="280dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="Commemorate your achievement or encourage future you:"
             android:textColor="@color/white"
             android:textSize="15sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCongrats" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </RelativeLayout>
-
         <TextView
             android:id="@+id/tvCongrats"
-            android:layout_width="340dp"
+            android:layout_width="280dp"
             android:layout_height="73dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:text="Congratulations! You've revealed a puzzle piece~"
             android:textAlignment="center"
             android:textColor="@color/white"
@@ -48,13 +46,11 @@
 
         <Button
             android:id="@+id/bSave"
-            android:layout_width="340dp"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
-            android:backgroundTint="#84A98C"
-            android:onClick="saveMessage"
             android:text="Save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,20 +58,21 @@
 
         <EditText
             android:id="@+id/etNote"
-            android:layout_width="339dp"
+            android:layout_width="280dp"
             android:layout_height="108dp"
             android:layout_marginBottom="20dp"
             android:background="@android:drawable/bottom_bar"
-            android:backgroundTint="#FFFFFF"
+            android:backgroundTint="@color/white"
             android:ems="10"
             android:gravity="start|top"
             android:inputType="textMultiLine"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:focusable="true"
             app:layout_constraintBottom_toTopOf="@+id/bSave"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.509"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvInstruction" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </RelativeLayout>

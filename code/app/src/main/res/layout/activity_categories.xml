@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".CategoriesActivity"
+    android:background="#CAD2C5">
+
+    <TextView
+        android:id="@+id/tvCategoriesHeader"
+        android:layout_centerHorizontal="true"
+        android:layout_width="400dp"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:text="@string/categories"
+        android:textStyle="bold"
+        android:textSize="32sp"
+        android:textColor="@color/white"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/back"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bnvMenu"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="start"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        app:itemBackground="@drawable/bottom_navigation_background_selector"
+        app:itemIconTint="@drawable/bottom_navigation_icon_selector"
+        app:itemTextColor="@color/dark_green"
+        app:layout_constraintVertical_bias="1.0"
+        app:menu="@menu/navigation_items" />
+
+    <LinearLayout
+        android:id="@+id/llCategoriesListLayout"
+        android:layout_width="350dp"
+        android:layout_height="400dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/lightest_green"
+        android:orientation="vertical"
+        android:layout_below="@+id/tvCategoriesHeader"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/tvCategoriesListSubheader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/medium_green"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="@string/active_categories"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <GridLayout
+                android:id="@+id/glCategoriesGridLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="clip_horizontal|center_horizontal"
+                android:layout_margin="5dp"
+                android:columnCount="2"
+                android:columnOrderPreserved="false"
+                android:rowCount="3">
+
+            </GridLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btAddCategory"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:drawableLeft="@drawable/ic_baseline_add_36"
+        android:gravity="center"
+        android:onClick="onAddOrEditCategory"
+        android:background = "@drawable/roundedbutton"
+        app:iconPadding="0dp"
+        android:layout_above="@+id/bnvMenu"
+        app:layout_constraintEnd_toEndOf="@+id/llCategoriesListLayout"
+        app:layout_constraintTop_toBottomOf="@+id/llCategoriesListLayout" />
+
+</RelativeLayout>

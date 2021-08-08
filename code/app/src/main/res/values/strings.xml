@@ -1,16 +1,55 @@
 <resources>
-    <string name="app_name">human-bean-routine</string>
-
+    <string name="app_name">Human Bean Routine</string>
     <string name="puzzle">Puzzles</string>
     <string name="previous_puzzles">Previous Puzzles</string>
     <string name="current_puzzle">Current Puzzle</string>
+    <string name="completed_puzzles">Completed Puzzles</string>
+    <string name="miTasksStr">Tasks</string>
+    <string name="miPuzzleStr">Puzzles</string>
+    <string name="miSettingsStr">Settings</string>
+    <string name="miCategoryStr">Categories</string>
     <string-array name="encouraging_messages">
-        <item>Act as if what you do makes a difference. It does. - William James</item>
-        <item>Success is not final, failure is not fatal: it is the courage to continue that counts. - Winston Churchill</item>
-        <item>Believe you can and you are halfway there. - Theodore Roosevelt</item>
-        <item>Life is like riding a bicycle. To keep your balance, you must keep moving. - Albert Einstein</item>
-        <item>You are never too old to set another goal or to dream a new dream. - C.S. Lewis</item>
-        <item>If I cannot do great things, I can do small things in a great way. - Martin Luther King Jr.</item>
+        <item>Act as if what you do makes a difference. It does. \n- William James</item>
+        <item>Success is not final, failure is not fatal: it is the courage to continue that counts. \n- Winston Churchill</item>
+        <item>Believe you can and you are halfway there. \n- Theodore Roosevelt</item>
+        <item>Life is like riding a bicycle. To keep your balance, you must keep moving. \n- Albert Einstein</item>
+        <item>You are never too old to set another goal or to dream a new dream. \n- C.S. Lewis</item>
+        <item>If I cannot do great things, I can do small things in a great way. \n- Martin Luther King Jr.</item>
     </string-array>
+    <string name="unsplash_access_key">xtGpitMRSxYFjcInCOE4XgxZxyq0BIll46toIiEXEyE</string>
+
+    <string name="title_activity_settings">ScrollingActivity</string>
+
+    <!-- Category Strings -->
+    <string name="choose_categories">Choose categories:</string>
+    <string name="category_mental_health">Mental Health 🧠</string>
+    <string name="category_sleep">Sleep 💤</string>
+    <string name="category_exercise">Exercise 🏋️</string>
+    <string name="category_food">Food 🍏</string>
+    <string name="category_medicine">Medicine 💊</string>
+    <string name="category_assets">Assets 💵</string>
+    <string name="categories">Categories</string>
+    <string name="active_categories"> Active</string>
+    <string name="add_category">Add Category</string>
+    <string name="edit_category">Edit Category</string>
+    <string-array name="category_icon_filenames">
+        <item>category_assets_icon</item>
+        <item>category_exercise_icon</item>
+        <item>category_food_icon</item>
+        <item>category_group_icon</item>
+        <item>category_medicine_icon</item>
+        <item>category_mental_health_icon</item>
+        <item>category_notification_important_icon</item>
+        <item>category_palette_icon</item>
+        <item>category_self_improvement_icon</item>
+        <item>category_shopping_cart_icon</item>
+        <item>category_sleep_icon</item>
+        <item>category_star_icon</item>
+    </string-array>
+
+    <!-- Shared Preferences Keys -->
+    <string name="hbrPrefs">hbrPreferences</string>
+    <string name="launched">launched</string>
+    <string name="confirmBeforeDelete">confirmBeforeDelete</string>
 
 </resources>

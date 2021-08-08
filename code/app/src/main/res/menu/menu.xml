@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/edit_dropdown"
+        android:title="Edit" />
+    <item
+        android:id="@+id/delete_dropdown"
+        android:title="Delete" />
+
+</menu>

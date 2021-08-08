@@ -1,5 +1,7 @@
 package com.example.human_bean_routine;
 
+import java.util.Random;
+
 public class Category {
     private Integer categoryID;
     private String name; //must be unique
@@ -8,13 +10,15 @@ public class Category {
 
 
     public Category(String name, String iconPath, Boolean active) {
-        this.categoryID = -1;
+        Random rand = new Random();
+        this.categoryID = rand.nextInt(100000000);
         this.name = name;
         this.iconPath = iconPath;
         this.active = active;
     }
 
     public Category(Integer categoryID,String name, String iconPath, Boolean active) {
+    //    Random rand = new Random();
         this.categoryID = categoryID;
         this.name = name;
         this.iconPath = iconPath;

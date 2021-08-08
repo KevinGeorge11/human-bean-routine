@@ -7,16 +7,16 @@ public class PuzzlePiece {
     }
 
     private Integer pieceID;
-    private Number xCoord;
-    private Number yCoord;
-    private Number edgeLength;
+    private Integer xCoord;
+    private Integer yCoord;
+    private Integer edgeLength;
     private Integer puzzleID;
     private PieceStatus status;
     private String dateUnlocked;
     private Integer tasksCompleted;
     private String userMessage;
 
-    public PuzzlePiece(Number xCoord, Number yCoord, Number edgeLength, Integer puzzleID,
+    public PuzzlePiece(Integer xCoord, Integer yCoord, Integer edgeLength, Integer puzzleID,
                        PieceStatus status) {
         this.pieceID = -1;
         this.xCoord = xCoord;
@@ -29,7 +29,7 @@ public class PuzzlePiece {
         this.userMessage = "";
     }
 
-    public PuzzlePiece(Integer pieceID, Number xCoord, Number yCoord, Number edgeLength,
+    public PuzzlePiece(Integer pieceID, Integer xCoord, Integer yCoord, Integer edgeLength,
                        Integer puzzleID, PieceStatus status, String dateUnlocked,
                        Integer tasksCompleted, String userMessage) {
         this.pieceID = pieceID;
@@ -57,27 +57,27 @@ public class PuzzlePiece {
         this.pieceID = pieceID;
     }
 
-    public Number getxCoord() {
+    public Integer getxCoord() {
         return xCoord;
     }
 
-    public void setxCoord(Number xCoord) {
+    public void setxCoord(Integer xCoord) {
         this.xCoord = xCoord;
     }
 
-    public Number getyCoord() {
+    public Integer getyCoord() {
         return yCoord;
     }
 
-    public void setyCoord(Number yCoord) {
+    public void setyCoord(Integer yCoord) {
         this.yCoord = yCoord;
     }
 
-    public Number getEdgeLength() {
+    public Integer getEdgeLength() {
         return edgeLength;
     }
 
-    public void setEdgeLength(Number edgeLength) {
+    public void setEdgeLength(Integer edgeLength) {
         this.edgeLength = edgeLength;
     }
 
