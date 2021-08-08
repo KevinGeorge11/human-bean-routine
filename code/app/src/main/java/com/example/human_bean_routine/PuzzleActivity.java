@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,8 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -57,6 +60,31 @@ public class PuzzleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle);
+
+        // Bottom navbar code
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bnvMenu);
+        navigation.setSelectedItemId(R.id.miPuzzle);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.miCategories:
+                        Intent categoriesIntent = new Intent(PuzzleActivity.this, CategoriesActivity.class);
+                        startActivity(categoriesIntent);
+                        break;
+                    case R.id.miTasks:
+                        Intent taskIntent = new Intent(PuzzleActivity.this, TaskDashboard.class);
+                        startActivity(taskIntent);
+                        break;
+                    case R.id.miSettings:
+                        Intent settingsIntent = new Intent (PuzzleActivity.this, SettingsActivity.class);
+                        startActivity(settingsIntent);
+                        break;
+                }
+                return false;
+            }
+        });
+
         queue = APISingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
         ImageView imageView = findViewById(R.id.ivPuzzle);
