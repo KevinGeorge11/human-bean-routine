@@ -228,7 +228,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 db.insert(PIECES_TABLE, null, cv);
             }
         }
-        
+
         Log.d("DataBaseHelper", "Initialized database");
     }
 
@@ -553,8 +553,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         long insert = db.insert(PUZZLES_TABLE, null, cv);
 
-        for (int x = 1; x < 3; x++) {
-            for (int y = 1; y<4; y++) {
+        for (int x = 1; x <= 3; x++) {
+            for (int y = 1; y<= 4; y++) {
                 cv.clear();
                 cv.put(PIECE_X_COORD, x);
                 cv.put(PIECE_Y_COORD, y);
