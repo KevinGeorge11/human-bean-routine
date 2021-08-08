@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Gravity;
@@ -21,14 +23,22 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TaskDashboard extends AppCompatActivity implements RecyclerViewClickListener, PopupMenu.OnMenuItemClickListener {
@@ -37,6 +47,7 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
     List<CategoryTaskList> parentItemList;
     int current;
     CategoryListAdapter parentAdapter;
+    String selectedDay;
     ActivityResultLauncher<Intent> launchSomeActivity;
     RecyclerViewClickListener recyclerViewClickListener = new RecyclerViewClickListener() {
         @Override
@@ -48,6 +59,7 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,14 +113,17 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
 
         final FloatingActionButton addButton = findViewById(R.id.floatingAddButton);
 
-        getCurrentTasks();
+        ImageButton nextButton = findViewById(R.id.nextButton);
+        TextView day = findViewById(R.id.tasksText);
+        selectedDay = "today";
+        getCurrentTasks(selectedDay);
         launchSomeActivity = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK) {
-                            getCurrentTasks();
+                            getCurrentTasks(selectedDay);
                         }
                     }
                 });
@@ -120,14 +135,40 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
                 launchSomeActivity.launch(i);
             }
         });
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+                if(selectedDay == "today") {
+                    selectedDay = "tomorrow";
+                    getCurrentTasks(selectedDay);
+                    day.setText("tomorrow");
+                } else if (selectedDay == "tomorrow") {
+                    selectedDay = "this week";
+                    getCurrentTasks(selectedDay);
+                    day.setText("this week");
+                }
+            }
+        });
     }
 
-    private void getCurrentTasks() {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void getCurrentTasks(String selectedDay) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = LocalDateTime.now().format(formatter);
+        boolean singleDay = true;
+    //    Date dt = new Date();
+        if (selectedDay == "tomorrow") {
+            date = LocalDate.now().plus(1, ChronoUnit.DAYS).format(formatter);
+        } else if (selectedDay == "this week") {
+            date = LocalDate.now().plus(1, ChronoUnit.DAYS).format(formatter);
+            singleDay = false;
+        }
         List<Category> allCategories = db.getAllCategories();
         parentItemList.clear();
         for (int i = 0; i < allCategories.size(); i++) {
             allCategories.get(i).setCategoryID(db.getCategoryIdByName(allCategories.get(i).getName()));
-            CategoryTaskList newTaskList = new CategoryTaskList(allCategories.get(i).getName(), db.getTasksbyDate(allCategories.get(i).getCategoryID(), "2021-08-10"));
+            CategoryTaskList newTaskList = new CategoryTaskList(allCategories.get(i).getName(), db.getTasksbyDate(allCategories.get(i).getCategoryID(), date, singleDay));
             if (newTaskList.getTasks().size() > 0) {
                 parentItemList.add(newTaskList);
             }
@@ -189,6 +230,7 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void deleteThis(View v) {
 
         Task task = getTask();
@@ -196,9 +238,10 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         db.deleteTask(taskId);
         this.parentAdapter.notifyDataSetChanged();
         popupWindow.dismiss();
-        getCurrentTasks();
+        getCurrentTasks(selectedDay);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void edit(MenuItem item) {
         Task task = getTask();
         int taskId = task.getTaskId();
@@ -209,9 +252,10 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         i.putExtras(extras);
         launchSomeActivity.launch(i);
         this.parentAdapter.notifyDataSetChanged();
-        getCurrentTasks();
+        getCurrentTasks(selectedDay);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {

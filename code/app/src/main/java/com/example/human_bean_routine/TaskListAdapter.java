@@ -75,7 +75,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
                 tracker.currentTaskPosition = position;
                 tracker.currentCategoryPosition = categoryPosition;
                 task.setComplete(!task.getComplete());
-                db.updateTask(task);
+                db.completeTask(task);
             }
         });
 

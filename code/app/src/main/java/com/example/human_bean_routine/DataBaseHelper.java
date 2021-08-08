@@ -378,9 +378,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return tasks;
     }
 
-    public List<Task> getTasksbyDate(int categoryID, String startDate) {
+    public List<Task> getTasksbyDate(int categoryID, String startDate, boolean singleDay) {
         List<Task> tasks = new ArrayList<>();
-        String query = "SELECT * FROM tasks WHERE category_id = ? AND start_date = ?";
+        String eq = "=";
+        if (!singleDay) {
+            eq = ">";
+        }
+        String query = "SELECT * FROM tasks WHERE category_id = ? AND start_date " + eq + " ?";
      //   String query = "SELECT * FROM " + TASKS_TABLE + " WHERE " + "category_id" + " = ?";
         //     List<Task> retrieved = retrieveTasks(query, String.valueOf(taskID));
         SQLiteDatabase db = this.getReadableDatabase();
