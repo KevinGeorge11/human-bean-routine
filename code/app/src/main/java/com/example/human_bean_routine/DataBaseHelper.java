@@ -318,7 +318,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         // If task marked as complete
         if (task.getComplete()) {
             if (tasks == 5) {
-                updateNumberOfCompletedTasks(0);
+                updateNumberOfCompletedTasks(1);
                 if (unlocked < 3) {
                     updateNumberOfUnlockedPieces(unlocked + 1);
                 }
@@ -327,7 +327,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             }
         // If task marked as incomplete
         } else {
-            updateNumberOfCompletedTasks(tasks - 1);
+            if (tasks == 0) {
+                updateNumberOfCompletedTasks(5);
+            } else {
+                updateNumberOfCompletedTasks(tasks - 1);
+            }
             if (tasks == 5) {
                 if (unlocked > 1) {
                     updateNumberOfUnlockedPieces(unlocked - 1);
