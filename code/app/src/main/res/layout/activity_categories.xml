@@ -1,54 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".CategoriesActivity">
+    android:layout_height="wrap_content"
+    tools:context=".CategoriesActivity"
+    android:background="#CAD2C5">
+
+    <TextView
+        android:id="@+id/tvCategoriesHeader"
+        android:layout_centerHorizontal="true"
+        android:layout_width="400dp"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:text="@string/categories"
+        android:textStyle="bold"
+        android:textSize="32sp"
+        android:textColor="@color/white"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/back"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnvMenu"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="start"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         app:itemBackground="@drawable/bottom_navigation_background_selector"
         app:itemIconTint="@drawable/bottom_navigation_icon_selector"
         app:itemTextColor="@color/dark_green"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/navigation_items" />
-
-    <TextView
-        android:id="@+id/tvCategoriesHeader"
-        android:layout_width="0dp"
-        android:layout_height="67dp"
-        android:background="#52856F"
-        android:gravity="center"
-        android:lineSpacingExtra="20sp"
-        android:text="@string/categories"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
         android:id="@+id/llCategoriesListLayout"
         android:layout_width="350dp"
         android:layout_height="400dp"
-        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
         android:background="@color/lightest_green"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCategoriesHeader">
-
+        android:layout_below="@+id/tvCategoriesHeader"
+        android:layout_marginTop="30dp">
 
         <TextView
             android:id="@+id/tvCategoriesListSubheader"
@@ -77,69 +72,24 @@
                 android:columnOrderPreserved="false"
                 android:rowCount="3">
 
-                <!-- <androidx.cardview.widget.CardView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_margin="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:padding="0dp"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="5dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_gravity="center">
-
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:backgroundTint="@color/white"
-                            android:drawableTop="@drawable/category_mental_health_icon"
-                            android:text="@string/category_mental_health"
-                            android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            app:iconPadding="0dp" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView> -->
-
-                <!-- <Button
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_margin="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:backgroundTint="@color/white"
-
-                    android:drawableTop="@drawable/category_mental_health_icon"
-                    android:padding="0dp"
-                    android:text="@string/category_mental_health"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    android:visibility="visible"
-                    app:iconPadding="0dp" /> -->
-
-
             </GridLayout>
 
         </ScrollView>
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btAddCategory"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="4dp"
-        android:drawableLeft="@drawable/ic_baseline_add_36"
-        android:gravity="center"
-        android:onClick="onAddOrEditCategory"
-        app:iconPadding="0dp"
-        app:layout_constraintEnd_toEndOf="@+id/llCategoriesListLayout"
-        app:layout_constraintTop_toBottomOf="@+id/llCategoriesListLayout" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btAddCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="32dp"
+        android:src="@drawable/ic_baseline_add_24"
+        app:tint="@color/white"
+        android:backgroundTint="#355D52"
+        android:layout_above="@+id/bnvMenu"
+        android:onClick="onAddOrEditCategory"
+        app:borderWidth="0dp"/>
+
+</RelativeLayout>
