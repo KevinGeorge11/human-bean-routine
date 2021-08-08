@@ -110,7 +110,7 @@ public class PuzzleActivity extends AppCompatActivity {
         checkUnlockedPieces();
 
         // set number of tasks until next puzzle piece in circular progress bar
-        int currentTasks = db.getCurrentNumberOfTasks();
+        int currentTasks = db.getNumberOfCompletedTasks();
         TextView currentCompletedTasks = findViewById(R.id.tvNumCurrentTasks);
         ProgressBar progress = findViewById(R.id.pbNumCurrentTasks);
         progress.setProgress(20*currentTasks);
@@ -323,8 +323,9 @@ public class PuzzleActivity extends AppCompatActivity {
     // check if pieces should be unlocked using db counter, then randomly select
     // puzzle pieces that are locked and update accordingly
     private void checkUnlockedPieces() {
-        int numUnlocked = 7; //db.getNumberOfUnlockedPieces();
 
+        int numUnlocked = db.getNumberOfUnlockedPieces();
+        Log.d("CHECK_UNLOCKED", "numUnlocked: "+numUnlocked);
         // get the locked pieces so one can randomly be selected
         List<PuzzlePiece> lockedPieces = new ArrayList<>();
         for(int i=0; i<pieces.size(); ++i) {
@@ -343,7 +344,7 @@ public class PuzzleActivity extends AppCompatActivity {
             lockedPieces.remove(random);
         }
 
-        //db.updateNumberOfUnlockedPieces(numUnlocked);
+        db.updateNumberOfUnlockedPieces(numUnlocked);
         pieces = db.getPuzzlePieces(currentPuzzle.getPuzzleID());
     }
 }
