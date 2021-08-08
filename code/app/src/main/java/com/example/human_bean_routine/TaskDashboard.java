@@ -114,6 +114,8 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         final FloatingActionButton addButton = findViewById(R.id.floatingAddButton);
 
         ImageButton nextButton = findViewById(R.id.nextButton);
+        ImageButton prevButton = findViewById(R.id.prevButton);
+        prevButton.setVisibility(View.INVISIBLE);
         TextView day = findViewById(R.id.tasksText);
         selectedDay = "today";
         getCurrentTasks(selectedDay);
@@ -135,6 +137,24 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
                 launchSomeActivity.launch(i);
             }
         });
+        prevButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+                if(selectedDay == "this week") {
+                    selectedDay = "tomorrow";
+                    getCurrentTasks(selectedDay);
+                    day.setText("tomorrow");
+                    nextButton.setVisibility(View.VISIBLE);
+                } else if (selectedDay == "tomorrow") {
+                    selectedDay = "today";
+                    getCurrentTasks(selectedDay);
+                    day.setText("today");
+                    prevButton.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
         nextButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -143,10 +163,12 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
                     selectedDay = "tomorrow";
                     getCurrentTasks(selectedDay);
                     day.setText("tomorrow");
+                    prevButton.setVisibility(View.VISIBLE);
                 } else if (selectedDay == "tomorrow") {
                     selectedDay = "this week";
                     getCurrentTasks(selectedDay);
                     day.setText("this week");
+                    nextButton.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -173,22 +195,23 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
                 parentItemList.add(newTaskList);
             }
         }
+        parentAdapter.setItemList(parentItemList);
         parentAdapter.notifyDataSetChanged();
     }
 
     public Task getTask() {
 
         List<Category> allCategories = db.getAllCategories();
-        List<CategoryTaskList> categoryLists = new ArrayList<CategoryTaskList>();
-        categoryLists.clear();
-        for (int i = 0; i < allCategories.size(); i++) {
+    //    List<CategoryTaskList> categoryLists = new ArrayList<CategoryTaskList>();
+    //    categoryLists.clear();
+    /*    for (int i = 0; i < allCategories.size(); i++) {
             allCategories.get(i).setCategoryID(db.getCategoryIdByName(allCategories.get(i).getName()));
             CategoryTaskList newTaskList = new CategoryTaskList(allCategories.get(i).getName(), db.getTasks(allCategories.get(i).getCategoryID()));
             if (newTaskList.getTasks().size() > 0) {
                 categoryLists.add(newTaskList);
             }
-        }
-        CategoryTaskList categoryTaskList = categoryLists.get(KeepTrack.currentCategoryPosition);
+        } */
+        CategoryTaskList categoryTaskList = this.parentItemList.get(KeepTrack.currentCategoryPosition);
         List<Task> tasks = categoryTaskList.getTasks();
         Task currentTask = tasks.get(KeepTrack.currentTaskPosition);
         return currentTask;
@@ -243,6 +266,7 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void edit(MenuItem item) {
+        getCurrentTasks(selectedDay);
         Task task = getTask();
         int taskId = task.getTaskId();
         Intent i = new Intent(getApplicationContext(),AddEditTask.class);

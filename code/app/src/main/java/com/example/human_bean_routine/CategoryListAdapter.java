@@ -37,6 +37,10 @@ public class CategoryListAdapter
         this.childItemAdapter = null;
     }
 
+    public void setItemList(List<CategoryTaskList> itemList) {
+        this.itemList = itemList;
+    }
+
     public void notifyNewData() {
         notifyDataSetChanged();
         if (this.childItemAdapter != null) {

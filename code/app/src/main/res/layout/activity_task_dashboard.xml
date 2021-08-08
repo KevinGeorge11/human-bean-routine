@@ -25,6 +25,17 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/back"/>
         <ImageButton
+            android:id="@+id/prevButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="45dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_baseline_navigate_before_24"
+            android:background="@null"
+            />
+        <ImageButton
             android:id="@+id/nextButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
