@@ -77,15 +77,6 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
             }
         });
 
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#355D52"));
-
-        actionBar.setBackgroundDrawable(colorDrawable);
-        actionBar.setTitle("Human Bean Routine");
-
         this.db = DataBaseHelper.getDbInstance(this);
 
         RecyclerView
