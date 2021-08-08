@@ -304,6 +304,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         int tasks = getNumberOfCompletedTasks();
         int unlocked = getNumberOfUnlockedPieces();
 
+        // Check if date changed and reset unlocked pieces
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+        if (!formattedDate.equals(getLastLaunchDate())) {
+            if (unlocked > 0) {
+                updateNumberOfUnlockedPieces(0);
+            }
+            updateLastLaunchDate(formattedDate);
+        }
+
         // If task marked as complete
         if (task.getComplete()) {
             if (tasks == 5) {
