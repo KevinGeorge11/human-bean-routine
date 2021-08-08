@@ -3,11 +3,13 @@ package com.example.human_bean_routine;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,63 +20,68 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.squareup.picasso.Picasso;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+
 import static java.util.Objects.nonNull;
 
 public class PuzzleActivity extends AppCompatActivity {
 
-    List<PuzzlePiece> pieces = new ArrayList<PuzzlePiece>();
+    List<PuzzlePiece> pieces = new ArrayList<>();
+    List<Button> overlay = new ArrayList<>();
     Puzzle currentPuzzle;
     EditText editText;
-
+    LayoutInflater inflater;
     PopupWindow modal;
-    int rows = 4;
-    int cols = 3;
+    RequestQueue queue;
+    DataBaseHelper db;
 
-    PuzzlePiece p1 = new PuzzlePiece(1, 1, 1, 10, 1, PuzzlePiece.PieceStatus.REVEALED, "August 12", 5, "Great job me!");
-    PuzzlePiece p2 = new PuzzlePiece(2, 2, 1, 10, 1, PuzzlePiece.PieceStatus.UNLOCKED, "August 12", 5, "Great job me!");
-    PuzzlePiece p3 = new PuzzlePiece(3, 3, 1, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-    PuzzlePiece p4 = new PuzzlePiece(4, 1, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-    PuzzlePiece p5 = new PuzzlePiece(5, 2, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-    PuzzlePiece p6 = new PuzzlePiece(6, 3, 2, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-    PuzzlePiece p7 = new PuzzlePiece(7, 1, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-    PuzzlePiece p8 = new PuzzlePiece(8, 2, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-    PuzzlePiece p9 = new PuzzlePiece(9, 3, 3, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-    PuzzlePiece p10 = new PuzzlePiece(10, 1, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-    PuzzlePiece p11 = new PuzzlePiece(11, 2, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
-    PuzzlePiece p12 = new PuzzlePiece(12, 3, 4, 10, 1, PuzzlePiece.PieceStatus.LOCKED, "August 12", 5, "Great job me!");
+    final static int ROWS = 4;
+    final static int COLS = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle);
+        queue = APISingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
-//        final ConstraintLayout layout = findViewById(R.id.clPuzzleLayout);
         ImageView imageView = findViewById(R.id.ivPuzzle);
-//        RequestQueue queue = Volley.newRequestQueue(this);
+        db = DataBaseHelper.getDbInstance(this);
+        inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
-        DataBaseHelper db = DataBaseHelper.getDbInstance(this);
+        currentPuzzle = db.getActivePuzzle();
+        if(currentPuzzle == null) getNewPuzzle();
 
-        currentPuzzle = new Puzzle(1, "lavender", false, "lavender", true);
-
-        // prioritize puzzleRequest and replace current puzzle if not the same
+        // prioritize previous puzzle request and replace current puzzle if not the same
         int puzzleRequest = getIntent().getIntExtra("puzzleID", currentPuzzle.getPuzzleID()); //getCurrentPuzzle();
         if (currentPuzzle.getPuzzleID() != puzzleRequest) {
             currentPuzzle = db.getPuzzleByID(puzzleRequest);
-            // ^ There is also db.getActivePuzzle()
         }
 
-        // replace image in imageView using the file path
-        int resID = getResources().getIdentifier(currentPuzzle.getImagePath(), "drawable", "com.example.human_bean_routine");
-        imageView.setImageResource(resID);
+        // replace puzzle image in imageView using the file path
         imageView.setVisibility(View.INVISIBLE);
-        pieces = db.getPuzzlePieces(currentPuzzle.getPuzzleID());
+        Picasso.get().load(currentPuzzle.getImagePath()).into(imageView);
+        // new ImageTask(imageView).execute(currentPuzzle.getImagePath());
 
+        // get puzzle pieces from the database, and create the 12 puzzle pieces if none exist
+        pieces = db.getPuzzlePieces(currentPuzzle.getPuzzleID());
+        checkUnlockedPieces();
+
+        // set number of tasks until next puzzle piece in circular progress bar
         int currentTasks = db.getCurrentNumberOfTasks();
         TextView currentCompletedTasks = findViewById(R.id.tvNumCurrentTasks);
         ProgressBar progress = findViewById(R.id.pbNumCurrentTasks);
@@ -88,139 +95,227 @@ public class PuzzleActivity extends AppCompatActivity {
         });
     }
 
+    // create puzzle piece buttons when the window focus changes since imageView's
+    // getHeight() and getWidth() require puzzle layout to be fully loaded
     @Override
-//    public void onAttachedToWindow() {
     public void onWindowFocusChanged(boolean hasFocus) {
-        Log.d("PuzzleActivity", "WINDOW FOCUS CHANGED");
-        // create puzzle piece buttons here since imageView's getHeight() and getWidth()
-        // can't be used in onCreate
+        Log.d("PUZZLE ACTIVITY", "WINDOW FOCUS CHANGED");
         final ConstraintLayout layout = findViewById(R.id.clPuzzleLayout);
         ImageView imageView = findViewById(R.id.ivPuzzle);
-        if(nonNull(imageView)) {
-            Button[] overlay = new Button[12];
-
-            int tileHeight = imageView.getHeight() / rows;
-            int tileWidth = imageView.getWidth() / cols;
+        // check that puzzle buttons don't exist, imageview is loaded and there
+        // are valid puzzle pieces to place on the board
+        if(nonNull(imageView) && overlay.isEmpty() && !pieces.isEmpty()) {
+            Log.d("PUZZLE ACTIVITY", "IMAGE VIEW IS NOT NULL");
+            int tileHeight = imageView.getHeight() / ROWS;
+            int tileWidth = imageView.getWidth() / COLS;
 
             for (int i = 0; i < pieces.size(); ++i) {
-                int x = (int) pieces.get(i).getxCoord() - 1;
-                int y = (int) pieces.get(i).getyCoord() - 1;
+                final PuzzlePiece p = pieces.get(i);
+                final int idx = i;
+                int x = pieces.get(i).getxCoord() - 1;
+                int y = pieces.get(i).getyCoord() - 1;
 
-                GradientDrawable gd = new GradientDrawable();
-                gd.setStroke(1, 0xFFFFFFFF);
+                float screenX = imageView.getX() + x * tileWidth;
+                float screenY = imageView.getY() + y * tileHeight;
 
-                Button button = new Button(this);
-                button.setWidth(tileWidth);
-                button.setHeight(tileHeight);
-                button.setX(imageView.getX() + x * tileWidth);
-                button.setY(imageView.getY() + y * tileHeight);
+                Button button = generatePuzzleButton(this, pieces.get(i), tileHeight, tileWidth, screenX, screenY);
+                button.setOnClickListener(v -> {
+                    layout.setClickable(false);
+                    if(pieces.get(idx).getStatus() != PuzzlePiece.PieceStatus.LOCKED) {
+                        showPuzzleModal(p);
+                    }
+                });
 
-                if (pieces.get(i).getStatus() == PuzzlePiece.PieceStatus.UNLOCKED) {
-                    final PuzzlePiece p = pieces.get(i);
-                    final int idx = i;
-                    gd.setColor(getResources().getColor(R.color.dark_green));
-                    button.setBackground(gd);
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showPuzzleModal(p);
-                            gd.setColor(Color.TRANSPARENT);
-                            overlay[idx].setBackground(gd);
-                        }
-                    });
-                } else if (pieces.get(i).getStatus() == PuzzlePiece.PieceStatus.REVEALED) {
-                    final PuzzlePiece p = pieces.get(i);
-                    gd.setColor(Color.TRANSPARENT);
-                    button.setBackground(gd);
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showPuzzleModal(p);
-                        }
-                    });
-                } else {
-                    gd.setColor(Color.BLACK);
-                    button.setBackground(gd);
-                }
-                overlay[i] = button;
+                overlay.add(button);
                 layout.addView(button);
             }
             imageView.setVisibility(View.VISIBLE);
         }
     }
 
-    public void showPuzzleModal(PuzzlePiece p) {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        int layout = (p.getStatus() == PuzzlePiece.PieceStatus.REVEALED) ? R.layout.old_puzzle_piece_modal : R.layout.completed_puzzle_piece_modal;
+    // create a button that represents a puzzle piece, all buttons have same size, but colors
+    // change depending on PuzzlePiece status
+    private static Button generatePuzzleButton(Context context, PuzzlePiece p, float height, float width, float x, float y) {
+        Button button = new Button(context);
+        button.setWidth((int)width);
+        button.setHeight((int)height);
+        button.setX(x);
+        button.setY(y);
+        GradientDrawable gd = new GradientDrawable();
+        gd.setStroke(1, 0xFFFFFFFF);
+
+        if(p.getStatus() == PuzzlePiece.PieceStatus.REVEALED) {
+            gd.setColor(Color.TRANSPARENT);
+        } else if(p.getStatus() == PuzzlePiece.PieceStatus.UNLOCKED) {
+            gd.setColor(context.getResources().getColor(R.color.dark_green));
+        } else {
+            gd.setColor(Color.BLACK);
+        }
+
+        button.setBackground(gd);
+        return button;
+    }
+
+    // showPuzzleModal populates the modal with information from the db that will hold either
+    // old_puzzle_piece_modal or completed_puzzle_piece_modal depending on the type of puzzle
+    // piece button clicked
+    private void showPuzzleModal(PuzzlePiece p) {
+        int layout = (p.getStatus() == PuzzlePiece.PieceStatus.REVEALED) ?
+                R.layout.old_puzzle_piece_modal :
+                R.layout.completed_puzzle_piece_modal;
         View popupView = inflater.inflate(layout, null);
 
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true;//(p.getStatus() == PuzzlePiece.PieceStatus.REVEALED) ? true : false; // lets taps outside the popup also dismiss it
-        modal = new PopupWindow(popupView, width, height, focusable);
+        modal = new PopupWindow(popupView, width, height, true);
         modal.setBackgroundDrawable(null);
         modal.showAtLocation(findViewById(R.id.ivPuzzle), Gravity.CENTER, 0, 0);
         modal.setOutsideTouchable(false);
 
         if(p.getStatus() == PuzzlePiece.PieceStatus.REVEALED) {
-            TextView encouragingMessage = (TextView) modal.getContentView().findViewById(R.id.tvMessage);
+            TextView encouragingMessage = modal.getContentView().findViewById(R.id.tvMessage);
             encouragingMessage.setText(p.getUserMessage());
-            TextView reason = (TextView) modal.getContentView().findViewById(R.id.tvReason);
+            TextView reason = modal.getContentView().findViewById(R.id.tvReason);
             reason.setText(p.generateUnlockMessage());
-            TextView date = (TextView) modal.getContentView().findViewById(R.id.tvDateCompleted);
+            TextView date = modal.getContentView().findViewById(R.id.tvDateCompleted);
             date.setText(p.getDateUnlocked());
         } else {
-//            modal.setFocusable(false);
-            p.setStatus(PuzzlePiece.PieceStatus.REVEALED);
-            Button b = modal.getContentView().findViewById(R.id.bSave);
+            Button saveButton = modal.getContentView().findViewById(R.id.bSave);
             editText = modal.getContentView().findViewById(R.id.etNote);
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    saveMessage(v, p);
-                    checkComplete(v);
-                }
+            int idx = (p.getxCoord() + (3*(p.getyCoord()-1))) - 1;
+            final Button puzzleButton = overlay.get(idx);
+
+            saveButton.setOnClickListener(v -> {
+                p.setStatus(PuzzlePiece.PieceStatus.REVEALED);
+                GradientDrawable gd = new GradientDrawable();
+                gd.setStroke(1, 0xFFFFFFFF);
+                gd.setColor(Color.TRANSPARENT);
+                puzzleButton.setBackground(gd);
+                saveMessage(v, p);
+                checkComplete();
             });
         }
     }
 
-    // saveMessage takes the text from the etNote textbox and updates the database
+    // saveMessage takes the text from the etNote text box and updates the database
     // so that puzzle pieces will have an associated message
-    public void saveMessage(View view, PuzzlePiece piece) {
-        int xCoord = 1;
-        int yCoord = 1;
-        int edgeLength = 1;
-        int puzzleID = 2;
-        DataBaseHelper db = DataBaseHelper.getDbInstance(this);
-
+    private void saveMessage(View view, PuzzlePiece piece) {
+        // set inputted text as the encouraging message but if user doesn't input a message,
+        // choose a random one
         String message = editText.getText().toString();
-        if(message.isEmpty()) { // if user doesn't input a message, choose a random one
+        if(message.isEmpty()) {
             int min = 1;
             int max = 5;
             int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
             String[] array = getResources().getStringArray(R.array.encouraging_messages);
             message = array[randomNum];
         }
-        close(view);
 
-        PuzzlePiece newPiece = new PuzzlePiece(xCoord, yCoord, edgeLength,  puzzleID, PuzzlePiece.PieceStatus.REVEALED);
+        // Create current date string
+        Calendar calendar = Calendar.getInstance();
+        String month = new SimpleDateFormat("MMMM").format(new Date());
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
+        // update puzzle piece
         piece.setUserMessage(message);
-        db.updatePiece(newPiece);
+        piece.setStatus(PuzzlePiece.PieceStatus.REVEALED);
+        piece.setDateUnlocked(month+" "+day+", "+year);
+        db.updatePiece(piece);
+
+        close(view);
     }
 
+    // closes modal, used in both xml file and PuzzleActivity
     public void close(View view) {
         this.modal.dismiss();
     }
 
-    public boolean checkComplete(View v) {
+    // checks whether all PuzzlePieces are REVEALED, will load in new puzzle to replace current one
+    private void checkComplete() {
         for(int i=0; i<pieces.size(); ++i) {
             if(pieces.get(i).getStatus() != PuzzlePiece.PieceStatus.REVEALED) {
-                return false;
+                return;
             }
         }
+
+        // set puzzle as completed in db
         currentPuzzle.setComplete(true);
-        DataBaseHelper db = DataBaseHelper.getDbInstance(this);
+        currentPuzzle.setActive(false);
         db.updatePuzzle(currentPuzzle);
-        return true;
+
+        //load new puzzle into db from web api
+        getNewPuzzle();
+
+        // WILL BE MOVED TO DATABASE HELPER
+        // create new puzzle pieces corresponding to new puzzle to put in db
+//        int id = currentPuzzle.getPuzzleID();
+//        for(int r=1; r<ROWS+1; ++r) {
+//            for(int c=1; c<COLS+1; ++c) {
+//                PuzzlePiece piece = new PuzzlePiece(c, r, 1, id+1, PuzzlePiece.PieceStatus.LOCKED);
+//                db.addPiece(piece);
+//            }
+//        }
+        //refresh activity to load in new image and button overlay
+//        finish();
+//        overridePendingTransition( 0, 0);
+//        startActivity(getIntent());
+//        overridePendingTransition( 0, 0);
+    }
+
+    // grab a random photo from Unsplash web api using Volley and
+    // create a new Puzzle object that is set to be the new current puzzle
+    private void getNewPuzzle() {
+        String url = "https://api.unsplash.com/photos/random?client_id=" +
+                getString(R.string.unsplash_access_key)+"&topics=6sMVjTLSkeQ";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> {
+                    try {
+                        // extract description and image path from response
+                        JSONObject responseJSON = new JSONObject(response);
+                        String description = responseJSON.getString("alt_description");
+                        if(description.equals("")) description = "Nature";
+                        String imagePath = responseJSON.getJSONObject("urls").getString("regular");
+
+                        // add new puzzle into the database
+                        Puzzle p = new Puzzle(description, true, imagePath, false);
+                        db.addPuzzle(p);
+                        currentPuzzle = db.getActivePuzzle();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+                    Log.d("VOLLEY_ERROR", "Failed to retrieve image from Unsplash");
+                    Log.d("VOLLEY_ERROR", String.valueOf(error.networkResponse.statusCode));
+                });
+
+        APISingleton.getInstance(this).addToRequestQueue(stringRequest);
+    }
+
+    // check if pieces should be unlocked using db counter, then randomly select
+    // puzzle pieces that are locked and update accordingly
+    private void checkUnlockedPieces() {
+        int numUnlocked = db.getNumberOfUnlockedPieces();
+
+        // get the locked pieces so one can randomly be selected
+        List<PuzzlePiece> lockedPieces = new ArrayList<>();
+        for(int i=0; i<pieces.size(); ++i) {
+            if(pieces.get(i).getStatus() == PuzzlePiece.PieceStatus.LOCKED) {
+                lockedPieces.add(pieces.get(i));
+            }
+        }
+
+        // limit revealing puzzle pieces to current 12 pieces in current puzzle
+        while(0<numUnlocked && 0<lockedPieces.size()) {
+            int random = new Random().nextInt(lockedPieces.size());
+            PuzzlePiece revealPiece = lockedPieces.get(random);
+            revealPiece.setStatus(PuzzlePiece.PieceStatus.UNLOCKED);
+            db.updatePiece(revealPiece);
+            numUnlocked -= 1;//
+            lockedPieces.remove(random);
+        }
+
+        db.updateNumberOfUnlockedPieces(numUnlocked);
+        pieces = db.getPuzzlePieces(currentPuzzle.getPuzzleID());
     }
 }
