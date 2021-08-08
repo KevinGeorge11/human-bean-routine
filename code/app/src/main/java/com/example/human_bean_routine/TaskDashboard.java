@@ -39,6 +39,7 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
     List<CategoryTaskList> parentItemList;
     int current;
     CategoryListAdapter parentAdapter;
+    ActivityResultLauncher<Intent> launchSomeActivity;
     RecyclerViewClickListener recyclerViewClickListener = new RecyclerViewClickListener() {
         @Override
         public void recyclerViewListClicked(View v, int position) {
@@ -87,7 +88,8 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
 
         final FloatingActionButton addButton = findViewById(R.id.floatingAddButton);
 
-        ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(
+        getCurrentTasks();
+        launchSomeActivity = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
@@ -99,10 +101,11 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
                             parentItemList.clear();
                             parentItemList.add(sleepTaskList);
                             parentItemAdapter.notifyDataSetChanged();
+                        //    recreate();
                         }
                     }
                 });
-
+        this.launchSomeActivity = launchSomeActivity;
         addButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -112,8 +115,17 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
                 launchSomeActivity.launch(i);
             //    registerForActivityResult(i, LAUNCH_SECOND_ACTIVITY);
             }
+
         });
 
+    }
+
+    private void getCurrentTasks() {
+        List<Task> newTasks = db.getAllTasks();
+        CategoryTaskList sleepTaskList = new CategoryTaskList("Sleep", newTasks);
+        parentItemList.clear();
+        parentItemList.add(sleepTaskList);
+        parentAdapter.notifyDataSetChanged();
     }
 /*
     @Override
@@ -170,13 +182,13 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         current = position;
         popup.show();
     }
-
+/*
     public void edit(MenuItem item) {
         Intent i = new Intent(getApplicationContext(),AddEditTask.class);
         i.putExtra("editName", "Limit Junk Food.");
         i.putExtra("category", "Food");
         startActivity(i);
-    }
+    }*/
 
     public void delete(MenuItem item) {
         LayoutInflater inflater = (LayoutInflater)
@@ -225,10 +237,11 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
     //    parentItemList.add(sleepTaskList);
         this.parentAdapter.notifyDataSetChanged();
         popupWindow.dismiss();
+        getCurrentTasks();
 
     }
 
-    public void editThis(View v) {
+    public void edit(MenuItem item) {
         //     taskNames.remove(0);
         //     adapter = new MyRecyclerViewAdapter(this, taskNames);
         //    adapter.setClickListener(this);
@@ -237,7 +250,7 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         int taskId = tasks.get(KeepTrack.currentTaskPosition).getTaskId();
     //    Task editableTask = db.getTaskByID(taskId);
 
-        ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(
+   /*     ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
@@ -251,15 +264,20 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
                             parentAdapter.notifyDataSetChanged();
                         }
                     }
-                });
+                }); */
 
         Intent i = new Intent(getApplicationContext(),AddEditTask.class);
-        i.putExtra("isAddable", false);
-        i.putExtra("taskId", taskId);
+        Bundle extras = new Bundle();
+        extras.putBoolean("isAddable", false);
+        extras.putInt("taskId", taskId);
+  //      i.putExtra("isAddable", false);
+  //      i.putExtra("taskId", taskId);
+        i.putExtras(extras);
         launchSomeActivity.launch(i);
         //    registerForActivityResult(i, LAUNCH_SECOND_ACTIVITY);
         this.parentAdapter.notifyDataSetChanged();
-        popupWindow.dismiss();
+    //    popupWindow.dismiss();
+        getCurrentTasks();
 
     }
 

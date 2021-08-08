@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 // This file was created while referencing:
 // "SQLite Database for Android" by freeCodeCamp.org - https://youtu.be/312RhjfetP8
@@ -526,10 +527,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TASKS_TABLE + " WHERE " + KEY_ID + " = ?";
    //     List<Task> retrieved = retrieveTasks(query, String.valueOf(taskID));
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(taskID)});
 
         if (cursor.moveToFirst()) {
             do {
+                Random rand = new Random();
+                int taskId = rand.nextInt(10000000);
                 String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
                 String description = cursor.getString(cursor.getColumnIndex(TASK_DESCRIPTION));
                 int categoryID = cursor.getInt(cursor.getColumnIndex(TASK_CATEGORY_ID));
@@ -542,7 +545,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String reminderTime = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_TIME));
                 Boolean complete = cursor.getInt(cursor.getColumnIndex(TASK_COMPLETE)) == 1;
 
-                Task t = new Task(taskID, name, description, categoryID, startDate, startTime,
+                Task t = new Task(taskId, name, description, categoryID, startDate, startTime,
                         endDate, endTime, repeat, reminderDate, reminderTime, complete);
                 return t;
             } while (cursor.moveToNext());

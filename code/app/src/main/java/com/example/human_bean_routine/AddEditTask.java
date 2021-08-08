@@ -32,6 +32,7 @@ public class AddEditTask extends AppCompatActivity {
         if (isAdd == false) {
             Task editableTask = db.getTaskByID(extras.getInt("taskId"));
             taskName.setText(editableTask.getTaskName());
+            db.deleteTask(extras.getInt("taskId"));
         }
         // On clicking save button
 

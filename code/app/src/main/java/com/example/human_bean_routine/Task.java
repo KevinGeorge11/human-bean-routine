@@ -1,5 +1,7 @@
 package com.example.human_bean_routine;
 
+import java.util.Random;
+
 public class Task {
     private Integer taskId;
     private String taskName;
@@ -17,8 +19,8 @@ public class Task {
     public Task(String name, String description, Integer categoryID,
                 String startDate, String startTime, String endDate, String endTime,
                 String repeat, String reminderDate, String reminderTime, Boolean complete) {
-        int random_int = (int)Math.floor(Math.random()*(10000000-100+1)+100);
-        this.taskId = random_int;
+        Random rand = new Random();
+        this.taskId = rand.nextInt(100000000);
         this.taskName = name;
         this.description = description;
         this.categoryID = categoryID;
