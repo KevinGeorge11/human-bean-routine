@@ -65,7 +65,7 @@ public class CategoriesActivity extends AppCompatActivity {
 
             // create category button and set properties
             Button categoryBtn = new Button(this);
-            LinearLayout.LayoutParams categoryBtnParams = new LinearLayout.LayoutParams(375, 375);
+            LinearLayout.LayoutParams categoryBtnParams = new LinearLayout.LayoutParams(400, 400);
             categoryBtnParams.setMargins(20, 20, 20, 20);
             categoryBtn.setLayoutParams(categoryBtnParams);
             categoryBtn.setText(category.getName());
