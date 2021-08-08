@@ -264,6 +264,10 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         getCurrentTasks(selectedDay);
     }
 
+    public void cancelThis(View v) {
+        popupWindow.dismiss();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void edit(MenuItem item) {
         getCurrentTasks(selectedDay);

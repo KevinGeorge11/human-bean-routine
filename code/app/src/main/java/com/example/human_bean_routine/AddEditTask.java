@@ -44,6 +44,7 @@ public class AddEditTask extends AppCompatActivity {
         }
 
         Button saveButton = findViewById(R.id.btnSave);
+        Button cancelButton = findViewById(R.id.btnCancel);
         EditText taskName = findViewById(R.id.editName);
         Spinner category = findViewById(R.id.spinnerCategory);
         EditText description = findViewById(R.id.editDescription);
@@ -82,7 +83,6 @@ public class AddEditTask extends AppCompatActivity {
             etStartDate.setText(editableTask.getStartDate());
             Category currentCategory = db.getCategoryByID(editableTask.getCategoryID());
             category.setSelection(((ArrayAdapter<String>)category.getAdapter()).getPosition(currentCategory.getName()));
-            db.deleteTask(extras.getInt("taskId"));
         }
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +90,7 @@ public class AddEditTask extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
+                db.deleteTask(extras.getInt("taskId"));
                 String x = taskName.getText().toString();
                 String categoryName = category.getSelectedItem().toString();
                 String desc = description.getText().toString();
@@ -114,6 +115,18 @@ public class AddEditTask extends AppCompatActivity {
                 finish();
             }
         });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK,returnIntent);
+                finish();
+            }
+        });
+
 
     }
 
