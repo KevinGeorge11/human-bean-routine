@@ -3,7 +3,7 @@ package com.example.human_bean_routine;
 import java.util.Random;
 
 public class Category {
-    private static Integer categoryID;
+    private Integer categoryID;
     private String name; //must be unique
     private String iconPath;
     private Boolean active;
