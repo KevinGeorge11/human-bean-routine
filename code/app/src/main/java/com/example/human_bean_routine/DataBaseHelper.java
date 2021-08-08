@@ -154,6 +154,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(KEY_COMPLETE, true);
         db.insert(PUZZLES_TABLE, null, cv);
 
+        for(int r=1; r<=4; ++r){
+            for(int c=1; c<=3; ++c){
+                cv.clear();
+                cv.put(PIECE_X_COORD, c);
+                cv.put(PIECE_Y_COORD, r);
+                cv.put(PIECE_EDGE_LENGTH,10);
+                cv.put(PIECE_PUZZLE_ID, 1);
+                cv.put(PIECE_STATUS, String.valueOf(PuzzlePiece.PieceStatus.REVEALED));
+                cv.put(PIECE_DATE_UNLOCKED, "July "+r+", 2021");
+                cv.put(PIECE_TASKS_COMPLETED, 5);
+                cv.put(PIECE_USER_MESSAGE, "Great job me!");
+                db.insert(PIECES_TABLE, null, cv);
+            }
+        }
+
         // all pieces
         cv.clear();
         cv.put(PIECE_X_COORD, 1);
