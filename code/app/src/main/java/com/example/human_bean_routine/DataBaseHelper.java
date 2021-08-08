@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 // This file was created while referencing:
 // "SQLite Database for Android" by freeCodeCamp.org - https://youtu.be/312RhjfetP8
@@ -66,6 +67,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     // Values for SINGLE_VALUES table
     public static final String CURRENT_TASKS =  "current_tasks";
+    public static final String COMPLETED_TASKS =  "COMPLETED_TASKS";
+    public static final String UNLOCKED_PIECES =  "unlocked_pieces";
 
     // TASKS table create statement
     private static final String createTaskTableStatement = "CREATE TABLE " + TASKS_TABLE + " ( "
@@ -306,7 +309,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(KEY_NAME, task.getName());
+        cv.put(KEY_NAME, task.getTaskName());
         cv.put(TASK_DESCRIPTION, task.getDescription());
         cv.put(TASK_CATEGORY_ID, task.getCategoryID());
         cv.put(TASK_START_DATE, task.getStartDate());
@@ -326,7 +329,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public int updateTask(Task task) {
         ContentValues cv = new ContentValues();
 
-        cv.put(KEY_NAME, task.getName());
+        cv.put(KEY_NAME, task.getTaskName());
         cv.put(TASK_DESCRIPTION, task.getDescription());
         cv.put(TASK_CATEGORY_ID, task.getCategoryID());
         cv.put(TASK_START_DATE, task.getStartDate());
@@ -345,11 +348,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public List<Task> getAllTasks() {
+        return retrieveTasks("", "");
+    }
+
+    private List<Task> retrieveTasks(String query, String selectionArgs) {
         List<Task> tasks = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TASKS_TABLE;
+        String fullQuery = "SELECT * FROM " + TASKS_TABLE + query;
 
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = db.rawQuery(fullQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -365,8 +372,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String reminderDate = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_DATE));
                 String reminderTime = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_TIME));
                 Boolean complete = cursor.getInt(cursor.getColumnIndex(TASK_COMPLETE)) == 1;
-
-                Task t = new Task(taskID, name, description, categoryID, startDate, startTime, endDate, endTime, repeat, reminderDate, reminderTime, complete);
+                String categoryName = getCategoryByID(categoryID).getName();
+                Task t = new Task(taskID, name, description, categoryID, startDate, startTime,
+                        endDate, endTime, repeat, reminderDate, reminderTime, complete, categoryName);
                 tasks.add(t);
             } while (cursor.moveToNext());
         }
@@ -375,9 +383,49 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return tasks;
     }
 
+    public Category getCategoryByID(int categoryID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + CATEGORIES_TABLE + " WHERE " + KEY_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(categoryID)});
+
+        if (cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex(KEY_ID));
+            String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
+            Boolean active = cursor.getInt(cursor.getColumnIndex(KEY_ACTIVE)) == 1;
+            String imagePath = cursor.getString(cursor.getColumnIndex(KEY_IMAGE_PATH));
+
+            return new Category(id, name, imagePath, active);
+        }
+        return new Category(-1, "error", "", false);
+    }
+
+    public int getCategoryIdByName(String categoryName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + CATEGORIES_TABLE + " WHERE " + KEY_NAME + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(categoryName)});
+
+        if (cursor.moveToFirst()) {
+            String s = cursor.getString(cursor.getColumnIndex(KEY_ID));
+            return Integer.parseInt(s);
+        }
+        return -1;
+    }
+
     public int deleteTask(int taskId) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TASKS_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(taskId)});
+    }
+
+    public int updateNumberOfUnlockedPieces(int num) {
+        return updateSingleValue(UNLOCKED_PIECES, String.valueOf(num));
+    }
+
+
+    public int deleteAllTasks() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TASKS_TABLE,"1", null);
     }
 
     public boolean addCategory(Category category) {
@@ -404,6 +452,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         // Returns the number of rows affected
         return db.update(CATEGORIES_TABLE, cv, KEY_ID + " = ?", new String[] { String.valueOf(category.getCategoryID()) });
+    }
+
+    public List<Task> getTasks(int categoryID) {
+        List<Task> tasks = new ArrayList<>();
+        String query = "SELECT * FROM " + TASKS_TABLE + " WHERE " + "category_id" + " = ?";
+        //     List<Task> retrieved = retrieveTasks(query, String.valueOf(taskID));
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(categoryID)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int taskID = cursor.getInt(cursor.getColumnIndex(KEY_ID));
+                String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
+                String description = cursor.getString(cursor.getColumnIndex(TASK_DESCRIPTION));
+                int categoryId = cursor.getInt(cursor.getColumnIndex(TASK_CATEGORY_ID));
+                String startDate  = cursor.getString(cursor.getColumnIndex(TASK_START_DATE));
+                String startTime = cursor.getString(cursor.getColumnIndex(TASK_START_TIME));
+                String endDate = cursor.getString(cursor.getColumnIndex(TASK_END_DATE));
+                String endTime = cursor.getString(cursor.getColumnIndex(TASK_END_TIME));
+                String repeat = cursor.getString(cursor.getColumnIndex(TASK_REPEAT));
+                String reminderDate = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_DATE));
+                String reminderTime = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_TIME));
+                Boolean complete = cursor.getInt(cursor.getColumnIndex(TASK_COMPLETE)) == 1;
+                String categoryName = getCategoryByID(categoryID).getName();
+                Task t = new Task(taskID, name, description, categoryId, startDate, startTime,
+                        endDate, endTime, repeat, reminderDate, reminderTime, complete, categoryName);
+                tasks.add(t);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return tasks;
     }
 
     public List<Category> getAllCategories() {
@@ -511,6 +590,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return puzzles;
+    }
+
+    public Task getTaskByID(int taskID) {
+        String query = "SELECT * FROM " + TASKS_TABLE + " WHERE " + KEY_ID + " = ?";
+   //     List<Task> retrieved = retrieveTasks(query, String.valueOf(taskID));
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(taskID)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                Random rand = new Random();
+                int taskId = rand.nextInt(10000000);
+                String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
+                String description = cursor.getString(cursor.getColumnIndex(TASK_DESCRIPTION));
+                int categoryID = cursor.getInt(cursor.getColumnIndex(TASK_CATEGORY_ID));
+                String startDate = cursor.getString(cursor.getColumnIndex(TASK_START_DATE));
+                String startTime = cursor.getString(cursor.getColumnIndex(TASK_START_TIME));
+                String endDate = cursor.getString(cursor.getColumnIndex(TASK_END_DATE));
+                String endTime = cursor.getString(cursor.getColumnIndex(TASK_END_TIME));
+                String repeat = cursor.getString(cursor.getColumnIndex(TASK_REPEAT));
+                String reminderDate = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_DATE));
+                String reminderTime = cursor.getString(cursor.getColumnIndex(TASK_REMINDER_TIME));
+                Boolean complete = cursor.getInt(cursor.getColumnIndex(TASK_COMPLETE)) == 1;
+                String categoryName = getCategoryByID(categoryID).getName();
+                Task t = new Task(taskID, name, description, categoryID, startDate, startTime,
+                        endDate, endTime, repeat, reminderDate, reminderTime, complete, categoryName);
+                return t;
+            } while (cursor.moveToNext());
+        }
+        return new Task("error", "error", -1, "", "",
+                "", "", "", "", "", false, "");
     }
 
     public Puzzle getPuzzleByID(int puzzleID) {
