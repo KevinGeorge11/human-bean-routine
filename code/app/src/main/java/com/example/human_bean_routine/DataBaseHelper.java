@@ -10,13 +10,18 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 // This file was created while referencing:
 // "SQLite Database for Android" by freeCodeCamp.org - https://youtu.be/312RhjfetP8
 // "Android SQLite Database with Multiple Tables" on androidhive.info - https://www.androidhive.info/2013/09/android-sqlite-database-with-multiple-tables/
+// Date Formatting code - https://stackoverflow.com/questions/8654990/how-can-i-get-current-date-in-android
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
@@ -68,6 +73,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // Values for SINGLE_VALUES table
     public static final String COMPLETED_TASKS =  "COMPLETED_TASKS";
     public static final String UNLOCKED_PIECES =  "unlocked_pieces";
+    public static final String LAST_LAUNCH_DATE = "last_launch_date";
 
     // TASKS table create statement
     private static final String createTaskTableStatement =
@@ -135,19 +141,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(createSingleValuesTableStatement);
 
         ContentValues cv = new ContentValues();
-//        cv.put(KEY_ID, COMPLETED_TASKS);
-//        cv.put(KEY_VALUE, 0);
-//        db.insert(SINGLE_VALUES_TABLE, null, cv);
-
-        // TODO populate initial puzzles
 
         // Temporary coding for default values
         cv.put(KEY_ID, COMPLETED_TASKS);
-        cv.put(KEY_VALUE, 4);
+        cv.put(KEY_VALUE, 0);
         db.insert(SINGLE_VALUES_TABLE, null, cv);
 
         cv.put(KEY_ID, UNLOCKED_PIECES);
         cv.put(KEY_VALUE, 0);
+        db.insert(SINGLE_VALUES_TABLE, null, cv);
+
+        cv.put(KEY_ID, LAST_LAUNCH_DATE);
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+        cv.put(KEY_VALUE, formattedDate);
         db.insert(SINGLE_VALUES_TABLE, null, cv);
 
         cv.clear();
