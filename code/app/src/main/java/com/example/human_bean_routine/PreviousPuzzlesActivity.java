@@ -43,6 +43,10 @@ public class PreviousPuzzlesActivity extends AppCompatActivity {
                         Intent settingsIntent = new Intent (PreviousPuzzlesActivity.this, SettingsActivity.class);
                         startActivity(settingsIntent);
                         break;
+                    case R.id.miPuzzle:
+                        Intent puzzleIntent = new Intent(PreviousPuzzlesActivity.this, PuzzleActivity.class);
+                        startActivity(puzzleIntent);
+                        break;
                 }
                 return false;
             }
