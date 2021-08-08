@@ -114,7 +114,7 @@ public class PuzzleActivity extends AppCompatActivity {
         TextView currentCompletedTasks = findViewById(R.id.tvNumCurrentTasks);
         ProgressBar progress = findViewById(R.id.pbNumCurrentTasks);
         progress.setProgress(20*currentTasks);
-        currentCompletedTasks.setText(String.valueOf(currentTasks));
+        currentCompletedTasks.setText(String.valueOf(5-currentTasks));
 
         Button previousPuzzles = findViewById(R.id.bPreviousPuzzles);
         previousPuzzles.setOnClickListener(v -> {
@@ -275,15 +275,6 @@ public class PuzzleActivity extends AppCompatActivity {
         //load new puzzle into db from web api
         getNewPuzzle();
 
-        // WILL BE MOVED TO DATABASE HELPER
-        // create new puzzle pieces corresponding to new puzzle to put in db
-//        int id = currentPuzzle.getPuzzleID();
-//        for(int r=1; r<ROWS+1; ++r) {
-//            for(int c=1; c<COLS+1; ++c) {
-//                PuzzlePiece piece = new PuzzlePiece(c, r, 1, id+1, PuzzlePiece.PieceStatus.LOCKED);
-//                db.addPiece(piece);
-//            }
-//        }
         //refresh activity to load in new image and button overlay
 //        finish();
 //        overridePendingTransition( 0, 0);
@@ -323,15 +314,31 @@ public class PuzzleActivity extends AppCompatActivity {
     // check if pieces should be unlocked using db counter, then randomly select
     // puzzle pieces that are locked and update accordingly
     private void checkUnlockedPieces() {
-
         int numUnlocked = db.getNumberOfUnlockedPieces();
-        Log.d("CHECK_UNLOCKED", "numUnlocked: "+numUnlocked);
-        // get the locked pieces so one can randomly be selected
+        int numCompletedTasks = db.getNumberOfCompletedTasks();
+
+        // get the locked and unlocked pieces so one can randomly be selected
         List<PuzzlePiece> lockedPieces = new ArrayList<>();
+        List<PuzzlePiece> unlockedPieces = new ArrayList<>();
         for(int i=0; i<pieces.size(); ++i) {
             if(pieces.get(i).getStatus() == PuzzlePiece.PieceStatus.LOCKED) {
                 lockedPieces.add(pieces.get(i));
+            } else if(pieces.get(i).getStatus() == PuzzlePiece.PieceStatus.UNLOCKED) {
+                unlockedPieces.add(pieces.get(i));
             }
+        }
+        
+        if(numUnlocked<0) {
+            // re-lock puzzle pieces if user unchecks a task
+            while(numUnlocked<0 && 0<unlockedPieces.size()) {
+                int random = new Random().nextInt(unlockedPieces.size());
+                PuzzlePiece lockPiece = unlockedPieces.get(random);
+                lockPiece.setStatus(PuzzlePiece.PieceStatus.LOCKED);
+                db.updatePiece(lockPiece);
+                numUnlocked += 1;
+                unlockedPieces.remove(random);
+            }
+            db.updateNumberOfUnlockedPieces(0);
         }
 
         // limit revealing puzzle pieces to current 12 pieces in current puzzle
@@ -340,7 +347,7 @@ public class PuzzleActivity extends AppCompatActivity {
             PuzzlePiece revealPiece = lockedPieces.get(random);
             revealPiece.setStatus(PuzzlePiece.PieceStatus.UNLOCKED);
             db.updatePiece(revealPiece);
-            numUnlocked -= 1;//
+            numUnlocked -= 1;
             lockedPieces.remove(random);
         }
 
