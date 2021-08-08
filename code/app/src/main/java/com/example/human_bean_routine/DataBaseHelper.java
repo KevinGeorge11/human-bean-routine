@@ -296,9 +296,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         int tasks = getNumberOfCompletedTasks();
         int unlocked = getNumberOfUnlockedPieces();
 
-        Log.d("COMPLETE TASK", "Completed Tasks:"+tasks);
-        Log.d("COMPLETE TASK", "Unlocked Pieces:"+unlocked);
-        if (tasks >= 5) {
+        if (tasks > 5) {
             updateNumberOfCompletedTasks(0);
             updateNumberOfUnlockedPieces(unlocked + 1);
         } else {
