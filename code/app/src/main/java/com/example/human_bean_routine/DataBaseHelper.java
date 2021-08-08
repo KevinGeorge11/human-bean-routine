@@ -152,9 +152,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.insert(SINGLE_VALUES_TABLE, null, cv);
 
         cv.put(KEY_ID, LAST_LAUNCH_DATE);
-        Date c = Calendar.getInstance().getTime();
+        Date date = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-        String formattedDate = df.format(c);
+        String formattedDate = df.format(date);
         cv.put(KEY_VALUE, formattedDate);
         db.insert(SINGLE_VALUES_TABLE, null, cv);
 
