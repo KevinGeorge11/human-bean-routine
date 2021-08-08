@@ -1,10 +1,12 @@
 package com.example.human_bean_routine;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
@@ -17,6 +19,8 @@ import android.widget.Spinner;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -83,19 +87,25 @@ public class AddEditTask extends AppCompatActivity {
 
         saveButton.setOnClickListener(new View.OnClickListener() {
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 String x = taskName.getText().toString();
                 String categoryName = category.getSelectedItem().toString();
                 String desc = description.getText().toString();
                 String startDate = etStartDate.getText().toString();
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                try {
-                    Date y = formatter.parse(startDate);
-                    SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
-                    startDate = formatter2.format(y);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                if (startDate.equals("")) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    startDate = LocalDateTime.now().format(formatter);
+                } else {
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                    try {
+                        Date y = formatter.parse(startDate);
+                        SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+                        startDate = formatter2.format(y);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
                 Task newTask = new Task(x, categoryName, db.getCategoryIdByName(categoryName), desc, startDate);
                 db.addTask(newTask);
