@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Source referenced:https://stackoverflow.com/questions/41421553/background-color-change-in-bottomnavigationview -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:drawable="@color/lightest_green"/>
+    <item android:drawable="@color/medium_green"/>
+</selector>

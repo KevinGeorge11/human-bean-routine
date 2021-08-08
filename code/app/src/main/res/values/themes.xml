@@ -1,3 +1,8 @@
+<!-- Sources referenced:
+ https://developer.android.com/guide/topics/ui/look-and-feel/themes#additional-resources
+ https://medium.com/androiddevelopers/android-styling-common-theme-attributes-8f7c50c9eaba
+ https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/res/res/values/attrs.xml-->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.Humanbeanroutine" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
@@ -21,5 +26,6 @@
         <!-- Additional Components Colors -->
         <item name="statusBarBackground">@color/medium_green</item>
         <item name="statusBarForeground">@color/white</item>
+
     </style>
 </resources>
