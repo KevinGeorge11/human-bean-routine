@@ -7,12 +7,15 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -25,6 +28,31 @@ public class CategoriesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
+
+        // Bottom navbar code
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bnvMenu);
+        navigation.setSelectedItemId(R.id.miCategories);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.miPuzzle:
+                        Intent puzzleIntent = new Intent(CategoriesActivity.this, PuzzleActivity.class);
+                        startActivity(puzzleIntent);
+                        break;
+                    case R.id.miTasks:
+                        Intent taskIntent = new Intent(CategoriesActivity.this, TaskDashboard.class);
+                        startActivity(taskIntent);
+                        break;
+                    case R.id.miSettings:
+                        Intent settingsIntent = new Intent (CategoriesActivity.this, SettingsActivity.class);
+                        startActivity(settingsIntent);
+                        break;
+                }
+                return false;
+            }
+        });
+
         categoriesViewModel = new CategoriesViewModel(this /*getPackageName(), getResources()*/);
         createCategoryButtons();
     }
