@@ -79,17 +79,22 @@
     </LinearLayout>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/btAddCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="32dp"
-        android:src="@drawable/ic_baseline_add_24"
-        app:tint="@color/white"
-        android:backgroundTint="#355D52"
-        android:layout_above="@+id/bnvMenu"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:drawableLeft="@drawable/ic_baseline_add_36"
+        android:gravity="center"
         android:onClick="onAddOrEditCategory"
-        app:borderWidth="0dp"/>
+        android:background = "@drawable/roundedbutton"
+        app:iconPadding="0dp"
+        android:layout_above="@+id/bnvMenu"
+        app:layout_constraintEnd_toEndOf="@+id/llCategoriesListLayout"
+        app:layout_constraintTop_toBottomOf="@+id/llCategoriesListLayout" />
 
 </RelativeLayout>
