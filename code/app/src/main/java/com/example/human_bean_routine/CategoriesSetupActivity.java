@@ -67,9 +67,10 @@ public class CategoriesSetupActivity extends AppCompatActivity {
         for(Category category : defaultCategories) {
             if(category.getActive()){
                 activeCategories.add(category);
-                db.addCategory(category);
             }
         }
+
+        db.setupCategories(activeCategories);
 
         // go to Task dashboard after saving
         Intent i = new Intent(getApplicationContext(),TaskDashboard.class);

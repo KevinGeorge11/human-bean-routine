@@ -496,14 +496,51 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         SQLiteDatabase db = this.getWritableDatabase();
 
+        String description = "";
+        String startDate = "";
+        String startTime = "";
+        String endDate = "";
+        String endTime = "";
+        String repeat = "";
+        String reminderDate = "";
+        String reminderTime = "";
+        Boolean complete = false;
+
+
         for (Category c : categories) {
-            cv.put(KEY_NAME, c.getName());
+            String categoryName = c.getName();
+
+            cv.put(KEY_NAME, categoryName);
             cv.put(KEY_IMAGE_PATH, c.getIconPath());
             cv.put(KEY_ACTIVE, c.getActive());
 
-            long insert = db.insert(CATEGORIES_TABLE, null, cv);
+            int categoryID = (int) db.insert(CATEGORIES_TABLE, null, cv);
+            String name = "";
 
-            // TODO generate default tasks
+            switch (categoryName) {
+                case "Food":
+                    name = "Drink 3 cups of water";
+                    break;
+                case "Sleep":
+                    name = "Go to sleep on time";
+                    break;
+                case "Exercise":
+                    name = "Do 10 minutes of cardio";
+                    break;
+                case "Mental Health":
+                    name = "Meditate for 10 minutes";
+                    break;
+                case "Medicine":
+                    name = "Take medication";
+                    break;
+                case "Assets":
+                    name = "Track today's spending";
+                    break;
+            }
+
+            this.addTask(new Task(name, description, categoryID, startDate, startTime,
+                    endDate, endTime, repeat, reminderDate, reminderTime, complete, categoryName));
+
         }
 
         return;
