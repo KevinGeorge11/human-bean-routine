@@ -17,6 +17,8 @@
         <item>You are never too old to set another goal or to dream a new dream. \n- C.S. Lewis</item>
         <item>If I cannot do great things, I can do small things in a great way. \n- Martin Luther King Jr.</item>
     </string-array>
+    <string name="unsplash_access_key">xtGpitMRSxYFjcInCOE4XgxZxyq0BIll46toIiEXEyE</string>
+
     <string name="title_activity_settings">ScrollingActivity</string>
 
     <!-- Shared Preferences Keys -->
