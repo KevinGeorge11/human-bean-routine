@@ -56,13 +56,15 @@ public class Task {
         this.categoryName = categoryName;
     }
 
-    public Task(String taskName, String categoryName, int categoryID) {
+    public Task(String taskName, String categoryName, int categoryID, String description, String startDate) {
         Random rand = new Random();
         this.taskId = rand.nextInt(100000000);
         this.taskName = taskName;
         this.categoryName = categoryName;
         this.categoryID = categoryID;
         this.complete = false;
+        this.description = description;
+        this.startDate = startDate;
     }
 
     public Boolean getComplete() {

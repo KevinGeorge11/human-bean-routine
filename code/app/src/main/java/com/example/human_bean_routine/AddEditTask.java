@@ -3,16 +3,19 @@ package com.example.human_bean_routine;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class AddEditTask extends AppCompatActivity {
@@ -35,6 +38,27 @@ public class AddEditTask extends AppCompatActivity {
         Button saveButton = findViewById(R.id.btnSave);
         EditText taskName = findViewById(R.id.editName);
         Spinner category = findViewById(R.id.spinnerCategory);
+        EditText description = findViewById(R.id.editDescription);
+
+        EditText etStartDate = findViewById(R.id.etStartDate);
+        final Calendar endDateCal = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener etEndDateListener =
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        myOnDateSet(etStartDate, view, year, month, day);
+                    }
+                };
+        etStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatePickerDialog picker = openDatePicker(v, etEndDateListener,endDateCal);
+                picker.show();
+            }
+
+        });
+        
         List<String> ListSpinner = new ArrayList<String>();
 
         List<Category> allCategories = db.getAllCategories();
@@ -46,6 +70,8 @@ public class AddEditTask extends AppCompatActivity {
         if (isAdd == false) {
             Task editableTask = db.getTaskByID(extras.getInt("taskId"));
             taskName.setText(editableTask.getTaskName());
+            description.setText(editableTask.getDescription());
+            etStartDate.setText(editableTask.getStartDate());
             Category currentCategory = db.getCategoryByID(editableTask.getCategoryID());
             category.setSelection(((ArrayAdapter<String>)category.getAdapter()).getPosition(currentCategory.getName()));
             db.deleteTask(extras.getInt("taskId"));
@@ -57,7 +83,9 @@ public class AddEditTask extends AppCompatActivity {
             public void onClick(View v) {
                 String x = taskName.getText().toString();
                 String categoryName = category.getSelectedItem().toString();
-                Task newTask = new Task(x, categoryName, db.getCategoryIdByName(categoryName));
+                String desc = description.getText().toString();
+                String startDate = etStartDate.getText().toString();
+                Task newTask = new Task(x, categoryName, db.getCategoryIdByName(categoryName), desc, startDate);
                 db.addTask(newTask);
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_OK,returnIntent);
@@ -65,7 +93,26 @@ public class AddEditTask extends AppCompatActivity {
             }
         });
 
+    }
 
+    public DatePickerDialog openDatePicker (View view, DatePickerDialog.OnDateSetListener datePickerListener,
+                                            Calendar cal) {
+        DatePickerDialog datePicker = new DatePickerDialog(this,
+                R.style.Theme_Humanbeanroutine,
+                datePickerListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
+
+        return datePicker;
+    }
+
+    // Sets date to the Edittext tv
+    public void myOnDateSet(EditText et, DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+        String year = String.valueOf(selectedYear);
+        String month = String.valueOf(selectedMonth + 1);
+        String day = String.valueOf(selectedDay);
+        et.setText(day + "/" + month + "/" + year);
     }
 
 
