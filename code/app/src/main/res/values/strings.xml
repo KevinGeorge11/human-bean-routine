@@ -22,12 +22,12 @@
 
     <!-- Category Strings -->
     <string name="choose_categories">Choose categories:</string>
-    <string name="category_mental_health">Mental Health</string>
-    <string name="category_sleep">Sleep</string>
-    <string name="category_exercise">Exercise</string>
-    <string name="category_food">Food</string>
-    <string name="category_medicine">Medicine</string>
-    <string name="category_assets">Assets</string>
+    <string name="category_mental_health">Mental Health 🧠</string>
+    <string name="category_sleep">Sleep 💤</string>
+    <string name="category_exercise">Exercise 🏋️</string>
+    <string name="category_food">Food 🍏</string>
+    <string name="category_medicine">Medicine 💊</string>
+    <string name="category_assets">Assets 💵</string>
     <string name="categories">Categories</string>
     <string name="active_categories"> Active</string>
     <string name="add_category">Add Category</string>
