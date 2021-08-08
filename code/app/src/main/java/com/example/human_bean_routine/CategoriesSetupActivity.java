@@ -32,7 +32,7 @@ public class CategoriesSetupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories_setup);
         DataBaseHelper db = DataBaseHelper.getDbInstance(this);
-        // TODO: on setup, should clear all the categories in the database
+        // should clear all the categories in the database on setup
         db.clearCategoriesTable();
 
         initDefaultCategoriesList();
@@ -72,7 +72,7 @@ public class CategoriesSetupActivity extends AppCompatActivity {
         }
 
         // go to Task dashboard after saving
-        Intent i = new Intent(getApplicationContext(),CategoriesActivity.class);   //TaskDashboard.class);
+        Intent i = new Intent(getApplicationContext(),TaskDashboard.class);
         startActivity(i);
     }
 

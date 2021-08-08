@@ -77,16 +77,6 @@ public class CategoriesViewModel {
     private void loadCategoriesList(Context context) {
         DataBaseHelper db = DataBaseHelper.getDbInstance(context);
         categories = db.getAllCategories();
-        /*Field[] fields = R.string.class.getFields();
-        Field[] fields = R.string.class.getFields();
-        for (int  i =0; i < fields.length; i++) {
-            String stringKeyName = fields[i].getName();
-            if(stringKeyName.startsWith("category")) {
-                String stringValue = res.getString(res.getIdentifier(stringKeyName, "string", packageName));
-                Category category = new Category(i, stringValue, stringKeyName + "_icon"  , false);
-                categories.add(category);
-            }
-        }*/
     }
 
     // checking the new name does not overlap any other existing category names
@@ -99,6 +89,4 @@ public class CategoriesViewModel {
         }
         return false;
     }
-
-
 }
