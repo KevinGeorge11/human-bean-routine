@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -232,25 +234,36 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         popup.show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void delete(MenuItem item) {
-        LayoutInflater inflater = (LayoutInflater)
-                getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.popup_window, null);
+        SharedPreferences sh = getSharedPreferences(String.valueOf(R.string.hbrPrefs), Context.MODE_PRIVATE);
+        Boolean confirmBeforeDelete = sh.getBoolean(String.valueOf(R.string.confirmBeforeDelete), true);
+        if (confirmBeforeDelete) {
+            LayoutInflater inflater = (LayoutInflater)
+                    getSystemService(LAYOUT_INFLATER_SERVICE);
+            View popupView = inflater.inflate(R.layout.popup_window, null);
 
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        popupWindow = new PopupWindow(popupView, width, height, focusable);
-        popupWindow.showAtLocation(findViewById(R.id.taskList), Gravity.CENTER, 0, 0);
-        Button deleteButton = findViewById(R.id.deleteButton);
+            int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            boolean focusable = true; // lets taps outside the popup also dismiss it
+            popupWindow = new PopupWindow(popupView, width, height, focusable);
+            popupWindow.showAtLocation(findViewById(R.id.taskList), Gravity.CENTER, 0, 0);
+            Button deleteButton = findViewById(R.id.deleteButton);
 
-        popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                popupWindow.dismiss();
-                return true;
-            }
-        });
+            popupView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    popupWindow.dismiss();
+                    return true;
+                }
+            });
+        } else {
+            Task task = getTask();
+            int taskId = task.getTaskId();
+            db.deleteTask(taskId);
+            this.parentAdapter.notifyDataSetChanged();
+            getCurrentTasks(selectedDay);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
