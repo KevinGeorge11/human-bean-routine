@@ -64,7 +64,16 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         actionBar.setTitle("Human Bean Routine");
 
         this.db = DataBaseHelper.getDbInstance(this);
-    //    db.deleteAllTasks();
+     /*   db.deleteAllTasks();
+        db.deleteCategory("Chores");
+        db.deleteCategory("Organization");
+        db.deleteCategory("School"); */
+   /*     Category newCat1 = new Category("Chores", "./iconPath", true);
+        Category newCat2 = new Category("Organization", "./iconPath", true);
+        Category newCat3 = new Category("School", "./iconPath", true);
+        db.addCategory(newCat1);
+        db.addCategory(newCat2);
+        db.addCategory(newCat3); */
         RecyclerView
                 categoryRecyclerView
                 = findViewById(
@@ -96,11 +105,12 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK) {
                             Intent data = result.getData();
-                            List<Task> newTasks = db.getAllTasks();
+                      /*      List<Task> newTasks = db.getAllTasks();
                             CategoryTaskList sleepTaskList = new CategoryTaskList("Sleep", newTasks);
                             parentItemList.clear();
                             parentItemList.add(sleepTaskList);
-                            parentItemAdapter.notifyDataSetChanged();
+                            parentItemAdapter.notifyDataSetChanged(); */
+                            getCurrentTasks();
                         //    recreate();
                         }
                     }
@@ -122,9 +132,19 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
 
     private void getCurrentTasks() {
         List<Task> newTasks = db.getAllTasks();
-        CategoryTaskList sleepTaskList = new CategoryTaskList("Sleep", newTasks);
+        List<Category> allCategories = db.getAllCategories();
+    //    List<CategoryTaskList> allCategoryTaskLists =
         parentItemList.clear();
-        parentItemList.add(sleepTaskList);
+        for (int i = 0; i < allCategories.size(); i++) {
+            allCategories.get(i).setCategoryID(db.getCategoryIdByName(allCategories.get(i).getName()));
+            CategoryTaskList newTaskList = new CategoryTaskList(allCategories.get(i).getName(), db.getTasks(allCategories.get(i).getCategoryID()));
+            if (newTaskList.getTasks().size() > 0) {
+                parentItemList.add(newTaskList);
+            }
+        }
+    //    CategoryTaskList sleepTaskList = new CategoryTaskList("Sleep", newTasks);
+
+    //    parentItemList.add(sleepTaskList);
         parentAdapter.notifyDataSetChanged();
     }
 /*

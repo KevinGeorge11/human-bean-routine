@@ -15,10 +15,12 @@ public class Task {
     private String reminderDate;
     private String reminderTime;
     private Boolean complete;
+    private String categoryName;
 
     public Task(String name, String description, Integer categoryID,
                 String startDate, String startTime, String endDate, String endTime,
-                String repeat, String reminderDate, String reminderTime, Boolean complete) {
+                String repeat, String reminderDate, String reminderTime, Boolean complete,
+                String categoryName) {
         Random rand = new Random();
         this.taskId = rand.nextInt(100000000);
         this.taskName = name;
@@ -32,11 +34,13 @@ public class Task {
         this.reminderDate = reminderDate;
         this.reminderTime = reminderTime;
         this.complete = complete;
+        this.categoryName = categoryName;
     }
 
     public Task(Integer taskID, String name, String description, Integer categoryID,
                 String startDate, String startTime, String endDate, String endTime,
-                String repeat, String reminderDate, String reminderTime, Boolean complete) {
+                String repeat, String reminderDate, String reminderTime, Boolean complete,
+                String categoryName) {
         this.taskId = taskID;
         this.taskName = name;
         this.description = description;
@@ -49,12 +53,15 @@ public class Task {
         this.reminderDate = reminderDate;
         this.reminderTime = reminderTime;
         this.complete = complete;
+        this.categoryName = categoryName;
     }
 
-    public Task(String taskName) {
-        int random_int = (int)Math.floor(Math.random()*(10000000-100+1)+100);
-        this.taskId = random_int;
+    public Task(String taskName, String categoryName, int categoryID) {
+        Random rand = new Random();
+        this.taskId = rand.nextInt(100000000);
         this.taskName = taskName;
+        this.categoryName = categoryName;
+        this.categoryID = categoryID;
     }
 
     public Boolean getComplete() {
