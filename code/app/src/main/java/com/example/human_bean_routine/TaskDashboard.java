@@ -136,6 +136,7 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         List<Category> allCategories = db.getAllCategories();
     //    List<CategoryTaskList> allCategoryTaskLists =
         parentItemList.clear();
+    //    List<CategoryTaskList> newList = new ArrayList<CategoryTaskList>();
         for (int i = 0; i < allCategories.size(); i++) {
             allCategories.get(i).setCategoryID(db.getCategoryIdByName(allCategories.get(i).getName()));
             CategoryTaskList newTaskList = new CategoryTaskList(allCategories.get(i).getName(), db.getTasks(allCategories.get(i).getCategoryID()));
@@ -143,9 +144,6 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
                 parentItemList.add(newTaskList);
             }
         }
-    //    CategoryTaskList sleepTaskList = new CategoryTaskList("Sleep", newTasks);
-
-    //    parentItemList.add(sleepTaskList);
         parentAdapter.notifyDataSetChanged();
     }
 
@@ -168,37 +166,11 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
     }
 
     public void checkBoxMethod(View v) {
+        Task task = getTask();
+        task.setComplete(!task.getComplete());
+        db.completeTask(task);
 
-        List<Category> allCategories = db.getAllCategories();
-        //    List<CategoryTaskList> allCategoryTaskLists =
-        List<CategoryTaskList> categoryLists = new ArrayList<CategoryTaskList>();
-        categoryLists.clear();
-        for (int i = 0; i < allCategories.size(); i++) {
-            allCategories.get(i).setCategoryID(db.getCategoryIdByName(allCategories.get(i).getName()));
-            CategoryTaskList newTaskList = new CategoryTaskList(allCategories.get(i).getName(), db.getTasks(allCategories.get(i).getCategoryID()));
-            if (newTaskList.getTasks().size() > 0) {
-                categoryLists.add(newTaskList);
-            }
-        }
-
-
-   /*     View view = inflater.inflate(R.id.singleCheckList);
-        View innerView = v.findViewById(id_number_of_view_inside_v); */
-        CheckBox simpleCheckBox = (CheckBox) findViewById(R.id.singleCheckList);
-    /*    if (simpleCheckBox.isChecked()) {
-            simpleCheckBox.
-        } */
-    /*    List<Task> tasks = db.getAllTasks();
-        List<Category> categories = db.getAllCategories();
-        Category category = categories.get(KeepTrack.currentCategoryPosition); */
-        CategoryTaskList categoryTaskList = categoryLists.get(KeepTrack.currentCategoryPosition);
-        List<Task> tasks = categoryTaskList.getTasks();
-        Task currentTask = tasks.get(KeepTrack.currentTaskPosition);
-      //  currentTask.setComplete(!simpleCheckBox.isChecked());
-    //    if (currentTask.getComplete()) {
-            db.completeTask(currentTask);
-   //     }
-        getCurrentTasks();
+    //    getCurrentTasks();
 
     }
 /*
