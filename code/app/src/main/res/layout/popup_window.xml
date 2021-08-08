@@ -28,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
+            android:onClick="cancelThis"
             android:backgroundTint="#A9A9A9"
             android:layout_margin="10dp"
             />
