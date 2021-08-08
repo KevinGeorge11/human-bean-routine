@@ -836,6 +836,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return getSingleValue(LAST_LAUNCH_DATE);
     }
 
+    public int updateLastLaunchDate(String date) {
+        return updateSingleValue(LAST_LAUNCH_DATE, date);
+    }
+
 
     public void clearTasksTable() {
         SQLiteDatabase db = this.getWritableDatabase();
