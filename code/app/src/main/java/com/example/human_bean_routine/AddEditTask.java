@@ -14,8 +14,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AddEditTask extends AppCompatActivity {
@@ -85,6 +89,14 @@ public class AddEditTask extends AppCompatActivity {
                 String categoryName = category.getSelectedItem().toString();
                 String desc = description.getText().toString();
                 String startDate = etStartDate.getText().toString();
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                try {
+                    Date y = formatter.parse(startDate);
+                    SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+                    startDate = formatter2.format(y);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 Task newTask = new Task(x, categoryName, db.getCategoryIdByName(categoryName), desc, startDate);
                 db.addTask(newTask);
                 Intent returnIntent = new Intent();

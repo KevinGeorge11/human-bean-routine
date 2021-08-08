@@ -127,7 +127,7 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         parentItemList.clear();
         for (int i = 0; i < allCategories.size(); i++) {
             allCategories.get(i).setCategoryID(db.getCategoryIdByName(allCategories.get(i).getName()));
-            CategoryTaskList newTaskList = new CategoryTaskList(allCategories.get(i).getName(), db.getTasks(allCategories.get(i).getCategoryID()));
+            CategoryTaskList newTaskList = new CategoryTaskList(allCategories.get(i).getName(), db.getTasksbyDate(allCategories.get(i).getCategoryID(), "2021-08-10"));
             if (newTaskList.getTasks().size() > 0) {
                 parentItemList.add(newTaskList);
             }
