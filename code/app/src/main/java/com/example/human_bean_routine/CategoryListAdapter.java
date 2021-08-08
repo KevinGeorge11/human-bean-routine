@@ -108,7 +108,7 @@ public class CategoryListAdapter
         // item view adapter and set its
         // adapter, layout manager and RecyclerViewPool
         this.childItemAdapter = new TaskListAdapter(this.context,
-                this.recyclerViewClickListener, parentItem.getTasks());
+                this.recyclerViewClickListener, parentItem.getTasks(), position);
         this.childItemAdapter.SetOnItemClickListener(recyclerViewClickListener);
         parentViewHolder
                 .ChildRecyclerView

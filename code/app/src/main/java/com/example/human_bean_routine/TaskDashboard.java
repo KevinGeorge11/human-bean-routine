@@ -247,7 +247,22 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
             //     adapter = new MyRecyclerViewAdapter(this, taskNames);
     //    adapter.setClickListener(this);
     //    recyclerView.setAdapter(adapter);
-        List<Task> tasks = db.getAllTasks();
+        List<Category> allCategories = db.getAllCategories();
+        //    List<CategoryTaskList> allCategoryTaskLists =
+        List<CategoryTaskList> categoryLists = new ArrayList<CategoryTaskList>();
+        categoryLists.clear();
+        for (int i = 0; i < allCategories.size(); i++) {
+            allCategories.get(i).setCategoryID(db.getCategoryIdByName(allCategories.get(i).getName()));
+            CategoryTaskList newTaskList = new CategoryTaskList(allCategories.get(i).getName(), db.getTasks(allCategories.get(i).getCategoryID()));
+            if (newTaskList.getTasks().size() > 0) {
+                categoryLists.add(newTaskList);
+            }
+        }
+    /*    List<Task> tasks = db.getAllTasks();
+        List<Category> categories = db.getAllCategories();
+        Category category = categories.get(KeepTrack.currentCategoryPosition); */
+        CategoryTaskList categoryTaskList = categoryLists.get(KeepTrack.currentCategoryPosition);
+        List<Task> tasks = categoryTaskList.getTasks();
         int taskId = tasks.get(KeepTrack.currentTaskPosition).getTaskId();
 
         db.deleteTask(taskId);
@@ -266,8 +281,24 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         //     adapter = new MyRecyclerViewAdapter(this, taskNames);
         //    adapter.setClickListener(this);
         //    recyclerView.setAdapter(adapter);
-        List<Task> tasks = db.getAllTasks();
+        List<Category> allCategories = db.getAllCategories();
+        //    List<CategoryTaskList> allCategoryTaskLists =
+        List<CategoryTaskList> categoryLists = new ArrayList<CategoryTaskList>();
+        categoryLists.clear();
+        for (int i = 0; i < allCategories.size(); i++) {
+            allCategories.get(i).setCategoryID(db.getCategoryIdByName(allCategories.get(i).getName()));
+            CategoryTaskList newTaskList = new CategoryTaskList(allCategories.get(i).getName(), db.getTasks(allCategories.get(i).getCategoryID()));
+            if (newTaskList.getTasks().size() > 0) {
+                categoryLists.add(newTaskList);
+            }
+        }
+    /*    List<Task> tasks = db.getAllTasks();
+        List<Category> categories = db.getAllCategories();
+        Category category = categories.get(KeepTrack.currentCategoryPosition); */
+        CategoryTaskList categoryTaskList = categoryLists.get(KeepTrack.currentCategoryPosition);
+        List<Task> tasks = categoryTaskList.getTasks();
         int taskId = tasks.get(KeepTrack.currentTaskPosition).getTaskId();
+
     //    Task editableTask = db.getTaskByID(taskId);
 
    /*     ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(

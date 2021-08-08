@@ -18,11 +18,13 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
     private Context context;
     private static RecyclerViewClickListener recyclerViewClickListener;
     KeepTrack tracker;
+    private int categoryPosition;
 
-    TaskListAdapter(Context context, RecyclerViewClickListener recyclerViewClickListener, List<Task> tasks) {
+    TaskListAdapter(Context context, RecyclerViewClickListener recyclerViewClickListener, List<Task> tasks, int categoryPosition) {
         this.tasks = tasks;
         this.recyclerViewClickListener = recyclerViewClickListener;
         this.context = context;
+        this.categoryPosition = categoryPosition;
     }
 
  /*   public RecyclerViewClickListener getRecyclerViewClickListener() {
@@ -68,6 +70,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
             @Override
             public void onClick(View v) {
                 tracker.currentTaskPosition = position;
+                tracker.currentCategoryPosition = categoryPosition;
             }
         });
         childViewHolder.ellipses.setOnClickListener(childViewHolder);
@@ -115,6 +118,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
         public void onClick(View v) {
             recyclerViewClickListener.recyclerViewListClicked(v, this.getLayoutPosition());
             KeepTrack.currentTaskPosition = this.getLayoutPosition();
+            KeepTrack.currentCategoryPosition = categoryPosition;
         }
     }
 }
