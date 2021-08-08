@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -51,6 +52,31 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_dashboard);
+
+        // Bottom navbar code
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bnvMenu);
+        navigation.setSelectedItemId(R.id.miTasks);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.miCategories:
+                        Intent categoriesIntent = new Intent(TaskDashboard.this, CategoriesActivity.class);
+                        startActivity(categoriesIntent);
+                        break;
+                    case R.id.miPuzzle:
+                        Intent puzzleIntent = new Intent(TaskDashboard.this, PuzzleActivity.class);
+                        startActivity(puzzleIntent);
+                        break;
+                    case R.id.miSettings:
+                        Intent settingsIntent = new Intent (TaskDashboard.this, SettingsActivity.class);
+                        startActivity(settingsIntent);
+                        break;
+                }
+                return false;
+            }
+        });
+
         ActionBar actionBar;
         actionBar = getSupportActionBar();
 

@@ -53,4 +53,17 @@
         android:backgroundTint="#355D52"
         app:borderWidth="0dp"/>
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bnvMenu"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="start"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        app:itemBackground="@drawable/bottom_navigation_background_selector"
+        app:itemIconTint="@drawable/bottom_navigation_icon_selector"
+        app:itemTextColor="@color/dark_green"
+        app:layout_constraintVertical_bias="1.0"
+        app:menu="@menu/navigation_items" />
+
 </RelativeLayout>
