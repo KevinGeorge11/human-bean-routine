@@ -67,6 +67,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     // Values for SINGLE_VALUES table
     public static final String CURRENT_TASKS =  "current_tasks";
+    public static final String COMPLETED_TASKS =  "COMPLETED_TASKS";
+    public static final String UNLOCKED_PIECES =  "unlocked_pieces";
 
     // TASKS table create statement
     private static final String createTaskTableStatement = "CREATE TABLE " + TASKS_TABLE + " ( "
@@ -415,6 +417,41 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TASKS_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(taskId)});
     }
+
+    public int completeTask(Task task) {
+        int update = updateTask(task);
+    /*    int tasks = getNumberOfCompletedTasks();
+        int unlocked = getNumberOfUnlockedPieces();
+
+        if (tasks >= 5) {
+            updateNumberOfCompletedTasks(0);
+            updateNumberOfUnlockedPieces(unlocked + 1);
+        } else {
+            updateNumberOfCompletedTasks(tasks + 1);
+        }
+*/
+        return update;
+    }
+
+    public int getNumberOfCompletedTasks() {
+        return Integer.parseInt(getSingleValue(COMPLETED_TASKS));
+    }
+
+
+    public int updateNumberOfCompletedTasks(int num) {
+        return updateSingleValue(COMPLETED_TASKS, String.valueOf(num));
+    }
+
+
+    public int getNumberOfUnlockedPieces() {
+        return Integer.parseInt(getSingleValue(UNLOCKED_PIECES));
+    }
+
+
+    public int updateNumberOfUnlockedPieces(int num) {
+        return updateSingleValue(UNLOCKED_PIECES, String.valueOf(num));
+    }
+
 
     public int deleteAllTasks() {
         SQLiteDatabase db = this.getWritableDatabase();

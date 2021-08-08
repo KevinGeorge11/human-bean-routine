@@ -62,6 +62,7 @@ public class Task {
         this.taskName = taskName;
         this.categoryName = categoryName;
         this.categoryID = categoryID;
+        this.complete = false;
     }
 
     public Boolean getComplete() {

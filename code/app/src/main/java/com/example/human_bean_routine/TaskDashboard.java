@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
@@ -146,6 +147,59 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
 
     //    parentItemList.add(sleepTaskList);
         parentAdapter.notifyDataSetChanged();
+    }
+
+    public Task getTask() {
+
+        List<Category> allCategories = db.getAllCategories();
+        List<CategoryTaskList> categoryLists = new ArrayList<CategoryTaskList>();
+        categoryLists.clear();
+        for (int i = 0; i < allCategories.size(); i++) {
+            allCategories.get(i).setCategoryID(db.getCategoryIdByName(allCategories.get(i).getName()));
+            CategoryTaskList newTaskList = new CategoryTaskList(allCategories.get(i).getName(), db.getTasks(allCategories.get(i).getCategoryID()));
+            if (newTaskList.getTasks().size() > 0) {
+                categoryLists.add(newTaskList);
+            }
+        }
+        CategoryTaskList categoryTaskList = categoryLists.get(KeepTrack.currentCategoryPosition);
+        List<Task> tasks = categoryTaskList.getTasks();
+        Task currentTask = tasks.get(KeepTrack.currentTaskPosition);
+        return currentTask;
+    }
+
+    public void checkBoxMethod(View v) {
+
+        List<Category> allCategories = db.getAllCategories();
+        //    List<CategoryTaskList> allCategoryTaskLists =
+        List<CategoryTaskList> categoryLists = new ArrayList<CategoryTaskList>();
+        categoryLists.clear();
+        for (int i = 0; i < allCategories.size(); i++) {
+            allCategories.get(i).setCategoryID(db.getCategoryIdByName(allCategories.get(i).getName()));
+            CategoryTaskList newTaskList = new CategoryTaskList(allCategories.get(i).getName(), db.getTasks(allCategories.get(i).getCategoryID()));
+            if (newTaskList.getTasks().size() > 0) {
+                categoryLists.add(newTaskList);
+            }
+        }
+
+
+   /*     View view = inflater.inflate(R.id.singleCheckList);
+        View innerView = v.findViewById(id_number_of_view_inside_v); */
+        CheckBox simpleCheckBox = (CheckBox) findViewById(R.id.singleCheckList);
+    /*    if (simpleCheckBox.isChecked()) {
+            simpleCheckBox.
+        } */
+    /*    List<Task> tasks = db.getAllTasks();
+        List<Category> categories = db.getAllCategories();
+        Category category = categories.get(KeepTrack.currentCategoryPosition); */
+        CategoryTaskList categoryTaskList = categoryLists.get(KeepTrack.currentCategoryPosition);
+        List<Task> tasks = categoryTaskList.getTasks();
+        Task currentTask = tasks.get(KeepTrack.currentTaskPosition);
+      //  currentTask.setComplete(!simpleCheckBox.isChecked());
+    //    if (currentTask.getComplete()) {
+            db.completeTask(currentTask);
+   //     }
+        getCurrentTasks();
+
     }
 /*
     @Override

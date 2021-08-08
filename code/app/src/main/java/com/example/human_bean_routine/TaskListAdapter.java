@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,6 +66,19 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
                 .ChildItemTitle
                 .setText(task.getTaskName());
 
+        childViewHolder.checkbox.setChecked(task.getComplete());
+        childViewHolder.checkbox.setOnClickListener(new View.OnClickListener() {
+            DataBaseHelper db = DataBaseHelper.getDbInstance(context);
+
+            @Override
+            public void onClick(View v) {
+                tracker.currentTaskPosition = position;
+                tracker.currentCategoryPosition = categoryPosition;
+                task.setComplete(!task.getComplete());
+                db.completeTask(task);
+            }
+        });
+
         childViewHolder.ellipses.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -90,6 +104,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView ChildItemTitle;
+        CheckBox checkbox;
         ImageButton ellipses;
         KeepTrack tracker;
 
@@ -99,9 +114,14 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
             ChildItemTitle
                     = itemView.findViewById(
                     R.id.singleCheckList);
+
+            checkbox = itemView.findViewById(R.id.singleCheckList);
+        //    ChildItemTitle.setOnClickListener();
             ellipses = itemView.findViewById(R.id.ellipses);
 
             ellipses.setOnClickListener(this);
+
+        //    ChildItemTitle.setOnClickListener(this);
         //    int x = this.getLayoutPosition();
         //    recyclerViewClickListener.recyclerViewListClicked(itemView, this.getLayoutPosition());
 
