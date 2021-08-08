@@ -75,7 +75,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
                 tracker.currentTaskPosition = position;
                 tracker.currentCategoryPosition = categoryPosition;
                 task.setComplete(!task.getComplete());
-                db.completeTask(task);
+                db.updateTask(task);
             }
         });
 
@@ -116,22 +116,10 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
                     R.id.singleCheckList);
 
             checkbox = itemView.findViewById(R.id.singleCheckList);
-        //    ChildItemTitle.setOnClickListener();
             ellipses = itemView.findViewById(R.id.ellipses);
 
             ellipses.setOnClickListener(this);
 
-        //    ChildItemTitle.setOnClickListener(this);
-        //    int x = this.getLayoutPosition();
-        //    recyclerViewClickListener.recyclerViewListClicked(itemView, this.getLayoutPosition());
-
-        /*    ellipses.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    tracker.currentTaskPosition = x;
-                }
-            });*/
         }
 
         @Override

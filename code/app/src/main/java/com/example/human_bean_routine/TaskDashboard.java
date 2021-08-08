@@ -139,8 +139,7 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
     public void checkBoxMethod(View v) {
         Task task = getTask();
         task.setComplete(!task.getComplete());
-        db.completeTask(task);
-
+        db.updateTask(task);
     }
 
     @Override

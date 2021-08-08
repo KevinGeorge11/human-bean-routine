@@ -418,36 +418,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return db.delete(TASKS_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(taskId)});
     }
 
-    public int completeTask(Task task) {
-        int update = updateTask(task);
-    /*    int tasks = getNumberOfCompletedTasks();
-        int unlocked = getNumberOfUnlockedPieces();
-
-        if (tasks >= 5) {
-            updateNumberOfCompletedTasks(0);
-            updateNumberOfUnlockedPieces(unlocked + 1);
-        } else {
-            updateNumberOfCompletedTasks(tasks + 1);
-        }
-*/
-        return update;
-    }
-
-    public int getNumberOfCompletedTasks() {
-        return Integer.parseInt(getSingleValue(COMPLETED_TASKS));
-    }
-
-
-    public int updateNumberOfCompletedTasks(int num) {
-        return updateSingleValue(COMPLETED_TASKS, String.valueOf(num));
-    }
-
-
-    public int getNumberOfUnlockedPieces() {
-        return Integer.parseInt(getSingleValue(UNLOCKED_PIECES));
-    }
-
-
     public int updateNumberOfUnlockedPieces(int num) {
         return updateSingleValue(UNLOCKED_PIECES, String.valueOf(num));
     }

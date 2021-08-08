@@ -41,13 +41,8 @@ public class AddEditTask extends AppCompatActivity {
         for (int i = 0; i < allCategories.size(); i++) {
             ListSpinner.add(allCategories.get(i).getName());
         }
-     //   String[] arraySpinner = new String[ListSpinner.size()];
-     //   ListSpinner.toArray(arraySpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_spinner_item, ListSpinner);
         category.setAdapter(adapter);
-      //  String[] arraySpinner = new String[]{};
-    //    arraySpinner.
-     //   db.getAllCategories()
         if (isAdd == false) {
             Task editableTask = db.getTaskByID(extras.getInt("taskId"));
             taskName.setText(editableTask.getTaskName());
@@ -55,15 +50,11 @@ public class AddEditTask extends AppCompatActivity {
             category.setSelection(((ArrayAdapter<String>)category.getAdapter()).getPosition(currentCategory.getName()));
             db.deleteTask(extras.getInt("taskId"));
         }
-        // On clicking save button
 
-       // taskName.setText(editableTask.get);
         saveButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-              //  Intent i = new Intent(getApplicationContext(),TaskDashboard.class);
-              //  startActivity(i);
                 String x = taskName.getText().toString();
                 String categoryName = category.getSelectedItem().toString();
                 Task newTask = new Task(x, categoryName, db.getCategoryIdByName(categoryName));
@@ -73,7 +64,6 @@ public class AddEditTask extends AppCompatActivity {
                 finish();
             }
         });
-        // setResult(Activity.RESULT_CANCELED, returnIntent);
 
 
     }
