@@ -1,8 +1,10 @@
 package com.example.human_bean_routine;
 
+import java.util.Random;
+
 public class Task {
     private Integer taskId;
-    private String name;
+    private String taskName;
     private String description;
     private Integer categoryID;
     private String startDate;
@@ -13,12 +15,15 @@ public class Task {
     private String reminderDate;
     private String reminderTime;
     private Boolean complete;
+    private String categoryName;
 
     public Task(String name, String description, Integer categoryID,
                 String startDate, String startTime, String endDate, String endTime,
-                String repeat, String reminderDate, String reminderTime, Boolean complete) {
-        this.taskId = -1;
-        this.name = name;
+                String repeat, String reminderDate, String reminderTime, Boolean complete,
+                String categoryName) {
+        Random rand = new Random();
+        this.taskId = rand.nextInt(100000000);
+        this.taskName = name;
         this.description = description;
         this.categoryID = categoryID;
         this.startDate = startDate;
@@ -29,13 +34,15 @@ public class Task {
         this.reminderDate = reminderDate;
         this.reminderTime = reminderTime;
         this.complete = complete;
+        this.categoryName = categoryName;
     }
 
     public Task(Integer taskID, String name, String description, Integer categoryID,
                 String startDate, String startTime, String endDate, String endTime,
-                String repeat, String reminderDate, String reminderTime, Boolean complete) {
+                String repeat, String reminderDate, String reminderTime, Boolean complete,
+                String categoryName) {
         this.taskId = taskID;
-        this.name = name;
+        this.taskName = name;
         this.description = description;
         this.categoryID = categoryID;
         this.startDate = startDate;
@@ -46,8 +53,19 @@ public class Task {
         this.reminderDate = reminderDate;
         this.reminderTime = reminderTime;
         this.complete = complete;
+        this.categoryName = categoryName;
     }
 
+    public Task(String taskName, String categoryName, int categoryID, String description, String startDate) {
+        Random rand = new Random();
+        this.taskId = rand.nextInt(100000000);
+        this.taskName = taskName;
+        this.categoryName = categoryName;
+        this.categoryID = categoryID;
+        this.complete = false;
+        this.description = description;
+        this.startDate = startDate;
+    }
 
     public Boolean getComplete() {
         return complete;
@@ -105,12 +123,12 @@ public class Task {
         this.startTime = startTime;
     }
 
-    public String getName() {
-        return name;
+    public String getTaskName() {
+        return taskName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.taskName = name;
     }
 
     public String getDescription() {
@@ -143,5 +161,9 @@ public class Task {
 
     public void setTaskId(Integer taskId) {
         this.taskId = taskId;
+    }
+
+    public void editTaskName(String newTaskName) {
+        this.taskName = newTaskName;
     }
 }
