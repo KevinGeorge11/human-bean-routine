@@ -295,7 +295,7 @@ public class PuzzleActivity extends AppCompatActivity {
     // check if pieces should be unlocked using db counter, then randomly select
     // puzzle pieces that are locked and update accordingly
     private void checkUnlockedPieces() {
-        int numUnlocked = db.getNumberOfUnlockedPieces();
+        int numUnlocked = 7; //db.getNumberOfUnlockedPieces();
 
         // get the locked pieces so one can randomly be selected
         List<PuzzlePiece> lockedPieces = new ArrayList<>();
@@ -315,7 +315,7 @@ public class PuzzleActivity extends AppCompatActivity {
             lockedPieces.remove(random);
         }
 
-        db.updateNumberOfUnlockedPieces(numUnlocked);
+        //db.updateNumberOfUnlockedPieces(numUnlocked);
         pieces = db.getPuzzlePieces(currentPuzzle.getPuzzleID());
     }
 }
