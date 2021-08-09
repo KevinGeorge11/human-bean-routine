@@ -21,7 +21,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
     private List<Task> tasks;
     private Context context;
     private static RecyclerViewClickListener recyclerViewClickListener;
-    KeepTrack tracker;
+    AdapterHelper tracker;
     private int categoryPosition;
 
     TaskListAdapter(Context context, RecyclerViewClickListener recyclerViewClickListener, List<Task> tasks, int categoryPosition) {
@@ -109,7 +109,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
         TextView ChildItemTitle;
         CheckBox checkbox;
         ImageButton ellipses;
-        KeepTrack tracker;
+        AdapterHelper tracker;
 
         TaskViewHolder(View itemView)
         {
@@ -128,8 +128,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
         @Override
         public void onClick(View v) {
             recyclerViewClickListener.recyclerViewListClicked(v, this.getLayoutPosition());
-            KeepTrack.currentTaskPosition = this.getLayoutPosition();
-            KeepTrack.currentCategoryPosition = categoryPosition;
+            AdapterHelper.currentTaskPosition = this.getLayoutPosition();
+            AdapterHelper.currentCategoryPosition = categoryPosition;
         }
     }
 }

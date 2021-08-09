@@ -1,19 +1,15 @@
 package com.example.human_bean_routine.Tasks;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import com.example.human_bean_routine.Categories.CategoriesActivity;
 import com.example.human_bean_routine.Categories.Category;
 import com.example.human_bean_routine.Database.DataBaseHelper;
@@ -35,7 +30,6 @@ import com.example.human_bean_routine.R;
 import com.example.human_bean_routine.Settings.SettingsActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -61,7 +55,6 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         }
     };
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,18 +84,11 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
             }
         });
 
+        // Adapter initialization
         this.db = DataBaseHelper.getDbInstance(this);
-
-        RecyclerView
-                categoryRecyclerView
-                = findViewById(
-                R.id.parent_recyclerview);
-
-        LinearLayoutManager
-                layoutManager
-                = new LinearLayoutManager(this);
-
-        parentItemList = new ArrayList<CategoryTaskList>();
+        RecyclerView categoryRecyclerView = findViewById(R.id.parent_recyclerview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        this.parentItemList = new ArrayList<CategoryTaskList>();
         CategoryListAdapter
                 parentItemAdapter
                 = new CategoryListAdapter(parentItemList, getApplicationContext(), recyclerViewClickListener);
@@ -113,6 +99,12 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         categoryRecyclerView
                 .setLayoutManager(layoutManager);
 
+        buttonInitialization();
+
+    }
+
+    // Initializes floating plus button, next day and previous day buttons
+    private void buttonInitialization() {
         final FloatingActionButton addButton = findViewById(R.id.floatingAddButton);
 
         ImageButton nextButton = findViewById(R.id.nextButton);
@@ -140,7 +132,6 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
             }
         });
         prevButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 if(selectedDay == "this week") {
@@ -158,7 +149,6 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         });
 
         nextButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 if(selectedDay == "today") {
@@ -176,12 +166,13 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    // Given parameter "today", "tomorrow" or "this week",
+    // it will take the category and task position from the AdapterHelper
+    // and fetch the currentTasks in the TaskDashboard
     private void getCurrentTasks(String selectedDay) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = LocalDateTime.now().format(formatter);
         boolean singleDay = true;
-    //    Date dt = new Date();
         if (selectedDay == "tomorrow") {
             date = LocalDate.now().plus(1, ChronoUnit.DAYS).format(formatter);
         } else if (selectedDay == "this week") {
@@ -201,30 +192,24 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         parentAdapter.notifyDataSetChanged();
     }
 
+    // Gets the task and category positions as per the AdapterHelper
+    // return the necessary Task
     public Task getTask() {
-
         List<Category> allCategories = db.getAllCategories();
-    //    List<CategoryTaskList> categoryLists = new ArrayList<CategoryTaskList>();
-    //    categoryLists.clear();
-    /*    for (int i = 0; i < allCategories.size(); i++) {
-            allCategories.get(i).setCategoryID(db.getCategoryIdByName(allCategories.get(i).getName()));
-            CategoryTaskList newTaskList = new CategoryTaskList(allCategories.get(i).getName(), db.getTasks(allCategories.get(i).getCategoryID()));
-            if (newTaskList.getTasks().size() > 0) {
-                categoryLists.add(newTaskList);
-            }
-        } */
-        CategoryTaskList categoryTaskList = this.parentItemList.get(KeepTrack.currentCategoryPosition);
+        CategoryTaskList categoryTaskList = this.parentItemList.get(AdapterHelper.currentCategoryPosition);
         List<Task> tasks = categoryTaskList.getTasks();
-        Task currentTask = tasks.get(KeepTrack.currentTaskPosition);
+        Task currentTask = tasks.get(AdapterHelper.currentTaskPosition);
         return currentTask;
     }
 
+    // Sets complete to task and updates database on checkbox check
     public void checkBoxMethod(View v) {
         Task task = getTask();
         task.setComplete(!task.getComplete());
         db.updateTask(task);
     }
 
+    // Creates the menu popup when the ellipses is clicked
     @Override
     public void recyclerViewListClicked(View v, int position){
         PopupMenu popup = new PopupMenu(this, v);
@@ -234,11 +219,12 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         popup.show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    // Will open the Delete popup if the SharedPreferences has allowed confirmation
+    // Otherwise will proceed to delete the desired task
     public void delete(MenuItem item) {
         SharedPreferences sh = getSharedPreferences(String.valueOf(R.string.hbrPrefs), Context.MODE_PRIVATE);
         Boolean confirmBeforeDelete = sh.getBoolean(String.valueOf(R.string.confirmBeforeDelete), true);
-        if (confirmBeforeDelete) {
+        if (confirmBeforeDelete) { // Show popup before deleting task
             LayoutInflater inflater = (LayoutInflater)
                     getSystemService(LAYOUT_INFLATER_SERVICE);
             View popupView = inflater.inflate(R.layout.popup_window, null);
@@ -257,7 +243,7 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
                     return true;
                 }
             });
-        } else {
+        } else { // Delete task
             Task task = getTask();
             int taskId = task.getTaskId();
             db.deleteTask(taskId);
@@ -266,9 +252,8 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    // Delete the task for the position of the ellipses
     public void deleteThis(View v) {
-
         Task task = getTask();
         int taskId = task.getTaskId();
         db.deleteTask(taskId);
@@ -277,11 +262,12 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         getCurrentTasks(selectedDay);
     }
 
+    // Cancel button will dismiss the popup for Delete/Cancel
     public void cancelThis(View v) {
         popupWindow.dismiss();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    // If the edit is clicked on the Menu popup, launch the activity and send details about task
     public void edit(MenuItem item) {
         getCurrentTasks(selectedDay);
         Task task = getTask();
@@ -296,7 +282,7 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         getCurrentTasks(selectedDay);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    // Functions for different item clicks on the Edit/Delete Menu popup
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
