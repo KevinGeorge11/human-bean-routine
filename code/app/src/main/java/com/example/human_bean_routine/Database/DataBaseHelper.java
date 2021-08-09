@@ -80,6 +80,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COMPLETED_TASKS =  "COMPLETED_TASKS";
     public static final String UNLOCKED_PIECES =  "unlocked_pieces";
     public static final String LAST_LAUNCH_DATE = "last_launch_date";
+    public static final String ALLOWED_PIECES = "number_allowed_pieces";
 
     // TASKS table create statement
     private static final String createTaskTableStatement =
@@ -155,6 +156,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         cv.put(KEY_ID, UNLOCKED_PIECES);
         cv.put(KEY_VALUE, 0);
+        db.insert(SINGLE_VALUES_TABLE, null, cv);
+
+        cv.put(KEY_ID, ALLOWED_PIECES);
+        cv.put(KEY_VALUE, 3);
         db.insert(SINGLE_VALUES_TABLE, null, cv);
 
         cv.put(KEY_ID, LAST_LAUNCH_DATE);
@@ -309,15 +314,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         int update = updateTask(task);
         int tasks = getNumberOfCompletedTasks();
         int unlocked = getNumberOfUnlockedPieces();
+        int allowed_pieces = getAllowedPieces();
 
         // Check if date changed and reset unlocked pieces
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         String formattedDate = df.format(c);
         if (!formattedDate.equals(getLastLaunchDate())) {
-            if (unlocked > 0) {
-                updateNumberOfUnlockedPieces(0);
-            }
+            updateAllowedPieces(3);
             updateLastLaunchDate(formattedDate);
         }
 
@@ -325,8 +329,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if (task.getComplete()) {
             if (tasks == 4) {
                 updateNumberOfCompletedTasks(0);
-                if (unlocked < 3) {
+                if (allowed_pieces > 0) {
                     updateNumberOfUnlockedPieces(unlocked + 1);
+                    updateAllowedPieces(allowed_pieces - 1);
                 }
             } else {
                 updateNumberOfCompletedTasks(tasks + 1);
@@ -336,6 +341,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             if (tasks == 0) {
                 updateNumberOfCompletedTasks(4);
                 updateNumberOfUnlockedPieces(unlocked - 1);
+                if (allowed_pieces < 3) {
+                    updateAllowedPieces(allowed_pieces + 1);
+                }
             } else {
                 updateNumberOfCompletedTasks(tasks - 1);
             }
@@ -935,6 +943,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public int updateLastLaunchDate(String date) {
         return updateSingleValue(LAST_LAUNCH_DATE, date);
+    }
+
+    public int getAllowedPieces() {
+        return Integer.parseInt(getSingleValue(ALLOWED_PIECES));
+    }
+
+    public int updateAllowedPieces(int num) {
+        return updateSingleValue(ALLOWED_PIECES, String.valueOf(num));
     }
 
 
