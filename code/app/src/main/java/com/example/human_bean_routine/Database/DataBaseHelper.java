@@ -568,8 +568,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(KEY_ACTIVE, category.getActive());
 
         // Returns the number of rows affected
-        return db.update(CATEGORIES_TABLE, cv, KEY_NAME + " = ?",
-                new String[] { String.valueOf(category.getName()) });
+        return db.update(CATEGORIES_TABLE, cv, KEY_ID + " = ?",
+                new String[] { String.valueOf(category.getCategoryID()) });
     }
 
 
@@ -582,11 +582,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
+                int categoryID = cursor.getInt(cursor.getColumnIndex(KEY_ID));
                 String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
                 String iconPath = cursor.getString(cursor.getColumnIndex(KEY_IMAGE_PATH));
                 Boolean active = cursor.getInt(cursor.getColumnIndex(KEY_ACTIVE)) == 1;
 
-                Category c = new Category(name, iconPath, active);
+                Category c = new Category(categoryID, name, iconPath, active);
                 categories.add(c);
             } while (cursor.moveToNext());
         }
@@ -604,11 +605,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
+                int categoryID = cursor.getInt(cursor.getColumnIndex(KEY_ID));
                 String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
                 String iconPath = cursor.getString(cursor.getColumnIndex(KEY_IMAGE_PATH));
                 Boolean active = cursor.getInt(cursor.getColumnIndex(KEY_ACTIVE)) == 1;
 
-                Category c = new Category(name, iconPath, active);
+                Category c = new Category(categoryID, name, iconPath, active);
                 categories.add(c);
             } while (cursor.moveToNext());
         }
