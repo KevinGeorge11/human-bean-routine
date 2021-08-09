@@ -568,7 +568,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(KEY_ACTIVE, category.getActive());
 
         // Returns the number of rows affected
-        return db.update(TASKS_TABLE, cv, KEY_NAME + " = ?",
+        return db.update(CATEGORIES_TABLE, cv, KEY_NAME + " = ?",
                 new String[] { String.valueOf(category.getName()) });
     }
 
