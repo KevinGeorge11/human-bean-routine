@@ -90,6 +90,7 @@ public class CategoriesActivity extends AppCompatActivity {
             FrameLayout frameLayout = new FrameLayout(this);
             FrameLayout.LayoutParams frameLp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             frameLayout.setLayoutParams(frameLp);
+            frameLayout.setElevation(1.0F);
 
             // create category button and set properties
             Button categoryBtn = new Button(this);
@@ -117,6 +118,7 @@ public class CategoriesActivity extends AppCompatActivity {
             LinearLayout.LayoutParams deleteBtnParams = new LinearLayout.LayoutParams(100, 100);
             deleteBtn.setLayoutParams(deleteBtnParams);
             deleteBtn.setVisibility(View.INVISIBLE);
+            deleteBtn.setElevation(5.0F);
 
             // set on click listener for close button
             deleteBtn.setOnClickListener(new View.OnClickListener() {

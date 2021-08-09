@@ -58,7 +58,10 @@ public class CategoriesViewModel {
 
     // remove existing category from list data and delete it in category database
     public void deleteCategory(Category deletedCategory) {
+        DataBaseHelper db = DataBaseHelper.getDbInstance(context);
+
         categories.remove(deletedCategory);
+        db.deleteCategory(deletedCategory.getName());
     }
 
 
