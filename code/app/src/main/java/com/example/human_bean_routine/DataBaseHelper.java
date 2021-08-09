@@ -2,6 +2,7 @@ package com.example.human_bean_routine;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -10,7 +11,10 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -492,12 +496,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void setupCategories(List<Category> categories) {
+    public void setupCategories(List<Category> categories, Context context) {
         ContentValues cv = new ContentValues();
         SQLiteDatabase db = this.getWritableDatabase();
 
         String description = "";
-        String startDate = "";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String startDate = LocalDateTime.now().format(formatter);
         String startTime = "";
         String endDate = "";
         String endTime = "";
@@ -517,23 +522,28 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             int categoryID = (int) db.insert(CATEGORIES_TABLE, null, cv);
             String name = "";
 
-            switch (categoryName) {
-                case "Food":
+            String.valueOf(R.string.category_food);
+
+
+            int resourceId = context.getResources().getIdentifier(c.getIconPath().replace("_icon", "") , "string", context.getPackageName());
+
+            switch (resourceId) {
+                case R.string.category_food:
                     name = "Drink 3 cups of water";
                     break;
-                case "Sleep":
+                case R.string.category_sleep:
                     name = "Go to sleep on time";
                     break;
-                case "Exercise":
+                case R.string.category_exercise:
                     name = "Do 10 minutes of cardio";
                     break;
-                case "Mental Health":
+                case R.string.category_mental_health:
                     name = "Meditate for 10 minutes";
                     break;
-                case "Medicine":
+                case R.string.category_medicine:
                     name = "Take medication";
                     break;
-                case "Assets":
+                case R.string.category_assets:
                     name = "Track today's spending";
                     break;
             }

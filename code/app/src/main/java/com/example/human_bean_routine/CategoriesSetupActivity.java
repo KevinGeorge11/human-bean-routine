@@ -70,7 +70,7 @@ public class CategoriesSetupActivity extends AppCompatActivity {
             }
         }
 
-        db.setupCategories(activeCategories);
+        db.setupCategories(activeCategories, this);
 
         // go to Task dashboard after saving
         Intent i = new Intent(getApplicationContext(),TaskDashboard.class);
