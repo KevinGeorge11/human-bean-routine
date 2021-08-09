@@ -41,7 +41,6 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
     DataBaseHelper db;
     PopupWindow popupWindow;
     List<CategoryTaskList> parentItemList;
-    int current;
     CategoryListAdapter parentAdapter;
     String selectedDay;
     ActivityResultLauncher<Intent> launchSomeActivity;
@@ -215,7 +214,6 @@ public class TaskDashboard extends AppCompatActivity implements RecyclerViewClic
         PopupMenu popup = new PopupMenu(this, v);
         popup.setOnMenuItemClickListener(TaskDashboard.this);
         popup.getMenuInflater().inflate(R.menu.menu, popup.getMenu());
-        current = position;
         popup.show();
     }
 

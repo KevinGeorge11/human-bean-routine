@@ -7,15 +7,15 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.CheckBox;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.human_bean_routine.Database.DataBaseHelper;
 import com.example.human_bean_routine.R;
 
 import java.util.List;
+// To implement the Nested Adapters, a tutorial was viewed from this site, to learn how multiple adapters can be linked together:
 // https://www.geeksforgeeks.org/how-to-create-a-nested-recyclerview-in-android/
+// However, many additional fields and some additional methods were added in respect to our project.
 public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskViewHolder> {
 
     private List<Task> tasks;
@@ -31,10 +31,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
         this.categoryPosition = categoryPosition;
     }
 
- /*   public RecyclerViewClickListener getRecyclerViewClickListener() {
-        return this.recyclerViewClickListener;
-    }*/
-
     @NonNull
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup,
@@ -47,30 +43,24 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
                         viewGroup, false);
 
         TaskViewHolder viewHolder = new TaskViewHolder(view);
-        viewHolder.ellipses.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                recyclerViewClickListener.recyclerViewListClicked(viewHolder.ellipses, viewHolder.getAdapterPosition());
-            }
-        });
         
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(
-            @NonNull TaskViewHolder childViewHolder,
+            @NonNull TaskViewHolder taskViewHolder,
             int position)
     {
         Task task
                 = tasks.get(position);
 
-        childViewHolder
-                .ChildItemTitle
+        taskViewHolder
+                .taskItemTitle
                 .setText(task.getTaskName());
 
-        childViewHolder.checkbox.setChecked(task.getComplete());
-        childViewHolder.checkbox.setOnClickListener(new View.OnClickListener() {
+        taskViewHolder.checkbox.setChecked(task.getComplete());
+        taskViewHolder.checkbox.setOnClickListener(new View.OnClickListener() {
             DataBaseHelper db = DataBaseHelper.getDbInstance(context);
 
             @Override
@@ -82,15 +72,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
             }
         });
 
-        childViewHolder.ellipses.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                tracker.currentTaskPosition = position;
-                tracker.currentCategoryPosition = categoryPosition;
-            }
-        });
-        childViewHolder.ellipses.setOnClickListener(childViewHolder);
+        taskViewHolder.ellipses.setOnClickListener(taskViewHolder);
 
     }
 
@@ -106,7 +88,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
 
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView ChildItemTitle;
+        TextView taskItemTitle;
         CheckBox checkbox;
         ImageButton ellipses;
         AdapterHelper tracker;
@@ -114,7 +96,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
         TaskViewHolder(View itemView)
         {
             super(itemView);
-            ChildItemTitle
+            taskItemTitle
                     = itemView.findViewById(
                     R.id.singleCheckList);
 
