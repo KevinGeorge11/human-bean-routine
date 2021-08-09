@@ -1,4 +1,4 @@
-package com.example.human_bean_routine;
+package com.example.human_bean_routine.Tasks;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,9 @@ import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.human_bean_routine.Database.DataBaseHelper;
+import com.example.human_bean_routine.R;
 
 import java.util.List;
 // https://www.geeksforgeeks.org/how-to-create-a-nested-recyclerview-in-android/

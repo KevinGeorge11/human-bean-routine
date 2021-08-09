@@ -9,26 +9,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Humanbeanroutine">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CategoriesSetupActivity" android:label="@string/app_name">
+        <activity android:name=".Categories.CategoriesSetupActivity" android:label="@string/app_name">
         </activity>
-        <activity android:name=".CategoriesActivity" android:label="@string/app_name">
+        <activity android:name=".Categories.CategoriesActivity" android:label="@string/app_name">
         </activity>
-        <activity android:name=".AddEditCategory" android:label="@string/app_name">
+        <activity android:name=".Categories.AddEditCategory" android:label="@string/app_name">
         </activity>
-        <activity android:name=".TaskDashboard" android:label="@string/app_name">
+        <activity android:name=".Tasks.TaskDashboard" android:label="@string/app_name">
         </activity>
-        <activity android:name=".AddEditTask" android:label="@string/app_name" />
-        <activity android:name=".PuzzleActivity" android:label="@string/app_name" >
+        <activity android:name=".Tasks.AddEditTask" android:label="@string/app_name" />
+        <activity android:name=".Puzzles.PuzzleActivity" android:label="@string/app_name" >
         </activity>
-        <activity android:name=".PreviousPuzzlesActivity" android:label="@string/app_name" />
-        <activity android:name=".SettingsActivity" android:label="@string/app_name" >
+        <activity android:name=".Puzzles.PreviousPuzzlesActivity" android:label="@string/app_name" />
+        <activity android:name=".Settings.SettingsActivity" android:label="@string/app_name" >
         </activity>
 
     </application>

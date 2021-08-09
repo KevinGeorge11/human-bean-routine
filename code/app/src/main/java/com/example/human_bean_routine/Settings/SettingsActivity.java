@@ -1,7 +1,7 @@
 //Source referenced:
 // bottom navbar code: https://developer.android.com/reference/com/google/android/material/bottomnavigation/BottomNavigationView
 
-package com.example.human_bean_routine;
+package com.example.human_bean_routine.Settings;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,10 @@ import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.human_bean_routine.Categories.CategoriesActivity;
+import com.example.human_bean_routine.Puzzles.PuzzleActivity;
+import com.example.human_bean_routine.R;
+import com.example.human_bean_routine.Tasks.TaskDashboard;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class SettingsActivity extends AppCompatActivity {

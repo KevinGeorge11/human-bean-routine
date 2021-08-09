@@ -1,13 +1,11 @@
-package com.example.human_bean_routine;
+package com.example.human_bean_routine.Puzzles;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +21,11 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.human_bean_routine.Categories.CategoriesActivity;
+import com.example.human_bean_routine.Database.DataBaseHelper;
+import com.example.human_bean_routine.R;
+import com.example.human_bean_routine.Settings.SettingsActivity;
+import com.example.human_bean_routine.Tasks.TaskDashboard;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 import com.android.volley.Request;

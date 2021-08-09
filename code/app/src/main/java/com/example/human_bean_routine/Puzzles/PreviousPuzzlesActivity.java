@@ -1,4 +1,4 @@
-package com.example.human_bean_routine;
+package com.example.human_bean_routine.Puzzles;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,9 +11,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
+import com.example.human_bean_routine.Categories.CategoriesActivity;
+import com.example.human_bean_routine.Database.DataBaseHelper;
+import com.example.human_bean_routine.R;
+import com.example.human_bean_routine.Settings.SettingsActivity;
+import com.example.human_bean_routine.Tasks.TaskDashboard;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

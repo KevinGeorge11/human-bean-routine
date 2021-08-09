@@ -1,4 +1,4 @@
-package com.example.human_bean_routine;
+package com.example.human_bean_routine.Tasks;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +8,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,7 +15,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import java.text.DateFormat;
+import com.example.human_bean_routine.Categories.Category;
+import com.example.human_bean_routine.Database.DataBaseHelper;
+import com.example.human_bean_routine.R;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;

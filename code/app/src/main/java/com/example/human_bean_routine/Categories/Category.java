@@ -1,4 +1,4 @@
-package com.example.human_bean_routine;
+package com.example.human_bean_routine.Categories;
 
 import java.util.Random;
 

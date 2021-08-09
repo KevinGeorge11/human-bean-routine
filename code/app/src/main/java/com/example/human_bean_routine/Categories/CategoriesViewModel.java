@@ -1,10 +1,9 @@
-package com.example.human_bean_routine;
+package com.example.human_bean_routine.Categories;
 
 import android.content.Context;
-import android.content.res.Resources;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
+import com.example.human_bean_routine.Database.DataBaseHelper;
+
 import java.util.List;
 
 public class CategoriesViewModel {

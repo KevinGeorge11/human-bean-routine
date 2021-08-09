@@ -1,27 +1,22 @@
-package com.example.human_bean_routine;
+package com.example.human_bean_routine.Categories;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.app.Activity;
-import android.text.Layout;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ToggleButton;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 
-import java.lang.reflect.Array;
+import com.example.human_bean_routine.Database.DataBaseHelper;
+import com.example.human_bean_routine.R;
+import com.example.human_bean_routine.Tasks.TaskDashboard;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.*;
-import java.util.stream.*;
 
 public class CategoriesSetupActivity extends AppCompatActivity {
     // keep track a list of default categories
@@ -73,7 +68,7 @@ public class CategoriesSetupActivity extends AppCompatActivity {
         db.setupCategories(activeCategories, this);
 
         // go to Task dashboard after saving
-        Intent i = new Intent(getApplicationContext(),TaskDashboard.class);
+        Intent i = new Intent(getApplicationContext(), TaskDashboard.class);
         startActivity(i);
     }
 

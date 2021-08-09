@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".CategoriesActivity"
+    tools:context=".Categories.CategoriesActivity"
     android:background="#CAD2C5">
 
     <TextView

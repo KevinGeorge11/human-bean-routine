@@ -1,4 +1,4 @@
-package com.example.human_bean_routine;
+package com.example.human_bean_routine.Puzzles;
 
 public class Puzzle {
     private Integer puzzleID;

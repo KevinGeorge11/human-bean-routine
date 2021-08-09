@@ -1,17 +1,20 @@
-package com.example.human_bean_routine;
+package com.example.human_bean_routine.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import java.lang.reflect.Field;
+import com.example.human_bean_routine.Categories.Category;
+import com.example.human_bean_routine.Puzzles.Puzzle;
+import com.example.human_bean_routine.Puzzles.PuzzlePiece;
+import com.example.human_bean_routine.R;
+import com.example.human_bean_routine.Tasks.Task;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,7 +23,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 // This file was created while referencing:
 // "SQLite Database for Android" by freeCodeCamp.org - https://youtu.be/312RhjfetP8

@@ -1,4 +1,6 @@
-package com.example.human_bean_routine;
+package com.example.human_bean_routine.Tasks;
+
+import com.example.human_bean_routine.Tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
